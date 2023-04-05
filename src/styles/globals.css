@@ -1,0 +1,4 @@
+/* add tailwindd */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
