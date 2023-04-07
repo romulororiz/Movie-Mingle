@@ -38,18 +38,6 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model User {
-  id            String     @id @default(cuid())
-  name          String?
-  email         String?    @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  bookmarked    Bookmark[]
-  bookmarkedId  String
-}
-
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -58,23 +46,70 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Movie {
-  id             String     @id @default(cuid())
-  title          String
-  overview       String
-  posterPath     String
-  backdropPath   String
-  releaseDate    DateTime
-  voteAverage    Float
-  original_title String
-  bookmarks      Bookmark[]
+model User {
+  id                 String               @id @default(cuid())
+  name               String?
+  email              String?              @unique
+  emailVerified      DateTime?
+  image              String?
+  accounts           Account[]
+  sessions           Session[]
+  bookmarkedMovies   Bookmark[]
+  UserPreference     UserPreference?
+  UserPreferredGenre UserPreferredGenre[]
+}
+
+// one to one relation to user
+model UserPreference {
+  id        String               @id @default(cuid())
+  userId    String
+  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  minYear   Int?
+  maxYear   Int?
+  minRating Float?
+  maxRating Float?
+  genres    UserPreferredGenre[]
+
+  @@unique([userId])
+}
+
+model UserPreferredGenre {
+  id               String          @id @default(cuid())
+  userId           String
+  genreId          Int
+  name             String
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  UserPreference   UserPreference? @relation(fields: [userPreferenceId], references: [id])
+  userPreferenceId String?
+
+  @@unique([userId, genreId])
 }
 
 model Bookmark {
-  id        String   @id @default(cuid())
-  movieId   String
-  userId    String
-  createdAt DateTime @default(now())
-  movie     Movie    @relation(fields: [movieId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  id            String          @id @default(cuid())
+  createdAt     DateTime        @default(now())
+  userId        String
+  movieId       String
+  title         String
+  overview      String
+  posterPath    String?
+  backdropPath  String?
+  originalLang  String
+  releaseDate   DateTime
+  voteAverage   Float
+  originalTitle String
+  user          User            @relation(fields: [userId], references: [id])
+  genres        BookmarkGenre[]
+
+  @@unique([movieId, userId])
+}
+
+model BookmarkGenre {
+  id         String   @id @default(cuid())
+  genreId    Int
+  name       String
+  bookmark   Bookmark @relation(fields: [bookmarkId], references: [id])
+  bookmarkId String
+
+  @@index([bookmarkId])
 }
