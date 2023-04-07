@@ -1,3 +1,6 @@
+import { movieQuerySchema } from '@/lib/tmdb';
+import { z } from 'zod';
+
 export interface MovieResponse {
 	poster_path: string;
 	adult: boolean;
@@ -21,3 +24,11 @@ export interface MovieData {
 	total_results: number;
 	total_pages: number;
 }
+
+export interface GenreResponse {
+	id: number;
+	name: string;
+}
+
+// Movie Query Schema User Preferences
+export type MovieQuery = z.infer<typeof movieQuerySchema>;
