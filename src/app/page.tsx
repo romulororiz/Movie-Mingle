@@ -1,3 +1,3 @@
 export default async function Home() {
-	return <main>Movie Mingle</main>;
+	return <main className="container">Movie Mingle</main>;
 }

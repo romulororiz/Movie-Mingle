@@ -1,4 +1,3 @@
-const { colors } = require('tailwindcss/colors');
 const { fontFamily } = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
@@ -13,9 +12,41 @@ module.exports = {
 		'./src/**/*.{js,ts,jsx,tsx}',
 	],
 	theme: {
+		container: {
+			center: true,
+			padding: '1.5rem',
+			screens: {
+				sm: '640px',
+				md: '768px',
+				lg: '1024px',
+				xl: '1280px',
+				'2xl': '1536px',
+				'3xl': '1920px',
+			},
+		},
 		extend: {
 			fontFamily: {
-				sans: ['var(--font-inter)', ...fontFamily.sans],
+				interSans: ['var(--font-inter)', ...fontFamily.sans],
+				robotoSans: ['var(--font-roboto)', ...fontFamily.sans],
+			},
+			backgroundColor: {
+				'dark-background': '#05161E',
+				'light-background': '#FFFFFF',
+				'dark-hover': '#707070',
+				'light-hover': '#B3B3B3',
+			},
+			textColor: {
+				'dark-primary': '#FFFFFF',
+				'dark-secondary': '#B3B3B3',
+				'light-primary': '#1E1E1E',
+				'light-secondary': '#707070',
+			},
+			borderColor: {
+				'dark-hover': '#707070',
+				'light-hover': '#B3B3B3',
+			},
+			accent: {
+				DEFAULT: '#FDBB30',
 			},
 		},
 	},
