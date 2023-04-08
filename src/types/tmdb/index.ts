@@ -25,9 +25,25 @@ export interface MovieData {
 	total_pages: number;
 }
 
-export interface GenreResponse extends MovieData {
+export interface GenreResponse {
 	id: number;
 	name: string;
+}
+
+export interface PeopleResponse {
+	profile_path: string;
+	adult: boolean;
+	id: number;
+	name: string;
+	popularity: number;
+	known_for: MovieResponse[];
+}
+
+export interface PeopleData {
+	results: PeopleResponse[] | null;
+	page: number;
+	total_results: number;
+	total_pages: number;
 }
 
 // Movie Query Schema User Preferences
