@@ -21,4 +21,3 @@ export const movieQuerySchema = z.object({
 	voteGte: z.number().optional(),
 	voteLte: z.number().optional(),
 });
-

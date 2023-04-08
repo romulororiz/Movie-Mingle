@@ -1,43 +1,34 @@
+import { movieQuerySchema } from '@/lib/tmdb';
 import { MovieQuery } from '@/types/tmdb';
 import { axiosRequest } from './axiosRequest';
-import { movieQuerySchema } from '@/lib/tmdb';
 
-export async function getPopularMovies() {
-	const data = await axiosRequest('get', '/movie/popular');
+async function fetchData(endpoint: string, params?: MovieQuery) {
+	const data = await axiosRequest('get', endpoint, { params });
 	return data;
 }
 
-export async function getNowPlayingMovies() {
-	const data = await axiosRequest('get', '/movie/now_playing');
-	return data;
+export function getPopularMovies() {
+	return fetchData('/movie/popular');
 }
 
-export async function getTopRatedMovies() {
-	const data = await axiosRequest('get', '/movie/top_rated');
-	return data;
+export function getNowPlayingMovies() {
+	return fetchData('/movie/now_playing');
 }
 
-export async function getGenres() {
-	const data = await axiosRequest('get', '/genre/movie/list');
-	return data;
+export function getTopRatedMovies() {
+	return fetchData('/movie/top_rated');
 }
 
-export async function getPopularPeople() {
-	const data = await axiosRequest('get', '/person/popular');
-	return data;
+export function getGenres() {
+	return fetchData('/genre/movie/list');
+}
+
+export function getPopularActors() {
+	return fetchData('/person/popular');
 }
 
 export async function getMovieWithQuery(input?: Partial<MovieQuery>) {
 	const validatedInput = movieQuerySchema.parse(input);
 
-	const data = await axiosRequest('get', '/discover/movie', {
-		params: {
-			'primary_release_date.gte': validatedInput?.releaseDateGte,
-			'primary_release_date.lte': validatedInput?.releaseDateLte,
-			with_genres: validatedInput?.genres?.join(','),
-			'vote_average.gte': validatedInput?.voteGte,
-			'vote_average.lte': validatedInput?.voteLte,
-		},
-	});
-	return data;
+	return fetchData('/discover/movie', validatedInput);
 }
