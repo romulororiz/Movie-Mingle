@@ -2,7 +2,6 @@ import Providers from '@/components/Providers';
 import { cn } from '@/utils/cn';
 import { Inter } from 'next/font/google';
 import '@/styles/globals.css';
-import { Sidebar } from '@/components/layout/Sidebar';
 import { Header } from '@/components/layout/Header';
 
 export const metadata = {
@@ -21,12 +20,12 @@ export default function RootLayout({
 		<html lang='en' className={(cn('bg-dark-background'), inter.className)}>
 			<body className='min-h-screen bg-dark-background antialiased'>
 				<Providers>
-					<div className='flex'>
+					<div className='flex flex-row-reverse'>
 						{/* <Sidebar /> */}
 						<div className='flex flex-col text-white w-full'>
 							{/* @ts-expect-error Server Component */}
 							<Header />
-							<main className='pt-12'>{children}</main>
+							<main>{children}</main>
 						</div>
 					</div>
 				</Providers>

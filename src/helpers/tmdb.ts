@@ -1,4 +1,4 @@
-import { GenreResponse, MovieData, MovieQuery } from '@/types/tmdb';
+import { MovieQuery } from '@/types/tmdb';
 import { axiosRequest } from './axiosRequest';
 import { movieQuerySchema } from '@/lib/tmdb';
 
@@ -7,25 +7,26 @@ export async function getPopularMovies() {
 	return data;
 }
 
-// get now playing movies
 export async function getNowPlayingMovies() {
 	const data = await axiosRequest('get', '/movie/now_playing');
 	return data;
 }
 
-// get top rated movies
 export async function getTopRatedMovies() {
 	const data = await axiosRequest('get', '/movie/top_rated');
 	return data;
 }
 
-// get genres
 export async function getGenres() {
 	const data = await axiosRequest('get', '/genre/movie/list');
 	return data;
 }
 
-// Search based on User Preferences
+export async function getPopularPeople() {
+	const data = await axiosRequest('get', '/person/popular');
+	return data;
+}
+
 export async function getMovieWithQuery(input?: Partial<MovieQuery>) {
 	const validatedInput = movieQuerySchema.parse(input);
 

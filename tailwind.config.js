@@ -29,24 +29,22 @@ module.exports = {
 				interSans: ['var(--font-inter)', ...fontFamily.sans],
 				robotoSans: ['var(--font-roboto)', ...fontFamily.sans],
 			},
-			backgroundColor: {
-				'dark-background': '#05161E',
-				'light-background': '#FFFFFF',
-				'dark-hover': '#707070',
-				'light-hover': '#B3B3B3',
-			},
-			textColor: {
-				'dark-primary': '#FFFFFF',
-				'dark-secondary': '#B3B3B3',
-				'light-primary': '#1E1E1E',
-				'light-secondary': '#707070',
-			},
-			borderColor: {
-				'dark-hover': '#707070',
-				'light-hover': '#B3B3B3',
-			},
-			accent: {
-				DEFAULT: '#FDBB30',
+			colors: {
+				dark: {
+					background: '#05161E',
+					primary: '#FFFFFF',
+					secondary: '#B3B3B3',
+					hover: '#707070',
+				},
+				light: {
+					background: '#FFFFFF',
+					primary: '#1E1E1E',
+					secondary: '#707070',
+					hover: '#B3B3B3',
+				},
+				accent: {
+					default: '#FDBB30',
+				},
 			},
 		},
 	},

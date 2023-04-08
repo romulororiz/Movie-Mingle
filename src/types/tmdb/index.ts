@@ -25,7 +25,7 @@ export interface MovieData {
 	total_pages: number;
 }
 
-export interface GenreResponse {
+export interface GenreResponse extends MovieData {
 	id: number;
 	name: string;
 }
