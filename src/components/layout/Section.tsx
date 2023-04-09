@@ -23,11 +23,9 @@ const Section: FC<SectionProps> = ({
 	return (
 		// will have swiiper and be set to auto play
 		<section className={className} {...props}>
-			<div className='flex  max-w-7xl mx-auto'>
-				<div className='container max-w-7xl mb-6 flex items-center p-0'>
-					{icon && (
-						<Icon name={icon} color='#FDBB30' size={size} className='mr-2' />
-					)}
+			<div className='flex max-w-7xl mx-auto'>
+				<div className='container mb-5 flex items-center px-0'>
+					{icon && <Icon name={icon} color={color} className='mr-2' />}
 					<Heading title={title} element='h1' />
 				</div>
 				{/* // todo - create button component */}

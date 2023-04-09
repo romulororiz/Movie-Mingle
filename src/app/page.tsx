@@ -1,9 +1,9 @@
+import { Header } from '@/components/layout/Header';
 import Section from '@/components/layout/Section';
 import ActorCard from '@/components/ui/ActorCard';
 import { getPopularActors } from '@/helpers/tmdb';
 import { isPeopleResponse } from '@/utils/typeGuards';
 import { notFound } from 'next/navigation';
-// create icons component
 
 export default async function Home() {
 	const { data: peopleData, error } = await getPopularActors();
@@ -13,11 +13,13 @@ export default async function Home() {
 	if (!peopleData || !peopleData.results) return notFound();
 
 	return (
-		<main className='mx-auto max-w-7xl'>
+		<div>
+			{/* @ts-expect-error Server Component */}
+			<Header />
 			<Section
 				icon='TrendingUp'
 				size={32}
-				className='mt-52'
+				className='mt-52 container max-w-7xl mx-auto'
 				title='Trending Actors'
 			>
 				{isPeopleResponse(peopleData.results) && (
@@ -30,6 +32,6 @@ export default async function Home() {
 					</div>
 				)}
 			</Section>
-		</main>
+		</div>
 	);
 }

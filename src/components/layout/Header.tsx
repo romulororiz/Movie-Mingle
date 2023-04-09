@@ -11,10 +11,8 @@ import Section from './Section';
 export const Header = async () => {
 	const session = await getServerSession(authOptions);
 
-	if (!session || !session.user.image) return notFound();
-
 	const { data } = await getPopularMovies();
-	if (!data || data.results === null) return notFound();
+	if (!data || !data.results) return notFound();
 
 	// todo - ADD SWIPER AND CHANGE BACKGROUND IMAGE AUTOMATICALLY ON AUTOPLAY - SELECT NEXT IMAGE ON AUTOPLAY AND CHANGE BACKGROUND IMAGE TO THAT IMAGE
 
@@ -54,7 +52,7 @@ export const Header = async () => {
 									<h1>settings</h1>
 								</div> */}
 								<Image
-									src={session.user.image}
+									src={`${session.user.image}`}
 									alt={`${session.user.name} profile picture`}
 									width={60}
 									height={60}
@@ -78,7 +76,6 @@ export const Header = async () => {
 			</div>
 			<Section
 				icon='Flame'
-				size={32}
 				title='Recommended 4 u' // change upon user preferences
 				className='absolute top-[65vh] left-0 right-0 z-50 max-w-[1600px] mx-auto'
 			>

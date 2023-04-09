@@ -1,9 +1,10 @@
 import { LucideIcon } from 'lucide-react';
-import { TrendingUp, Flame } from 'lucide-react';
+import { TrendingUp, Flame, ChevronLeft } from 'lucide-react';
 
 export const lucideIcons: Record<string, LucideIcon> = {
 	TrendingUp,
 	Flame,
+	ChevronLeft,
 };
 
 import { FC, SVGProps } from 'react';
@@ -14,7 +15,12 @@ interface IconProps extends SVGProps<SVGSVGElement> {
 	size?: number;
 }
 
-const Icon: FC<IconProps> = ({ name, color, size, ...props }) => {
+const Icon: FC<IconProps> = ({
+	name,
+	color = '#FDBB30',
+	size = 28,
+	...props
+}) => {
 	const IconComponent = lucideIcons[name];
 
 	if (!IconComponent) {
