@@ -10,7 +10,8 @@ import Section from './Section';
 
 export const Header = async () => {
 	const session = await getServerSession(authOptions);
-	if (!session) return notFound();
+
+	if (!session || !session.user.image) return notFound();
 
 	const { data } = await getPopularMovies();
 	if (!data || data.results === null) return notFound();
@@ -53,7 +54,7 @@ export const Header = async () => {
 									<h1>settings</h1>
 								</div> */}
 								<Image
-									src={`${session.user.image}`}
+									src={session.user.image}
 									alt={`${session.user.name} profile picture`}
 									width={60}
 									height={60}
