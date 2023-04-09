@@ -1,37 +1,35 @@
 import Section from '@/components/layout/Section';
+import ActorCard from '@/components/ui/ActorCard';
+import { getPopularActors } from '@/helpers/tmdb';
+import { isPeopleResponse } from '@/utils/typeGuards';
+import { notFound } from 'next/navigation';
+// create icons component
 
-export default function Home() {
-	const popActors = [
-		{
-			name: 'Tom Cruise',
-			image: 'https://image.tmdb.org/t/p/w500/3W0v956XxSG5xgm7LB6qu8ExYJ2.jpg',
-			id: 500,
-		},
-		{
-			name: 'Tom Hanks',
-			image: 'https://image.tmdb.org/t/p/w500/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg',
-			id: 819,
-		},
-		{
-			name: 'Tom Hardy',
-			image: 'https://image.tmdb.org/t/p/w500/1g3qJpbl8BlWzr4AcIoi9ZpCkKO.jpg',
-			id: 1245,
-		},
-		{
-			name: 'Tom Berenger',
-			image: 'https://image.tmdb.org/t/p/w500/6JQXJZQY3q7ZQY4W4Q2K2Z1ZQ7u.jpg',
-			id: 1246,
-		},
-		{
-			name: 'Tom Wilkinson',
-			image: 'https://image.tmdb.org/t/p/w500/6JQXJZQY3q7ZQY4W4Q2K2Z1ZQ7u.jpg',
-			id: 1247,
-		},
-	];
+export default async function Home() {
+	const { data: peopleData, error } = await getPopularActors();
+
+	if (error) return <h1>error</h1>;
+
+	if (!peopleData || !peopleData.results) return notFound();
 
 	return (
-		<main className='container max-w-7xl mt-60'>
-			<Section className='bg-red-500'>POPULAR ACTORS</Section>
+		<main className='mx-auto max-w-7xl'>
+			<Section
+				icon='TrendingUp'
+				size={32}
+				className='mt-52'
+				title='Trending Actors'
+			>
+				{isPeopleResponse(peopleData.results) && (
+					<div className='grid grid-cols-6 gap-4 relative'>
+						{peopleData.results
+							.map(actor => (
+								<ActorCard key={`actor-${actor.id}`} actor={actor} />
+							))
+							.slice(0, 6)}
+					</div>
+				)}
+			</Section>
 		</main>
 	);
 }
