@@ -1,15 +1,15 @@
-import { FC, HTMLAttributes } from 'react';
 import { cn } from '@/utils/cn';
-import { cva, VariantProps } from 'class-variance-authority';
+import { VariantProps, cva } from 'class-variance-authority';
+import { FC, HTMLAttributes } from 'react';
 
 const headingVariants = cva(
 	'text-white dark:text-white font-semibold tracking-tighter',
 	{
 		variants: {
 			size: {
-				default: 'text-2xl lg:text-3xl',
-				sm: 'text-3xl lg:text-4xl',
-				lg: 'text-5xl md:text-6xl lg:text-7xl',
+				default: 'text-lg md:text-2xl lg:text-3xl',
+				small: 'text-sm md:text-base lg:text-lg',
+				medium: 'text-lg md:text-xl lg:text-2xl',
 			},
 		},
 		defaultVariants: {

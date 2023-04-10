@@ -1,8 +1,14 @@
+import { cn } from '@/utils/cn';
+import { VariantProps, cva } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
 import Icon from '../Icon';
 import Heading from '../ui/Heading';
 
-interface SectionProps extends HTMLAttributes<HTMLDivElement> {
+const sectionVariants = cva('md:pl-72 container mx-auto');
+
+interface SectionProps
+	extends HTMLAttributes<HTMLDivElement>,
+		VariantProps<typeof sectionVariants> {
 	children: React.ReactNode;
 	title: string;
 	icon?: string;
@@ -22,17 +28,17 @@ const Section: FC<SectionProps> = ({
 }) => {
 	return (
 		// will have swiiper and be set to auto play
-		<section className={className} {...props}>
-			<div className='flex max-w-7xl mx-auto'>
-				<div className='container mb-5 flex items-center px-0'>
+		<section className={cn(sectionVariants({ className }))} {...props}>
+			<div className='flex justify-between max-w-7xl mx-auto mb-5'>
+				<div className='flex h-full items-center px-0'>
 					{icon && <Icon name={icon} color={color} className='mr-2' />}
 					<Heading title={title} element='h1' />
 				</div>
 				{/* // todo - create button component */}
-				<p className='w-32 flex items-center justify-center cursor-pointer'>
-					See More
-				</p>
+				<p className='w-fit flex items-center cursor-pointer'>See More</p>
 			</div>
+
+			{/* is actors is movies */}
 
 			{/* // todo - make it responsive // */}
 			{children}
