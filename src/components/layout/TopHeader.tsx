@@ -7,8 +7,8 @@ export const TopHeader = async () => {
 	const session = await getServerSession(authOptions);
 
 	return (
-		<div className='md:pl-60 h-20 flex justify-between items-center sm:flex-row sm:justify-between w-full'>
-			<div className='container flex justify-center md:justify-end items-center gap-12 h-full'>
+		<div className='md:pl-72 h-20 flex justify-end items-center sm:flex-row w-full'>
+			<div className='container max-w-7xl flex justify-center sm:justify-end items-center gap-12 h-full mx-auto'>
 				{/* Search Input Component */}
 				<Input placeholder='Search movies...' />
 

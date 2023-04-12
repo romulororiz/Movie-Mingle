@@ -19,7 +19,7 @@ const navItems = [
 
 export const Sidebar = () => {
 	return (
-		<nav className='md:fixed border-r border-white/30 md:block top-0 left-0 right-0 z-[70] w-60 h-screen bg-dark-background/75 backdrop-blur-sm shadow-dark-background shadow-lg hidden'>
+		<aside className='md:fixed md:block top-0 left-0 right-0 z-[70] w-60 h-screen bg-dark-background/75 backdrop-blur-lg shadow-dark-background shadow-md hidden'>
 			<div className='container flex flex-col items-center justify-between h-full pt-8'>
 				<div className='container px-6 flex flex-col gap-8 w-full'>
 					{/* logo - CHANGES PENDENT */}
@@ -43,6 +43,6 @@ export const Sidebar = () => {
 					</ul>
 				</div>
 			</div>
-		</nav>
+		</aside>
 	);
 };

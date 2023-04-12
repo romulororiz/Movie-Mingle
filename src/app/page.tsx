@@ -1,37 +1,132 @@
-import { Header } from '@/components/layout/Header';
+'use client';
 import Section from '@/components/layout/Section';
 import ActorCard from '@/components/ui/ActorCard';
-import { getPopularActors } from '@/helpers/tmdb';
-import { isPeopleResponse } from '@/utils/typeGuards';
-import { notFound } from 'next/navigation';
+import MovieCard from '@/components/ui/MovieCard';
+import useTMDB from '@/hooks/useTMDB';
+import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
+import { actorCardPerView } from '@/utils/cardPerView';
+import { isMovieResponse, isPeopleResponse } from '@/utils/typeGuards';
 
-export default async function Home() {
-	const { data: peopleData, error } = await getPopularActors();
+export const Home = () => {
+	const {
+		data: { popularActors, topRated, nowPlaying, upcoming },
+	} = useTMDB();
 
-	if (error) return <h1>error</h1>;
-
-	if (!peopleData || !peopleData.results) return notFound();
+	const windowSize: WindowSize = useWindowSize();
 
 	return (
-		<div>
-			{/* @ts-expect-error Server Component */}
-			<Header />
+		<>
 			<Section
 				icon='TrendingUp'
-				size={32}
-				className='mt-52 container max-w-7xl mx-auto'
-				title='Trending Actors'
+				className='mt-[10rem] md:mt-[8rem]'
+				title='Popular Actors'
 			>
-				{isPeopleResponse(peopleData.results) && (
-					<div className='grid grid-cols-6 gap-4 relative'>
-						{peopleData.results
+				{popularActors && isPeopleResponse(popularActors) && (
+					<div
+						className='
+						flex flex-wrap lg:flex-nowrap justify-start gap-4 relative mx-auto max-w-7xl
+					'
+					>
+						{popularActors
 							.map(actor => (
 								<ActorCard key={`actor-${actor.id}`} actor={actor} />
 							))
-							.slice(0, 6)}
+							.slice(0, actorCardPerView(windowSize))}
 					</div>
 				)}
 			</Section>
-		</div>
+
+			<Section
+				icon='Flame'
+				className='mt-16 md:mt-24'
+				title='Trending this week'
+			>
+				{isMovieResponse(nowPlaying) && (
+					<div className='flex flex-wrap justify-start gap-4 relative mx-auto max-w-7xl'>
+						{nowPlaying
+							.map(movie => (
+								<MovieCard
+									key={`actor-${movie.id}`}
+									movie={movie}
+									size='large'
+								/>
+							))
+							.slice(0, 5)}
+					</div>
+				)}
+			</Section>
+
+			<Section
+				icon='Clapperboard'
+				className='mt-16 md:mt-24'
+				title='Coming up next'
+			>
+				{isMovieResponse(upcoming) && (
+					<div className='flex flex-wrap justify-start gap-4 relative mx-auto max-w-7xl'>
+						{upcoming
+							.map(movie => (
+								<MovieCard
+									key={`actor-${movie.id}`}
+									movie={movie}
+									size='large'
+								/>
+							))
+							.slice(0, 5)}
+					</div>
+				)}
+			</Section>
+
+			<Section
+				icon='Star'
+				className='mt-16 md:mt-24 mb-24'
+				title='Best of the best'
+			>
+				{isMovieResponse(topRated) && (
+					<div className='flex flex-wrap justify-start gap-4 relative mx-auto max-w-7xl'>
+						{topRated
+							.map(movie => (
+								<MovieCard
+									key={`actor-${movie.id}`}
+									movie={movie}
+									size='large'
+								/>
+							))
+							.slice(0, 5)}
+					</div>
+				)}
+			</Section>
+		</>
 	);
-}
+};
+
+// export const getStaticProps: GetStaticProps = async () => {
+// 	const { data: popularActors } = await getPopularActors();
+// 	const { data: topRatedMovies } = await getTopRatedMovies();
+// 	const { data: nowPlayingMovies } = await getNowPlayingMovies();
+// 	const { data: upcomingMovies } = await getUpcomingMovies();
+// 	const { data: popularMovies } = await getPopularMovies();
+
+// 	if (
+// 		!popularActors ||
+// 		!topRatedMovies ||
+// 		!nowPlayingMovies ||
+// 		!upcomingMovies ||
+// 		!popularMovies
+// 	) {
+// 		return {
+// 			notFound: true,
+// 		};
+// 	}
+
+// 	return {
+// 		props: {
+// 			popularActors,
+// 			topRatedMovies,
+// 			nowPlayingMovies,
+// 			upcomingMovies,
+// 			popularMovies,
+// 		},
+// 	};
+// };
+
+export default Home;

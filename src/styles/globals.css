@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.swiper {
+  @apply w-full h-[285px] md:h-[315px];
+}
+
+.swiper-slide {
+  @apply text-center flex justify-center min-w-[320px];
+}
+
+.swiper-slide img {
+  @apply block w-full h-full object-cover;
+}
+
+.swiper-pagination-bullet {
+  @apply bg-light-background/90 !important;
+}
+
+.swiper-pagination-bullet-active {
+     @apply bg-accent-default !important;
+} 

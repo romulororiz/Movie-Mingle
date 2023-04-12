@@ -1,4 +1,6 @@
 import Providers from '@/components/Providers';
+import { Header } from '@/components/layout/Header';
+import { Sidebar } from '@/components/layout/Sidebar';
 import { cn } from '@/utils/cn';
 import { Inter } from 'next/font/google';
 import '@/styles/globals.css';
@@ -15,10 +17,14 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
+	// const router = useRouter();
+
 	return (
 		<html lang='en' className={(cn('bg-dark-background'), inter.className)}>
 			<body className='min-h-screen text-white bg-dark-background antialiased'>
 				<Providers>
+					<Sidebar />
+					<Header />
 					<main>{children}</main>
 				</Providers>
 			</body>

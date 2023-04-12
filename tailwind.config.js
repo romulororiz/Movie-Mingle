@@ -31,7 +31,7 @@ module.exports = {
 			},
 			colors: {
 				dark: {
-					background: '#05161E',
+					background: '#030e13',
 					primary: '#FFFFFF',
 					secondary: '#B3B3B3',
 					hover: '#707070',
