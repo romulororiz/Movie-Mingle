@@ -9,6 +9,7 @@ import {
 	getMovieWithQuery,
 } from '@/helpers/tmdb';
 import { MovieQuery } from '@/types/tmdb';
+import { withMethods } from '@/lib/api-middlewares/with-methods';
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { type } = req.query;
@@ -64,4 +65,4 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	}
 };
 
-export default handler;
+export default withMethods(['GET'], handler);
