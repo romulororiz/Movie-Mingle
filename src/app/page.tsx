@@ -7,7 +7,7 @@ import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
 import { actorCardPerView } from '@/utils/cardPerView';
 import { isMovieResponse, isPeopleResponse } from '@/utils/typeGuards';
 
-export const Home = () => {
+const Home = () => {
 	const {
 		data: { popularActors, topRated, nowPlaying, upcoming },
 	} = useTMDB();
@@ -105,28 +105,5 @@ export const Home = () => {
 // 	const { data: nowPlayingMovies } = await getNowPlayingMovies();
 // 	const { data: upcomingMovies } = await getUpcomingMovies();
 // 	const { data: popularMovies } = await getPopularMovies();
-
-// 	if (
-// 		!popularActors ||
-// 		!topRatedMovies ||
-// 		!nowPlayingMovies ||
-// 		!upcomingMovies ||
-// 		!popularMovies
-// 	) {
-// 		return {
-// 			notFound: true,
-// 		};
-// 	}
-
-// 	return {
-// 		props: {
-// 			popularActors,
-// 			topRatedMovies,
-// 			nowPlayingMovies,
-// 			upcomingMovies,
-// 			popularMovies,
-// 		},
-// 	};
-// };
 
 export default Home;
