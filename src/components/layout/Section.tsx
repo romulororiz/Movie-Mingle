@@ -1,19 +1,18 @@
+'use client';
+import useWindowSize from '@/hooks/useWindowSize';
 import { cn } from '@/utils/cn';
-import { VariantProps, cva } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
 import Icon from '../Icon';
 import Heading from '../ui/Heading';
 
-const sectionVariants = cva('md:pl-72 container mx-auto');
-
-interface SectionProps
-	extends HTMLAttributes<HTMLDivElement>,
-		VariantProps<typeof sectionVariants> {
+interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;
 	title: string;
 	icon?: string;
 	color?: string;
 	size?: number;
+	container?: boolean;
 }
 
 const Section: FC<SectionProps> = ({
@@ -23,25 +22,35 @@ const Section: FC<SectionProps> = ({
 	icon,
 	color,
 	size,
+	container = true,
 
 	...props
 }) => {
+	const windowSize = useWindowSize();
+
+	const sectionVariants = cva(
+		cn('md:pl-[264px] mx-auto', {
+			container: container,
+		})
+	);
+
 	return (
 		// will have swiiper and be set to auto play
 		<section className={cn(sectionVariants({ className }))} {...props}>
-			<div className='flex justify-between max-w-7xl mx-auto mb-5'>
-				<div className='flex h-full items-center px-0'>
+			<div
+				className={cn('flex justify-between max-w-7xl mx-auto mb-5 px-0', {
+					'px-[1.5rem]': !container,
+				})}
+			>
+				<div className={'flex h-full'}>
 					{icon && <Icon name={icon} color={color} className='mr-2' />}
-					<Heading title={title} element='h1' />
+					<Heading title={title} element='h2' />
 				</div>
 				{/* // todo - create button component */}
 				<p className='w-fit flex items-center cursor-pointer'>See More</p>
 			</div>
 
-			{/* is actors is movies */}
-
-			{/* // todo - make it responsive // */}
-			{children}
+			<>{children}</>
 		</section>
 	);
 };
