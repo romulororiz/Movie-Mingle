@@ -1,4 +1,4 @@
-import { movieQuerySchema } from '@/lib/tmdb';
+import { movieQuerySchema } from '@/helpers/tmdb';
 import { z } from 'zod';
 
 export interface MovieResponse {
