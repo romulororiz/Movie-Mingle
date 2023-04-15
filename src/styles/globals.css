@@ -18,7 +18,7 @@
 
 /* Swiper */
 .swiper {
-  @apply w-full h-[440px] md:h-[540px] md:pt-14;
+  @apply w-full h-[420px] md:h-[520px] md:pt-14;
 }
 
 .swiper-slide {

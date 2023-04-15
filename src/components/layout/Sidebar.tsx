@@ -8,7 +8,7 @@ export const Sidebar = () => {
 	return (
 		<aside
 			className={cn(
-				'transition duration-200 ease-linear sm:border-r sm:border-accent-default/40 fixed -translate-x-[100%] top-0 z-[70] sm:w-60 h-screen bg-dark-background/80 backdrop-blur-lg shadow-dark-background shadow-md ',
+				'transition duration-200 ease-linear fixed -translate-x-[100%] top-0 z-[70] xs:w-72 h-screen bg-dark-background/75 backdrop-blur-lg shadow-dark-background shadow-md',
 				{
 					'translate-x-0 w-full': sidebarOpen,
 				}

@@ -4,36 +4,38 @@ import { useSidebarContext } from '@/context/sidebarContext';
 import useTMDB from '@/hooks/useTMDB';
 import { renderHeaderImages } from '@/utils/renderBg';
 import { isMovieResponse } from '@/utils/typeGuards';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import SwiperComponent from '../Swiper';
 import Section from './Section';
 import { cn } from '@/utils/cn';
 
-export const Header = () => {
-	const [activeIndex, setActiveIndex] = useState<number>(0);
+interface headerProps {
+	activeIndex: number;
+}
 
+export const Header = ({ activeIndex }: headerProps) => {
 	const { sidebarOpen } = useSidebarContext();
 
 	const { popularMovies, isLoadingPopularMovies, errorPopularMovies } =
 		useTMDB();
 
 	return (
-		<header className='h-[80vh] bg-cover bg-no-repeat bg-center relative'>
+		<header className='h-[750px] bg-cover bg-no-repeat bg-center relative'>
 			<div className='absolute inset-0 w-full h-full'>
 				{isMovieResponse(popularMovies) &&
 					renderHeaderImages(popularMovies, activeIndex)}
 			</div>
-			<div className='absolute inset-0 bg-gradient-to-b from-transparent from-45% via-dark-background via-[70%] to-dark-background'></div>
+			<div className='absolute inset-0 bg-gradient-to-b from-transparent from-35% via-dark-background via-[75%] to-dark-background'></div>
 
 			{/* //todo fix top header server component error *}}
 			{/* <TopHeader /> */}
 
-			<div
+			{/* <div
 				className={cn('relative transition-all duration-200 ease-linear', {
 					'xl:ml-60': sidebarOpen,
 				})}
-			>
-				<Section
+			> */}
+			{/* <Section
 					icon='ThumbsUp'
 					title='Recommended 4 u' // change upon user preferences
 					className='absolute top-[50vh] left-0 right-0 z-50'
@@ -46,9 +48,9 @@ export const Header = () => {
 							onActiveIndexChange={setActiveIndex}
 						/>
 					)}
-				</Section>
-				{/* //todo thiunk about pagination dynamic */}
-			</div>
+				</Section> */}
+			{/* //todo thiunk about pagination dynamic */}
+			{/* </div> */}
 		</header>
 	);
 };

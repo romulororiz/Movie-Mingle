@@ -29,7 +29,7 @@ const Section: FC<SectionProps> = ({
 	...props
 }) => {
 	const sectionVariants = cva(
-		cn('transition-all duration-200 ease-linear mx-auto max-w-7xl container', {
+		cn('mx-auto max-w-7xl container', {
 			'max-w-[1536px]': !container,
 		})
 	);
@@ -55,7 +55,7 @@ const Section: FC<SectionProps> = ({
 			{seeMore && (
 				<div
 					className={cn('mt-3 md:mt-5 w-full flex justify-end items-center', {
-						'absolute right-0 z-50 container -bottom-2 md:bottom-5': !container,
+						'absolute right-0 z-50 container -bottom-2 md:bottom-8': !container,
 					})}
 				>
 					<Button id='see-more__btn' variant='ghost' className='pr-0 group'>

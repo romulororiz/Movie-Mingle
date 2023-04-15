@@ -18,20 +18,28 @@ export default function RootLayout({
 }) {
 	const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
+	// bg index for header bg image transition
+	const [activeIndex, setActiveIndex] = useState<number>(0);
+
 	const pathname = usePathname();
 	const isHome = pathname === '/';
 
 	return (
 		<html lang='en' className={(cn('bg-dark-background'), inter.className)}>
 			<body
-				className={cn('text-white bg-dark-background antialiased sm:scroll', {
+				className={cn('text-white bg-dark-background antialiased xs:scroll', {
 					'no-scroll': sidebarOpen,
 				})}
 			>
-				<Providers sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
+				<Providers
+					activeIndex={activeIndex}
+					setActiveIndex={setActiveIndex}
+					sidebarOpen={sidebarOpen}
+					setSidebarOpen={setSidebarOpen}
+				>
 					<Sidebar />
 
-					{isHome && <Header />}
+					{isHome && <Header activeIndex={activeIndex} />}
 
 					<main>{children}</main>
 				</Providers>
