@@ -1,8 +1,12 @@
+'use client';
+
 import Providers from '@/components/Providers';
 import { Header } from '@/components/layout/Header';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { cn } from '@/utils/cn';
 import { Inter } from 'next/font/google';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import '@/styles/globals.css';
 
 export const metadata = {
@@ -17,17 +21,28 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	// const router = useRouter();
+	const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+
+	const pathname = usePathname();
+	const isHome = pathname === '/';
 
 	return (
 		<html lang='en' className={(cn('bg-dark-background'), inter.className)}>
-			<body className='min-h-screen text-white bg-dark-background antialiased'>
-				<Providers>
+			<body
+				className={cn('text-white bg-dark-background antialiased md:scroll', {
+					'no-scroll': sidebarOpen,
+				})}
+			>
+				<Providers sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}>
 					<Sidebar />
-					<Header />
+
+					{isHome && <Header />}
+
 					<main>{children}</main>
 				</Providers>
 			</body>
 		</html>
 	);
 }
+
+// transition duration-300 ease-linear

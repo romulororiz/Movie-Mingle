@@ -1,4 +1,3 @@
-import { movieQuerySchema } from '@/helpers/tmdb';
 import { z } from 'zod';
 
 export interface MovieResponse {
@@ -45,6 +44,3 @@ export interface PeopleData {
 	total_results: number;
 	total_pages: number;
 }
-
-// Movie Query Schema User Preferences
-export type MovieQuery = z.infer<typeof movieQuerySchema>;

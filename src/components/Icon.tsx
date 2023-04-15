@@ -1,22 +1,18 @@
 'use client';
 
 import useWindowSize from '@/hooks/useWindowSize';
+import { isLaptop, isMobile, isTablet } from '@/utils/breakpoints';
 import {
-	isDesktop,
-	isLaptop,
-	isLargeDesktop,
-	isMobile,
-	isTablet,
-} from '@/utils/breakpoints';
-import { LucideIcon } from 'lucide-react';
-import {
-	TrendingUp,
-	Flame,
 	ChevronLeft,
+	Clapperboard,
+	Flame,
+	LucideIcon,
 	Search,
 	Star,
 	ThumbsUp,
-	Clapperboard,
+	TrendingUp,
+	ArrowRight,
+	Users,
 } from 'lucide-react';
 
 export const lucideIcons: Record<string, LucideIcon> = {
@@ -27,6 +23,8 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	Star,
 	ThumbsUp,
 	Clapperboard,
+	ArrowRight,
+	Users,
 };
 
 import { FC, SVGProps } from 'react';
@@ -37,12 +35,7 @@ interface IconProps extends SVGProps<SVGSVGElement> {
 	size?: number;
 }
 
-const Icon: FC<IconProps> = ({
-	name,
-	color = '#FDBB30',
-	size = 28,
-	...props
-}) => {
+const Icon: FC<IconProps> = ({ name, color = '#FDBB30', size, ...props }) => {
 	const windowSize = useWindowSize();
 
 	size =

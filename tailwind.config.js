@@ -14,7 +14,7 @@ module.exports = {
 	theme: {
 		container: {
 			center: true,
-			padding: '1.5rem',
+			padding: '2rem',
 			screens: {
 				sm: '640px',
 				md: '768px',
@@ -45,6 +45,19 @@ module.exports = {
 				accent: {
 					default: '#FDBB30',
 				},
+			},
+			keyframes: {
+				// Arrow animation Btn
+				slideInOut: {
+					'0%': { transform: 'translateX(0)', opacity: 1 },
+					'25%': { transform: 'translateX(100%)', opacity: 0 },
+					'50%': { transform: 'translateX(-100%)', opacity: 0 },
+					'100%': { transform: 'translateX(0)', opacity: 1 },
+				},
+			},
+			animation: {
+				// Arrow animation Btn
+				slideInOut: 'slideInOut .75s  ease-out',
 			},
 		},
 	},

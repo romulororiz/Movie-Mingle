@@ -1,93 +1,72 @@
-import { MovieQuery, MovieResponse, PeopleResponse } from '@/types/tmdb';
-import { isMovieResponse, isPeopleResponse } from '@/utils/typeGuards';
-import { useEffect, useState } from 'react';
+import { fetchFromHandler } from '@/helpers/tmdb';
+import { MovieResponse, PeopleResponse } from '@/types/tmdb';
+import { useQuery } from '@tanstack/react-query';
 
-interface Movies {
-	topRated: MovieResponse[] | null;
-	nowPlaying: MovieResponse[] | null;
-	upcoming: MovieResponse[] | null;
-	popularMovies: MovieResponse[] | null;
-	popularActors: PeopleResponse[] | null;
+interface useTMDBProps {
+	initialData?: MovieResponse[] | PeopleResponse[];
 }
 
-const useTMDB = () => {
-	const [data, setData] = useState<Movies>({
-		popularMovies: null,
-		topRated: null,
-		nowPlaying: null,
-		upcoming: null,
-		popularActors: null,
+export default function useTMDB() {
+	const {
+		data: topRated,
+		isLoading: isLoadingTopRated,
+		error: errorTopRated,
+	} = useQuery({
+		queryKey: ['topRated'],
+		queryFn: () => fetchFromHandler('top_rated'),
 	});
-	const [movieQueryResults, setMovieQueryResults] = useState<
-		MovieResponse[] | null
-	>(null);
 
-	// Define the fetchData function with a type parameter
-	const fetchData = async (type: string, input?: Partial<MovieQuery>) => {
-		const queryParams = new URLSearchParams({ type });
+	const {
+		data: popularMovies,
+		isLoading: isLoadingPopularMovies,
+		error: errorPopularMovies,
+	} = useQuery({
+		queryKey: ['popularMovies'],
+		queryFn: () => fetchFromHandler('popular'),
+	});
 
-		if (input) {
-			for (const key in input) {
-				const value = input[key as keyof typeof input];
-				if (value !== undefined) {
-					if (Array.isArray(value)) {
-						queryParams.append(key, value.join(','));
-					} else {
-						queryParams.append(key, value.toString());
-					}
-				}
-			}
-		}
+	const {
+		data: nowPlaying,
+		isLoading: isLoadingNowPlaying,
+		error: errorNowPlaying,
+	} = useQuery({
+		queryKey: ['nowPlaying'],
+		queryFn: () => fetchFromHandler('now_playing'),
+	});
 
-		const response = await fetch(
-			`/api/tmdb/tmdb-data?${queryParams.toString()}`
-		);
-		const data = await response.json();
-		return data;
-	};
+	const {
+		data: upcoming,
+		isLoading: isLoadingUpcoming,
+		error: errorUpcoming,
+	} = useQuery({
+		queryKey: ['upcoming'],
+		queryFn: () => fetchFromHandler('upcoming'),
+	});
 
-	const fetchMovieQueryResults = async (input: Partial<MovieQuery>) => {
-		const movieQueryResults = await fetchData('movie_query', input);
-		if (isMovieResponse(movieQueryResults)) {
-			setMovieQueryResults(movieQueryResults);
-		}
-	};
-
-	useEffect(() => {
-		const fetchDataAll = async () => {
-			const [topRated, nowPlaying, upcoming, popularMovies, popularActors] =
-				await Promise.all([
-					fetchData('top_rated'),
-					fetchData('now_playing'),
-					fetchData('upcoming'),
-					fetchData('popular'),
-					fetchData('popular_actors'),
-				]);
-
-			if (
-				isMovieResponse(topRated.results) &&
-				isMovieResponse(nowPlaying.results) &&
-				isMovieResponse(upcoming.results) &&
-				isMovieResponse(popularMovies.results) &&
-				isPeopleResponse(popularActors.results)
-			) {
-				setData({
-					topRated: topRated.results,
-					nowPlaying: nowPlaying.results,
-					upcoming: upcoming.results,
-					popularMovies: popularMovies.results,
-					popularActors: popularActors.results,
-				});
-			}
-		};
-
-		fetchDataAll();
-	}, []);
+	const {
+		data: popularActors,
+		isLoading: isLoadingPopularActors,
+		error: errorPopularActors,
+	} = useQuery({
+		queryKey: ['popularActors'],
+		queryFn: () => fetchFromHandler('popular_actors'),
+	});
 
 	return {
-		data,
-		movieQueryResults,
-		fetchMovieQueryResults,
+		topRated,
+		isLoadingTopRated,
+		errorTopRated,
+		nowPlaying,
+		isLoadingNowPlaying,
+		errorNowPlaying,
+		upcoming,
+		isLoadingUpcoming,
+		errorUpcoming,
+		popularMovies,
+		isLoadingPopularMovies,
+		errorPopularMovies,
+		popularActors,
+		isLoadingPopularActors,
+		errorPopularActors,
 	};
-};
-export default useTMDB;
+}

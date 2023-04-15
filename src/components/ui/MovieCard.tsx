@@ -4,20 +4,7 @@ import { VariantProps, cva } from 'class-variance-authority';
 import { HTMLAttributes, forwardRef } from 'react';
 
 const cardVariants = cva(
-	'relative w-[350px] h-[250px] min-w-[350px] md:w-[350px] md:h-[260px] bg-cover bg-no-repeat bg-center cursor-pointer rounded-2xl relative after:border-2 after:border-transparent after:content after:rounded-2xl after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition after:hover:border-accent-default',
-	{
-		variants: {
-			size: {
-				default: 'w-[300px] h-[200px] min-w-[200px]',
-				small: 'w-[200px] h-[150px] min-w-[150px]',
-				medium: 'w-[250px] h-[200px] min-w-[200px]',
-				large: 'w-[310px] h-[280px] min-w-[250px]',
-			},
-			defaultVariant: {
-				size: 'default',
-			},
-		},
-	}
+	'transition duration-700 relative w-[350px] min-w-[200px] h-[260px] grow bg-cover bg-no-repeat bg-center cursor-pointer rounded-2xl relative after:border-2 after:border-transparent after:content after:rounded-2xl after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition after:hover:border-accent-default'
 );
 
 interface CardProps
@@ -30,16 +17,16 @@ interface CardProps
 }
 
 const MovieCard = forwardRef<HTMLDivElement, CardProps>(
-	({ className, size, movie, isLoading, ...props }, ref) => {
+	({ className, movie, isLoading, ...props }, ref) => {
 		if (!movie) return null;
 		return (
 			<div
-				className={cn(cardVariants({ size, className }), 'grow')}
+				className={cn(cardVariants({ className }), 'grow')}
 				style={{
 					backgroundImage: `${
 						movie.backdrop_path
 							? `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`
-							: `url(/images/no-image.jpg)`
+							: `url(/assets/no-image.jpg)`
 					}`,
 				}}
 				{...props}

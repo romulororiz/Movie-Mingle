@@ -2,22 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+/* custom */
+@layer utilities {
+  /* body scroll */
+  .no-scroll {
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  .scroll {
+    overflow: auto;
+    height: 100vh;
+  }
+}
+
+/* Swiper */
 .swiper {
-  @apply w-full h-[285px] md:h-[315px];
+  @apply w-full h-[295px] md:h-[340px] pl-10 md:pl-0 md:pt-10;
 }
 
 .swiper-slide {
-  @apply text-center flex justify-center min-w-[320px];
-}
-
-.swiper-slide img {
-  @apply block w-full h-full object-cover;
+  @apply min-w-[390px];
 }
 
 .swiper-pagination-bullet {
-  @apply bg-light-background/90 !important;
+  @apply bg-light-background/90;
 }
 
 .swiper-pagination-bullet-active {
-     @apply bg-accent-default !important;
+     @apply bg-accent-default;
 } 

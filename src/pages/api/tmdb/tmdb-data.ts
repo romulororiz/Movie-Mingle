@@ -1,57 +1,76 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import {
-	getNowPlayingMovies,
-	getPopularMovies,
-	getTopRatedMovies,
-	getUpcomingMovies,
-	getGenres,
-	getPopularActors,
-	getMovieWithQuery,
-} from '@/helpers/tmdb';
-import { MovieQuery } from '@/types/tmdb';
+const { env } = process;
 import { withMethods } from '@/lib/api-middlewares/with-methods';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { z } from 'zod';
+
+export const tmdbKey = env.TMDB_API_KEY as string;
+
+// Validate query parameters
+const movieQuerySchema = z.object({
+	'release_date.gte': z.string().optional(),
+	'release_date.lte': z.string().optional(),
+	with_genres: z.array(z.string()).optional(),
+	'vote_average.gte': z.number().optional(),
+	'vote_average.lte': z.number().optional(),
+});
+
+export type MovieQuery = z.infer<typeof movieQuerySchema>;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { type } = req.query;
+
+	// Check sort later on
+	const fetchData = async (
+		endpoint: string,
+		api_key: string = tmdbKey,
+		queryParams?: Partial<MovieQuery>
+	) => {
+		const url = new URL(`https://api.themoviedb.org/3${endpoint}`);
+		url.searchParams.append('api_key', api_key);
+		url.searchParams.append('language', 'en-US');
+		url.searchParams.append('sort_by', 'popularity.desc');
+
+		const data = await fetch(url.toString());
+		return data.json();
+	};
 
 	try {
 		let data;
 		switch (type) {
 			case 'popular':
-				data = await getPopularMovies();
+				data = await fetchData('/movie/popular');
 				break;
 			case 'now_playing':
-				data = await getNowPlayingMovies();
+				data = await fetchData('/movie/now_playing');
 				break;
 			case 'top_rated':
-				data = await getTopRatedMovies();
+				data = await fetchData('/movie/top_rated');
 				break;
 			case 'upcoming':
-				data = await getUpcomingMovies();
+				data = await fetchData('/movie/upcoming');
 				break;
 			case 'genres':
-				data = await getGenres();
+				data = await fetchData('/genre/movie/list');
 				break;
 			case 'popular_actors':
-				data = await getPopularActors();
+				data = await fetchData('/person/popular');
 				break;
 			case 'movie_query':
 				const { releaseDateGte, releaseDateLte, genres, voteGte, voteLte } =
 					req.query;
-				const query: Partial<MovieQuery> = {
-					releaseDateGte:
-						typeof releaseDateGte === 'string' ? releaseDateGte : undefined,
-					releaseDateLte:
-						typeof releaseDateLte === 'string' ? releaseDateLte : undefined,
-					genres: genres
-						? Array.isArray(genres)
-							? genres
-							: [genres]
-						: undefined,
-					voteGte: voteGte ? Number(voteGte) : undefined,
-					voteLte: voteLte ? Number(voteLte) : undefined,
+
+				const query = {
+					'release_date.gte': releaseDateGte,
+					'release_date.lte': releaseDateLte,
+					with_genres: (genres as string).split(',') || [],
+					'vote_average.gte': Number(voteGte),
+					'vote_average.lte': Number(voteLte),
 				};
-				data = await getMovieWithQuery(query);
+
+				const validatedQuery = movieQuerySchema.parse(query);
+
+				data = await fetchData('/discover/movie', '', validatedQuery);
+
 				break;
 			default:
 				throw new Error('Invalid type parameter');

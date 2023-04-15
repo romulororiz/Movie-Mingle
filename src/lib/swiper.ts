@@ -7,35 +7,31 @@ export const getSwiperOptions = (windowSize: WindowSize) => {
 
 	if (windowSize.width! < 640) {
 		slidesPerView = 1;
-		spaceBetween = -10;
+		spaceBetween = -15;
 	} else if (windowSize.width! < 768) {
 		slidesPerView = 1;
-		spaceBetween = -40;
+		spaceBetween = -25;
 	} else if (windowSize.width! < 1024) {
 		slidesPerView = 2;
-		spaceBetween = 45;
+		spaceBetween = 15;
 	} else if (windowSize.width! < 1280) {
 		slidesPerView = 3;
-		spaceBetween = 45;
+		spaceBetween = 15;
 	} else if (windowSize.width! < 1536) {
 		slidesPerView = 4;
-		spaceBetween = 45;
+		spaceBetween = 15;
 	} else {
 		slidesPerView = 5;
-		spaceBetween = 45;
+		spaceBetween = 15;
 	}
 
 	return {
-		pagination: {
-			dynamicBullets: true,
-		},
 		slidesPerView,
 		spaceBetween,
-		modules: [Pagination, Autoplay],
+		modules: [Autoplay],
 		loop: true,
 		speed: 1000,
 		autoplay: {
-			delay: 3500,
 			disableOnInteraction: false,
 		},
 	};

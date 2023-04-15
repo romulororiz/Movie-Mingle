@@ -1,11 +1,11 @@
 'use client';
 
 import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
+import { getSwiperOptions } from '@/lib/swiper';
 import { MovieResponse } from '@/types/tmdb';
 import { isTablet } from '@/utils/breakpoints';
 import { cn } from '@/utils/cn';
-import { getSwiperOptions } from '@/utils/swiper';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Swiper as SwiperClass } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
@@ -20,8 +20,8 @@ const SwiperComponent = ({
 	movies,
 	onActiveIndexChange,
 }: SwiperComponentProps) => {
-	const [swiper, setSwiper] = useState<SwiperClass | null>(null); // [state, setState
 	const [activeIndex, setActiveIndex] = useState(0);
+
 	const windowSize: WindowSize = useWindowSize();
 
 	const handleSlideChange = (swiper: SwiperClass) => {
@@ -29,45 +29,36 @@ const SwiperComponent = ({
 		onActiveIndexChange(swiper.realIndex);
 	};
 
-	const handleSlideClick = (index: number) => {
-		if (swiper) {
-			swiper.slideTo(index);
-			setActiveIndex(index);
-			onActiveIndexChange(index);
-		}
-	};
-
-	// Get the class based on the active slide index
 	const getMovieCardClass = (index: number) => {
 		if (index === activeIndex)
-			return 'border-2 border-accent-default after:bg-transparent';
+			return 'border-2 border-accent-default after:bg-transparent z-50 lg:scale-125';
 		return '';
 	};
 
 	return (
-		<>
+		<div className='relative'>
 			<Swiper
 				{...getSwiperOptions(windowSize)}
 				onSlideChange={handleSlideChange}
 			>
 				{movies.map((movie, index) => (
 					<SwiperSlide key={`movie-${movie.id}`}>
-						<div
-							className={cn('flex justify-center w-full', {
-								'w-11/12': !!isTablet(windowSize),
-							})}
-						>
-							<MovieCard
-								movie={movie}
-								className={getMovieCardClass(index)}
-								onClick={() => handleSlideClick(index)}
-							/>
+						<div className='flex justify-center w-11/12 md:w-full'>
+							<MovieCard movie={movie} className={getMovieCardClass(index)} />
 						</div>
 					</SwiperSlide>
 				))}
 			</Swiper>
-		</>
-		// w-11/12
+
+			<div
+				className='hidden sm:block absolute top-0 bottom-0 left-0 w-20 md:left-0 bg-gradient-to-r
+						 from-dark-background from-0% via-dark-background via-20% to-transparent z-50'
+			></div>
+			<div
+				className='hidden sm:block absolute top-0 bottom-0 right-0 w-20 md:right-0 bg-gradient-to-l
+						 from-dark-background from-0% via-dark-background via-20% to-transparent z-50'
+			></div>
+		</div>
 	);
 };
 
