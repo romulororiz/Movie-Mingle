@@ -18,17 +18,9 @@
 
 /* Swiper */
 .swiper {
-  @apply w-full h-[295px] md:h-[340px] pl-10 md:pl-0 md:pt-10;
+  @apply w-full h-[400px] md:h-[520px] md:pt-14;
 }
 
 .swiper-slide {
-  @apply min-w-[390px];
+  @apply w-[225px] h-[300px];
 }
-
-.swiper-pagination-bullet {
-  @apply bg-light-background/90;
-}
-
-.swiper-pagination-bullet-active {
-     @apply bg-accent-default;
-} 

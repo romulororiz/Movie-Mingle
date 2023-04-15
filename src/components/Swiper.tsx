@@ -3,8 +3,6 @@
 import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
 import { getSwiperOptions } from '@/lib/swiper';
 import { MovieResponse } from '@/types/tmdb';
-import { isTablet } from '@/utils/breakpoints';
-import { cn } from '@/utils/cn';
 import { useState } from 'react';
 import { Swiper as SwiperClass } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -31,7 +29,7 @@ const SwiperComponent = ({
 
 	const getMovieCardClass = (index: number) => {
 		if (index === activeIndex)
-			return 'border-2 border-accent-default after:bg-transparent z-50 lg:scale-125';
+			return 'border-2 border-accent-default after:bg-transparent z-50 md:scale-125';
 		return '';
 	};
 
@@ -43,7 +41,7 @@ const SwiperComponent = ({
 			>
 				{movies.map((movie, index) => (
 					<SwiperSlide key={`movie-${movie.id}`}>
-						<div className='flex justify-center w-11/12 md:w-full'>
+						<div className='flex justify-center w-full'>
 							<MovieCard movie={movie} className={getMovieCardClass(index)} />
 						</div>
 					</SwiperSlide>
@@ -51,11 +49,11 @@ const SwiperComponent = ({
 			</Swiper>
 
 			<div
-				className='hidden sm:block absolute top-0 bottom-0 left-0 w-20 md:left-0 bg-gradient-to-r
+				className='hidden xs:block absolute top-0 bottom-0 left-0 w-20 md:left-0 bg-gradient-to-r
 						 from-dark-background from-0% via-dark-background via-20% to-transparent z-50'
 			></div>
 			<div
-				className='hidden sm:block absolute top-0 bottom-0 right-0 w-20 md:right-0 bg-gradient-to-l
+				className='hidden xs:block absolute top-0 bottom-0 right-0 w-20 md:right-0 bg-gradient-to-l
 						 from-dark-background from-0% via-dark-background via-20% to-transparent z-50'
 			></div>
 		</div>

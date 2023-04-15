@@ -16,6 +16,7 @@ module.exports = {
 			center: true,
 			padding: '2rem',
 			screens: {
+				xs: '576px',
 				sm: '640px',
 				md: '768px',
 				lg: '1024px',
@@ -23,6 +24,15 @@ module.exports = {
 				'2xl': '1536px',
 				'3xl': '1920px',
 			},
+		},
+		screens: {
+			xs: '576px',
+			sm: '640px',
+			md: '768px',
+			lg: '1024px',
+			xl: '1280px',
+			'2xl': '1536px',
+			'3xl': '1920px',
 		},
 		extend: {
 			fontFamily: {

@@ -29,10 +29,8 @@ const Section: FC<SectionProps> = ({
 	...props
 }) => {
 	const sectionVariants = cva(
-		cn('transition-all duration-200 ease-linear', {
-			'mx-auto max-w-7xl': container,
-			'md:pl-[16.5rem]': !container && sidebarOpen,
-			container: container,
+		cn('transition-all duration-200 ease-linear mx-auto max-w-7xl container', {
+			'max-w-[1536px]': !container,
 		})
 	);
 
@@ -54,8 +52,12 @@ const Section: FC<SectionProps> = ({
 				{children}
 			</div>
 
-			{seeMore && container && (
-				<div className='mt-3 md:mt-5 w-full flex justify-end items-center'>
+			{seeMore && (
+				<div
+					className={cn('mt-3 md:mt-5 w-full flex justify-end items-center', {
+						'md:absolute md:right-0 z-20 md:container md:-bottom-6': !container,
+					})}
+				>
 					<Button id='see-more__btn' variant='ghost' className='pr-0 group'>
 						See More
 						<Icon
