@@ -1,10 +1,7 @@
 import { fetchFromHandler } from '@/helpers/tmdb';
 import { MovieResponse, PeopleResponse } from '@/types/tmdb';
 import { useQuery } from '@tanstack/react-query';
-
-interface useTMDBProps {
-	initialData?: MovieResponse[] | PeopleResponse[];
-}
+import { useState } from 'react';
 
 export default function useTMDB() {
 	const {
@@ -23,6 +20,9 @@ export default function useTMDB() {
 	} = useQuery({
 		queryKey: ['popularMovies'],
 		queryFn: () => fetchFromHandler('popular'),
+		refetchInterval(data, query) {
+			return query.state.dataUpdateCount < 2 ? 3000 : false;
+		},
 	});
 
 	const {
