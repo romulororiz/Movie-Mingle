@@ -6,19 +6,21 @@ export const renderBgImages = (
 ) => {
 	if (!movies) return null;
 
-	// fix key error
-	return movies.map((movie, index) => (
-		<div
-			key={`bg-${movie.id}`}
-			className='absolute inset-0 bg-cover bg-no-repeat bg-center transition-opacity duration-700'
-			style={{
-				opacity: index === activeIndex ? 1 : 0,
-				backgroundImage: `${
-					movie.backdrop_path
-						? `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`
-						: `url(/assets/no-image.jpg)`
-				}`,
-			}}
-		></div>
-	));
+	return movies.map((movie, index): JSX.Element => {
+		const { backdrop_path } = movie;
+		const bgImage = `https://image.tmdb.org/t/p/original${backdrop_path}`;
+		const bgImageNoImage = 'assets/no-image.jpg';
+		const bgImageStyle = {
+			backgroundImage: `url(${bgImage ?? bgImageNoImage})`,
+			opacity: activeIndex === index ? 1 : 0,
+		};
+
+		return (
+			<div
+				key={`bg-${movie.id}`}
+				className='absolute inset-0 bg-cover bg-no-repeat bg-center transition-opacity duration-700'
+				style={bgImageStyle}
+			></div>
+		);
+	});
 };

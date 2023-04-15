@@ -47,33 +47,21 @@ export default function Home() {
 						.slice(0, actorCardPerView(windowSize))}
 			</Section>
 
-			<Section
-				icon='Flame'
-				className='mt-16 md:mt-24'
-				title='Trending this week'
-			>
+			<Section icon='Flame' className='mt-16' title='Trending this week'>
 				{isMovieResponse(nowPlaying) &&
 					nowPlaying
 						.map(movie => <MovieCard key={`actor-${movie.id}`} movie={movie} />)
 						.slice(0, 5)}
 			</Section>
 
-			<Section
-				icon='Clapperboard'
-				className='mt-16 md:mt-24'
-				title='Coming up next'
-			>
+			<Section icon='Clapperboard' className='mt-16' title='Coming up next'>
 				{isMovieResponse(upcoming) &&
 					upcoming
 						.map(movie => <MovieCard key={`actor-${movie.id}`} movie={movie} />)
 						.slice(0, 5)}
 			</Section>
 
-			<Section
-				icon='Star'
-				className='mt-16 md:mt-24 mb-24'
-				title='Best of the best'
-			>
+			<Section icon='Star' className='mt-16 mb-24' title='Best of the best'>
 				{isMovieResponse(topRated) &&
 					topRated
 						.map(movie => <MovieCard key={`actor-${movie.id}`} movie={movie} />)

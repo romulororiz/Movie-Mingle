@@ -1,7 +1,5 @@
 import { useSidebarContext } from '@/context/sidebarContext';
-import { authOptions } from '@/lib/auth';
 import { cn } from '@/utils/cn';
-import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 
 export const Sidebar = () => {
