@@ -55,11 +55,11 @@ const Section: FC<SectionProps> = ({
 			{seeMore && (
 				<div
 					className={cn('mt-3 md:mt-5 w-full flex justify-end items-center', {
-						'md:absolute md:right-0 z-20 md:container md:-bottom-6': !container,
+						'absolute right-0 z-50 container -bottom-2 md:bottom-5': !container,
 					})}
 				>
 					<Button id='see-more__btn' variant='ghost' className='pr-0 group'>
-						See More
+						<span className='text-xs sm:text-base'>See More</span>
 						<Icon
 							name='ArrowRight'
 							size={16}

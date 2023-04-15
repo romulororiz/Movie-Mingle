@@ -18,9 +18,13 @@
 
 /* Swiper */
 .swiper {
-  @apply w-full h-[400px] md:h-[520px] md:pt-14;
+  @apply w-full h-[440px] md:h-[540px] md:pt-14;
 }
 
 .swiper-slide {
   @apply w-[225px] h-[300px];
+}
+
+.swiper .swiper-pagination-bullet {
+  @apply w-2 h-2 bg-accent-default;
 }
