@@ -40,7 +40,7 @@ export default function Home() {
 		>
 			<Section
 				icon='Users'
-				className='mt-[21rem] md:mt-[25rem]'
+				className='mt-[21rem] md:mt-[19rem]'
 				title='Popular Actors'
 			>
 				{isPeopleResponse(popularActors) &&
