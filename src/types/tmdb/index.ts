@@ -1,5 +1,3 @@
-import { z } from 'zod';
-
 export interface MovieResponse {
 	poster_path: string;
 	adult: boolean;

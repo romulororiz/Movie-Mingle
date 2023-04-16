@@ -6,6 +6,7 @@ import { FC, HTMLAttributes } from 'react';
 import Icon from '../Icon';
 import Heading from '../ui/Heading';
 import { Button } from '../ui/Button';
+import Link from 'next/link';
 
 interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;
@@ -13,8 +14,9 @@ interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	icon?: string;
 	color?: string;
 	container?: boolean;
-	seeMore?: boolean;
 	sidebarOpen?: boolean;
+	seeMore?: boolean;
+	route: string;
 }
 
 const Section: FC<SectionProps> = ({
@@ -24,8 +26,9 @@ const Section: FC<SectionProps> = ({
 	icon,
 	color,
 	container = true,
-	seeMore = true,
 	sidebarOpen,
+	seeMore = true,
+	route,
 	...props
 }) => {
 	const sectionVariants = cva(
@@ -37,38 +40,54 @@ const Section: FC<SectionProps> = ({
 	return (
 		// will have swiper and be set to auto play
 		<section className={cn(sectionVariants({ className }))} {...props}>
-			<div className={cn('flex justify-between max-w-7xl mx-auto mb-5 px-0')}>
-				<Heading title={title} element='h2' icon={icon} />
+			{/* see more on top of slider */}
 
-				{/* // todo - create button component */}
+			<div
+				className={cn(
+					'flex justify-between max-w-7xl mx-auto z-[70] mb-5 relative'
+				)}
+			>
+				<Heading
+					title={title}
+					element='h1'
+					icon={icon}
+					className={cn('flex',{
+						'absolute -top-7 md:top-5': !container,
+					})}
+				/>
+
+				{seeMore && (
+					<div
+						className={cn(
+							'absolute flex justify-end max-w-7xl mx-auto left-0 right-0',
+							{
+								'-top-8 md:top-5': !container,
+							}
+						)}
+					>
+						<Link href={route}>
+							<Button variant='ghost' className='pr-0 group'>
+								See More
+								<Icon
+									name='ArrowRight'
+									size={16}
+									className='ml-2 group-hover:animate-slideInOut'
+								/>
+							</Button>
+						</Link>
+					</div>
+				)}
 			</div>
 
 			<div
 				className={cn({
-					'flex flex-wrap justify-start gap-4 relative': container,
+					'flex flex-wrap justify-start gap-x-6 gap-y-[5rem] relative':
+						container,
 					'flex-nowrap overflow-x-auto': !container,
 				})}
 			>
 				{children}
 			</div>
-
-			{seeMore && (
-				<div
-					className={cn('mt-3 md:mt-5 w-full flex justify-end items-center', {
-						'absolute right-0 z-50 container -bottom-2 md:bottom-8': !container,
-					})}
-				>
-					<Button id='see-more__btn' variant='ghost' className='pr-0 group'>
-						<span className='text-xs sm:text-base'>See More</span>
-						<Icon
-							name='ArrowRight'
-							size={16}
-							className='ml-2 group-hover:animate-slideInOut'
-							// make color 50% opacity and 100% when button is hovered
-						/>
-					</Button>
-				</div>
-			)}
 		</section>
 	);
 };

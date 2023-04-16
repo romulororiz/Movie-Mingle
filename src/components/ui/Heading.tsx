@@ -6,9 +6,9 @@ import Icon from '../Icon';
 const headingVariants = cva('text-white font-semibold tracking-tighter', {
 	variants: {
 		size: {
-			default: 'text-xl md:text-2xl lg:text-3xl',
-			small: 'text-sm md:text-base lg:text-lg',
-			medium: 'text-lg md:text-xl lg:text-2xl',
+			default: 'text-2xl md:text-3xl lg:text-4xl',
+			medium: 'text-md md:text-lg lg:text-2xl',
+			small: 'text-sm',
 		},
 	},
 	defaultVariants: {
@@ -27,6 +27,10 @@ interface HeadingProps<T extends HeadingLevels>
 	color?: string;
 }
 
+const getAriaLevel = (element: HeadingLevels) => {
+	return +element.replace('h', '');
+};
+
 const Heading: FC<HeadingProps<any>> = ({
 	element: Element,
 	className,
@@ -37,11 +41,15 @@ const Heading: FC<HeadingProps<any>> = ({
 	...props
 }) => {
 	return (
-		<Element className={cn(headingVariants({ size, className }))} {...props}>
-			<div className='flex'>
-				{icon && <Icon name={icon} color={color} className='mr-2' />}
-				{title}
-			</div>
+		<Element
+			className={cn(headingVariants({ size, className }))}
+			{...props}
+			aria-level={getAriaLevel(Element)}
+		>
+			{icon && (
+				<Icon name={icon} color={color} className='mr-2 relative top-1' />
+			)}
+			{title}
 		</Element>
 	);
 };

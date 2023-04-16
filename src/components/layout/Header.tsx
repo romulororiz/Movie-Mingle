@@ -1,56 +1,86 @@
 'use client';
 
-import { useSidebarContext } from '@/context/sidebarContext';
-import useTMDB from '@/hooks/useTMDB';
-import { renderHeaderImages } from '@/utils/renderBg';
+import { useAppState } from '@/context/stateContext';
+import { getMoviePath } from '@/utils/renderBg';
 import { isMovieResponse } from '@/utils/typeGuards';
-import { Dispatch, SetStateAction, useState } from 'react';
-import SwiperComponent from '../Swiper';
-import Section from './Section';
-import { cn } from '@/utils/cn';
+import { useQuery } from '@tanstack/react-query';
+import { fetchFromHandler } from '@/helpers/tmdb';
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-interface headerProps {
-	activeIndex: number;
-}
+const BackgroundImage = ({
+	src,
+	active,
+	imageKey,
+}: {
+	src: string;
+	active: boolean;
+	imageKey: string | number;
+}) => {
+	return (
+		<div
+			key={imageKey}
+			className={`absolute inset-0 h-[750px] bg-cover bg-no-repeat bg-center transition-opacity duration-700 ${
+				active ? 'animate-fadeIn' : 'animate-fadeOut'
+			}`}
+			style={{ backgroundImage: src }}
+		/>
+	);
+};
 
-export const Header = ({ activeIndex }: headerProps) => {
-	const { sidebarOpen } = useSidebarContext();
+export const Header = () => {
+	const { activeIndex } = useAppState();
 
-	const { popularMovies, isLoadingPopularMovies, errorPopularMovies } =
-		useTMDB();
+	const [currentImageIndex, setCurrentImageIndex] = useState(activeIndex);
+	const [previousImageIndex, setPreviousImageIndex] = useState<number | null>(
+		null
+	);
+
+	useEffect(() => {
+		if (activeIndex !== currentImageIndex) {
+			setPreviousImageIndex(currentImageIndex);
+			const timer = setTimeout(() => {
+				setCurrentImageIndex(activeIndex);
+			});
+			return () => clearTimeout(timer);
+		}
+	}, [activeIndex, currentImageIndex]);
+
+	const {
+		data: popularMovies,
+		isLoading: isLoadingPopularMovies,
+		error: errorPopularMovies,
+	} = useQuery({
+		queryKey: ['popularMovies'],
+		queryFn: () => fetchFromHandler('popular'),
+	});
+
+	const isHome = usePathname() === '/';
+	if (!isHome) return null;
+	if (!isMovieResponse(popularMovies)) return null;
 
 	return (
-		<header className='h-[750px] bg-cover bg-no-repeat bg-center relative'>
-			<div className='absolute inset-0 w-full h-full'>
-				{isMovieResponse(popularMovies) &&
-					renderHeaderImages(popularMovies, activeIndex)}
-			</div>
+		<header className='h-[750px] relative overflow-hidden'>
+			{previousImageIndex !== null && (
+				<BackgroundImage
+					imageKey={`prev-${previousImageIndex}`}
+					src={
+						getMoviePath(popularMovies[previousImageIndex], { isBG: true })
+							.backgroundImage
+					}
+					active={false}
+				/>
+			)}
+			<BackgroundImage
+				imageKey={`prev-${previousImageIndex}`}
+				src={
+					getMoviePath(popularMovies[currentImageIndex], { isBG: true })
+						.backgroundImage
+				}
+				active={true}
+			/>
 			<div className='absolute inset-0 bg-gradient-to-b from-transparent from-35% via-dark-background via-[75%] to-dark-background'></div>
-
-			{/* //todo fix top header server component error *}}
-			{/* <TopHeader /> */}
-
-			{/* <div
-				className={cn('relative transition-all duration-200 ease-linear', {
-					'xl:ml-60': sidebarOpen,
-				})}
-			> */}
-			{/* <Section
-					icon='ThumbsUp'
-					title='Recommended 4 u' // change upon user preferences
-					className='absolute top-[50vh] left-0 right-0 z-50'
-					sidebarOpen={sidebarOpen}
-					container={false}
-				>
-					{isMovieResponse(popularMovies) && (
-						<SwiperComponent
-							movies={popularMovies}
-							onActiveIndexChange={setActiveIndex}
-						/>
-					)}
-				</Section> */}
-			{/* //todo thiunk about pagination dynamic */}
-			{/* </div> */}
+			{/* Your other components */}
 		</header>
 	);
 };

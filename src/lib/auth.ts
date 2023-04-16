@@ -1,14 +1,12 @@
-import { db } from '@/lib/db';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { env } from 'process';
-
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = env;
+import { prisma } from '@/lib/db';
 
 function getGoogleCredentials(): { clientId: string; clientSecret: string } {
-	const clientId = GOOGLE_CLIENT_ID;
-	const clientSecret = GOOGLE_CLIENT_SECRET;
+	const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+	const clientSecret = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
+
 	if (!clientId || clientId.length === 0) {
 		throw new Error('Missing GOOGLE_CLIENT_ID');
 	}
@@ -21,7 +19,7 @@ function getGoogleCredentials(): { clientId: string; clientSecret: string } {
 }
 
 export const authOptions: NextAuthOptions = {
-	adapter: PrismaAdapter(db),
+	adapter: PrismaAdapter(prisma),
 	session: {
 		strategy: 'jwt',
 	},
@@ -29,9 +27,9 @@ export const authOptions: NextAuthOptions = {
 		signIn: '/login',
 	},
 	providers: [
+		// todo google provider
 		GoogleProvider({
-			clientId: getGoogleCredentials().clientId,
-			clientSecret: getGoogleCredentials().clientSecret,
+			...getGoogleCredentials(),
 		}),
 	],
 	callbacks: {
@@ -46,7 +44,7 @@ export const authOptions: NextAuthOptions = {
 			return session;
 		},
 		async jwt({ token, user }) {
-			const dbUser = await db.user.findFirst({
+			const dbUser = await prisma.user.findFirst({
 				where: {
 					email: token.email,
 				},

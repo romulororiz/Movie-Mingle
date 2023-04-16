@@ -1,14 +1,16 @@
-import { useSidebarContext } from '@/context/sidebarContext';
+'use client';
+
+import { useAppState } from '@/context/stateContext';
 import { cn } from '@/utils/cn';
 import Link from 'next/link';
 
 export const Sidebar = () => {
-	const { sidebarOpen, setSidebarOpen } = useSidebarContext();
+	const { sidebarOpen, setSidebarOpen } = useAppState();
 
 	return (
 		<aside
 			className={cn(
-				'transition duration-200 ease-linear fixed -translate-x-[100%] top-0 z-[70] xs:w-72 h-screen bg-dark-background/75 backdrop-blur-lg shadow-dark-background shadow-md',
+				'transition duration-200 ease-linear fixed -translate-x-[100%] top-0 z-[70] xs:w-72 h-screen bg-black backdrop-blur-lg shadow-dark-background shadow-md',
 				{
 					'translate-x-0 w-full': sidebarOpen,
 				}

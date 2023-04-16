@@ -1,5 +1,3 @@
-'use client';
-
 import Providers from '@/components/Providers';
 import { Header } from '@/components/layout/Header';
 import { Sidebar } from '@/components/layout/Sidebar';
@@ -8,6 +6,7 @@ import { Inter } from 'next/font/google';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import '@/styles/globals.css';
+import TopHeader from '@/components/layout/TopHeader';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,30 +15,20 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+	//todo fix sidebar scroll
 
-	// bg index for header bg image transition
-	const [activeIndex, setActiveIndex] = useState<number>(0);
-
-	const pathname = usePathname();
-	const isHome = pathname === '/';
+	// const pathname = usePathname();
+	// const isHome = pathname === '/';
 
 	return (
 		<html lang='en' className={(cn('bg-dark-background'), inter.className)}>
-			<body
-				className={cn('text-white bg-dark-background antialiased xs:scroll', {
-					'no-scroll': sidebarOpen,
-				})}
-			>
-				<Providers
-					activeIndex={activeIndex}
-					setActiveIndex={setActiveIndex}
-					sidebarOpen={sidebarOpen}
-					setSidebarOpen={setSidebarOpen}
-				>
+			<body className={cn('text-white bg-dark-background antialiased')}>
+				<Providers>
 					<Sidebar />
 
-					{isHome && <Header activeIndex={activeIndex} />}
+					{/* @ts-expect-error Server Component */}
+					<TopHeader />
+					<Header />
 
 					<main>{children}</main>
 				</Providers>
@@ -47,5 +36,3 @@ export default function RootLayout({
 		</html>
 	);
 }
-
-// transition duration-300 ease-linear

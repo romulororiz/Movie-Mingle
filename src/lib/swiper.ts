@@ -38,8 +38,8 @@ export const getSwiperOptions = (windowSize: WindowSize) => {
 		loop: true,
 		speed: 1000,
 		autoplay: {
-			delay: 4500,
-			disableOnInteraction: false,
+			delay: 2500,
+			disableOnInteraction: true,
 		},
 	};
 };

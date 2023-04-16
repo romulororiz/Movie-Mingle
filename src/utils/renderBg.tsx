@@ -1,55 +1,24 @@
-import { MovieResponse } from '@/types/tmdb';
+import { MovieResponse, PeopleResponse } from '@/types/tmdb';
 
-const NoImage = 'assets/no-image.jpg';
+const getImg = (path: string) => {
+	if (path === null) return `url(assets/no-image.jpg)`;
+	return `url(https://image.tmdb.org/t/p/original${path})`;
+};
 
-export const getImgPath = (
+export const getMoviePath = (
 	movie: MovieResponse,
-	options: {
-		isBG?: boolean;
-		index?: number;
-		activeIndex?: number;
-	} = {}
+	options: { isBG?: boolean } = { isBG: false }
 ) => {
 	const { backdrop_path, poster_path } = movie;
 
-	const bgImage =
-		backdrop_path !== null
-			? `url(https://image.tmdb.org/t/p/original${backdrop_path})`
-			: `url(${NoImage})`;
+	const { isBG } = options;
 
-	const posterImg =
-		poster_path !== null
-			? `url(https://image.tmdb.org/t/p/original${poster_path})`
-			: `url(${NoImage})`;
+	if (isBG) return { backgroundImage: getImg(backdrop_path) };
 
-	const { isBG, index, activeIndex } = options;
-	const opacity = activeIndex !== undefined && activeIndex === index ? 1 : 0;
-
-	if (isBG) {
-		return {
-			backgroundImage: bgImage,
-			opacity,
-		};
-	}
-
-	return {
-		backgroundImage: posterImg,
-	};
+	return { backgroundImage: getImg(poster_path) };
 };
 
-export const renderHeaderImages = (
-	movies: MovieResponse[],
-	activeIndex: number
-) => {
-	if (!movies) return null;
-
-	return movies.map((movie, index): JSX.Element => {
-		return (
-			<div
-				key={`bg-${movie.id}`}
-				className='absolute inset-0 bg-cover bg-no-repeat bg-center transition-opacity duration-700'
-				style={getImgPath(movie, { isBG: true, index, activeIndex })}
-			></div>
-		);
-	});
+export const getActorPath = (actor: PeopleResponse) => {
+	const { profile_path } = actor;
+	return { backgroundImage: getImg(profile_path) };
 };

@@ -1,13 +1,15 @@
+import { authOptions } from '@/lib/auth';
+import { GetServerSideProps } from 'next';
+import { Session, getServerSession } from 'next-auth';
 import Image from 'next/image';
 import { Input } from '../ui/Input';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { signIn } from 'next-auth/react';
 
-export const TopHeader = async () => {
+const TopHeader = async () => {
 	const session = await getServerSession(authOptions);
 
 	return (
-		<div className='md:pl-72 h-20 flex justify-end items-center sm:flex-row w-full'>
+		<div className='absolute md:pl-72 h-20 flex justify-end items-center sm:flex-row w-full z-[65]'>
 			<div className='container max-w-7xl flex justify-center sm:justify-end items-center gap-12 h-full mx-auto'>
 				{/* Search Input Component */}
 				<Input placeholder='Search movies...' />
@@ -22,8 +24,8 @@ export const TopHeader = async () => {
 						<Image
 							src={`${session.user.image}`}
 							alt={`${session.user.name} profile picture`}
-							width={60}
-							height={60}
+							width={48}
+							height={48}
 							className='rounded-full'
 							quality={100}
 						/>
@@ -31,7 +33,13 @@ export const TopHeader = async () => {
 				) : (
 					<div className='gap-3 hidden sm:flex sm:items-center sm:justify-center'>
 						{/* Sign In Button */}
-						<h1>Sign In</h1>
+						<button
+							onClick={async () => {
+								await signIn('google');
+							}}
+						>
+							SIGN IN
+						</button>
 					</div>
 				)}
 			</div>
@@ -43,3 +51,21 @@ export const TopHeader = async () => {
 		</div>
 	);
 };
+
+export const getServerSideProps: GetServerSideProps = async () => {
+	const session = await getServerSession(authOptions);
+
+	if (!session) {
+		throw new Error('You must be signed in to view this page');
+	}
+
+	console.log(session);
+
+	return {
+		props: {
+			session,
+		},
+	};
+};
+
+export default TopHeader;

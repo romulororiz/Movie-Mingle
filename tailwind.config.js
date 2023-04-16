@@ -64,10 +64,22 @@ module.exports = {
 					'50%': { transform: 'translateX(-100%)', opacity: 0 },
 					'100%': { transform: 'translateX(0)', opacity: 1 },
 				},
+				// Fade animation
+				fadeIn: {
+					'0%': { opacity: 0 },
+					'100%': { opacity: 1 },
+				},
+				fadeOut: {
+					'0%': { opacity: 1 },
+					'100%': { opacity: 0 },
+				},
 			},
 			animation: {
 				// Arrow animation Btn
-				slideInOut: 'slideInOut .75s  ease-out',
+				slideInOut: 'slideInOut .75s ease-out',
+				// Fade animation
+				fadeIn: 'fadeIn',
+				fadeOut: 'fadeOut',
 			},
 		},
 	},

@@ -1,39 +1,23 @@
 'use client';
 
-import { SessionProvider } from 'next-auth/react';
-import type { Dispatch, FC, ReactNode, SetStateAction } from 'react';
+import { StateProvider } from '@/context/stateContext';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { SidebarContext } from '@/context/sidebarContext';
-import { bgIndexContext } from '@/context/bgIndexContext';
+import { SessionProvider } from 'next-auth/react';
+import type { FC, ReactNode } from 'react';
 
 interface ProvidersProps {
 	children: ReactNode;
-
-	sidebarOpen: boolean;
-	setSidebarOpen: Dispatch<SetStateAction<boolean>>;
-
-	activeIndex: number;
-	setActiveIndex: Dispatch<SetStateAction<number>>;
 }
 
 const queryClient = new QueryClient();
 
-const Providers: FC<ProvidersProps> = ({
-	children,
-	sidebarOpen,
-	setSidebarOpen,
-
-	activeIndex,
-	setActiveIndex,
-}) => {
+const Providers: FC<ProvidersProps> = ({ children }) => {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<SidebarContext.Provider value={{ sidebarOpen, setSidebarOpen }}>
-				<bgIndexContext.Provider value={{ activeIndex, setActiveIndex }}>
-					<SessionProvider>{children}</SessionProvider>
-				</bgIndexContext.Provider>
-			</SidebarContext.Provider>
+			<StateProvider>
+				<SessionProvider>{children}</SessionProvider>
+			</StateProvider>
 			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
 	);
