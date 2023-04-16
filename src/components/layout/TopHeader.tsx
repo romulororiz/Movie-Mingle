@@ -33,11 +33,7 @@ const TopHeader = async () => {
 				) : (
 					<div className='gap-3 hidden sm:flex sm:items-center sm:justify-center'>
 						{/* Sign In Button */}
-						<button
-							onClick={async () => {
-								await signIn('google');
-							}}
-						>
+						<button						>
 							SIGN IN
 						</button>
 					</div>
