@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { HTMLAttributes, forwardRef } from 'react';
 import Heading from './Heading';
 import Link from 'next/link';
+import Ratings from './Ratings';
 
 const MovieInfo = ({
 	movie,
@@ -18,28 +19,20 @@ const MovieInfo = ({
 	if (isSlider) return null;
 
 	return (
-		<div className='absolute -bottom-14 left-0 w-full z-10 flex gap-x-2 justify-between items-start'>
+		<div className='absolute -bottom-14 left-0 w-full z-10 flex gap-x-1 justify-between items-start '>
 			<div className='flex flex-col truncate'>
 				<Heading
 					element='h3'
 					title={movie.title}
-					size='medium'
+					size='small'
 					id={`movie-title-${movie.id}`}
+					className='truncate'
 				/>
 				<span className='text-sm'>
 					{formatDate(movie.release_date.toString())}
 				</span>
 			</div>
-			<span className='flex gap-2 items-center'>
-				<Image
-					src='/assets/imdb.svg'
-					alt='imdb icon'
-					width={35}
-					height={35}
-					quality={100}
-				/>
-				<span className='text-white text-md'>{movie.vote_average}</span>
-			</span>
+			<Ratings movie={movie} className='flex items-center gap-2'/>
 		</div>
 	);
 };
@@ -56,7 +49,7 @@ interface CardProps
 }
 
 const cardVariants = cva(
-	'mb-[1.5rem] transition shadow-black shadow-lg duration-700 grow relative w-[230px] aspect-square h-[380px] bg-cover bg-no-repeat bg-center cursor-pointer rounded-2xl after:content after:rounded-2xl after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-default'
+	'mb-[1.5rem] transition shadow-black shadow-lg duration-700 grow relative w-[250px] aspect-square h-[380px] bg-cover bg-no-repeat bg-center cursor-pointer rounded-xl after:content after:rounded-2xl after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-default'
 );
 
 const generateArialLabel = (movie: MovieResponse) => {

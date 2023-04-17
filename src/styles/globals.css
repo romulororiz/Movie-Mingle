@@ -3,18 +3,18 @@
 @tailwind utilities;
 
 /* custom */
-@layer utilities {
-  /* body scroll */
-  .no-scroll {
+.no-scroll {
     overflow: hidden;
     height: 100vh;
-  }
+}
 
-  .scroll {
+.scroll {
     overflow: auto;
     height: 100vh;
-  }
 }
+
+
+
 
 /* Swiper */
 .swiper {

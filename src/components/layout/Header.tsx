@@ -7,6 +7,13 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchFromHandler } from '@/helpers/tmdb';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Heading from '../ui/Heading';
+import { MovieResponse } from '@/types/tmdb';
+import { formatDate, slugify } from '@/utils/formaters';
+import Ratings from '../ui/Ratings';
+import { isLaptop, isMobile } from '@/utils/breakpoints';
+import useWindowSize from '@/hooks/useWindowSize';
+import SeeMore from '../ui/SeeMore';
 
 const BackgroundImage = ({
 	src,
@@ -15,7 +22,7 @@ const BackgroundImage = ({
 }: {
 	src: string;
 	active: boolean;
-	imageKey: string | number;
+	imageKey: string;
 }) => {
 	return (
 		<div
@@ -24,7 +31,46 @@ const BackgroundImage = ({
 				active ? 'animate-fadeIn' : 'animate-fadeOut'
 			}`}
 			style={{ backgroundImage: src }}
-		/>
+		></div>
+	);
+};
+
+const MovieInfo = ({ movie }: { movie: MovieResponse }) => {
+	const windowSize = useWindowSize();
+
+	return (
+		<div
+			className='absolute max-w-7xl left-0 right-0 container w-full top-[45%] md:top-[40%] flex flex-col items-start gap-4 opacity-80 max-h-[300px]
+		'
+		>
+			<Heading
+				element='h1'
+				title={movie.title}
+				className='text-2xl md:text-4xl'
+			/>
+			<div className='flex flex-col items-start gap-y-2 max-w-lg text-justify'>
+				<Heading
+					element='h3'
+					title={
+						movie.overview.slice(0, isMobile(windowSize) ? 120 : 200) + '...'
+					}
+					size='small'
+					className='text-md font-normal'
+				/>
+				<div className='flex gap-6 justify-between w-full'>
+					<div className='flex gap-4 items-center'>
+						<Heading
+							element='h3'
+							title={formatDate(movie.release_date.toString())}
+							size='small'
+							className='text-md'
+						/>
+						<Ratings movie={movie} className='flex items-center gap-2' />
+					</div>
+					<SeeMore route={`/movies/${slugify(movie.title)}`} icon={false} />
+				</div>
+			</div>
+		</div>
 	);
 };
 
@@ -79,8 +125,9 @@ export const Header = () => {
 				}
 				active={true}
 			/>
-			<div className='absolute inset-0 bg-gradient-to-b from-transparent from-35% via-dark-background via-[75%] to-dark-background'></div>
-			{/* Your other components */}
+			<div className='absolute inset-0 bg-gradient-to-b from-transparent from-35% via-dark-background via-[80%] to-dark-background'></div>
+
+			<MovieInfo movie={popularMovies[currentImageIndex]} />
 		</header>
 	);
 };

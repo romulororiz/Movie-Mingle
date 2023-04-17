@@ -8,6 +8,28 @@ import { Swiper as SwiperClass } from 'swiper';
 import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import MovieCard from './ui/MovieCard';
+import Icon from './Icon';
+
+const PlayButton = ({
+	isPlaying,
+	onClick,
+}: {
+	isPlaying: boolean;
+	onClick: () => void;
+}) => {
+	return (
+		<div
+			onClick={onClick}
+			className='absolute bottom-0 md:bottom-8 right-0 z-[80] cursor-pointer max-w-7xl mx-auto w-full container left-0 flex justify-end'
+		>
+			{isPlaying ? (
+				<Icon name='Pause' fill='white' color='white' size={26} />
+			) : (
+				<Icon name='Play' fill='white' color='white' size={26} />
+			)}
+		</div>
+	);
+};
 
 type SwiperComponentProps = {
 	movies: MovieResponse[];
@@ -19,8 +41,8 @@ const SwiperComponent = ({
 	onActiveIndexChange,
 }: SwiperComponentProps) => {
 	const [activeIndex, setActiveIndex] = useState(0);
+	const [isPlaying, setIsPlaying] = useState(true);
 
-	// create a ref to store the swiper instance using SwiperRef
 	const swiperRef = useRef<SwiperRef>(null);
 
 	const windowSize: WindowSize = useWindowSize();
@@ -40,6 +62,18 @@ const SwiperComponent = ({
 		if (index === activeIndex)
 			return 'border-2 border-accent-default after:bg-transparent z-50 md:scale-125';
 		return '';
+	};
+
+	const stopPlayAutoplay = () => {
+		if (swiperRef.current) {
+			if (swiperRef.current.swiper.autoplay.running.valueOf() === true) {
+				swiperRef.current.swiper.autoplay.stop();
+				setIsPlaying(false);
+			} else {
+				swiperRef.current.swiper.autoplay.start();
+				setIsPlaying(true);
+			}
+		}
 	};
 
 	return (
@@ -67,13 +101,17 @@ const SwiperComponent = ({
 				))}
 			</Swiper>
 
+			{/* play / pause based on actual state */}
+			<PlayButton isPlaying={isPlaying} onClick={stopPlayAutoplay} />
+
+			{/* gradient to hide the overflow */}
 			<div
 				className='hidden xs:block absolute top-0 bottom-0 left-0 w-20 md:left-0 bg-gradient-to-r
-						 from-dark-background from-0% via-dark-background via-20% to-transparent z-[65]'
+						 from-dark-background from-0% via-dark-background via-20% z-[65]'
 			></div>
 			<div
 				className='hidden xs:block absolute top-0 bottom-0 right-0 w-20 md:right-0 bg-gradient-to-l
-						 from-dark-background from-0% via-dark-background via-20% to-transparent z-[65]'
+						 from-dark-background from-0% via-dark-background via-20% z-[65]'
 			></div>
 		</div>
 	);

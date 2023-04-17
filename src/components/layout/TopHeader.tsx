@@ -9,7 +9,7 @@ const TopHeader = async () => {
 	const session = await getServerSession(authOptions);
 
 	return (
-		<div className='absolute md:pl-72 h-20 flex justify-end items-center sm:flex-row w-full z-[65]'>
+		<div className='absolute ml-0 md:pl-64 h-20 z-[80] top-0 left-0 w-full '>
 			<div className='container max-w-7xl flex justify-center sm:justify-end items-center gap-12 h-full mx-auto'>
 				{/* Search Input Component */}
 				<Input placeholder='Search movies...' />
@@ -33,9 +33,7 @@ const TopHeader = async () => {
 				) : (
 					<div className='gap-3 hidden sm:flex sm:items-center sm:justify-center'>
 						{/* Sign In Button */}
-						<button						>
-							SIGN IN
-						</button>
+						<button>SIGN IN</button>
 					</div>
 				)}
 			</div>

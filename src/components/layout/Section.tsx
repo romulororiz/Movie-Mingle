@@ -7,6 +7,7 @@ import Icon from '../Icon';
 import Heading from '../ui/Heading';
 import { Button } from '../ui/Button';
 import Link from 'next/link';
+import SeeMore from '../ui/SeeMore';
 
 interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;
@@ -26,10 +27,10 @@ const Section: FC<SectionProps> = ({
 	title,
 	icon,
 	color,
-	container = true,
 	sidebarOpen,
+	container = true,
 	seeMore = true,
-	isActor,
+	isActor = false,
 	route,
 	...props
 }) => {
@@ -61,29 +62,21 @@ const Section: FC<SectionProps> = ({
 
 				{/* top see more */}
 				{seeMore && (
-					<div
+					<SeeMore
+						route={route}
+						container={container}
+						isActor={isActor}
 						className={cn('w-fit md:flex', {
 							'top-2 md:top-14 relative': !container,
 							hidden: container,
 						})}
-					>
-						<Link href={route}>
-							<Button variant='ghost' className='ml-4 md:ml-0 pr-0 group'>
-								See More
-								<Icon
-									name='ArrowRight'
-									size={16}
-									className='ml-2 group-hover:animate-slideInOut'
-								/>
-							</Button>
-						</Link>
-					</div>
+					/>
 				)}
 			</div>
 
 			<div
 				className={cn({
-					'flex flex-wrap justify-start gap-x-6 gap-y-[3.5rem] relative':
+					'flex flex-wrap justify-start gap-x-8 gap-y-[3.5rem] relative':
 						container,
 					'flex-nowrap overflow-x-auto': !container,
 				})}
@@ -93,22 +86,14 @@ const Section: FC<SectionProps> = ({
 
 			{/* bottom see more mobile */}
 			{seeMore && container && (
-				<div
+				<SeeMore
+					route={route}
+					container={container}
+					isActor={isActor}
 					className={cn('flex justify-end md:hidden mt-6', {
 						'mt-10': isActor,
 					})}
-				>
-					<Link href={route}>
-						<Button variant='ghost' className='pr-0 group'>
-							See More
-							<Icon
-								name='ArrowRight'
-								size={16}
-								className='ml-2 group-hover:animate-slideInOut'
-							/>
-						</Button>
-					</Link>
-				</div>
+				/>
 			)}
 		</section>
 	);

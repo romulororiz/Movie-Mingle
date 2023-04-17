@@ -13,6 +13,8 @@ import {
 	TrendingUp,
 	ArrowRight,
 	Users,
+	Play,
+	Pause,
 } from 'lucide-react';
 
 export const lucideIcons: Record<string, LucideIcon> = {
@@ -25,6 +27,8 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	Clapperboard,
 	ArrowRight,
 	Users,
+	Play,
+	Pause,
 };
 
 import { FC, SVGProps } from 'react';

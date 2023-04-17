@@ -3,12 +3,12 @@ import { VariantProps, cva } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
 import Icon from '../Icon';
 
-const headingVariants = cva('truncate text-white font-semibold tracking-tighter', {
+const headingVariants = cva(' text-white font-semibold tracking-tighter', {
 	variants: {
 		size: {
 			default: 'text-2xl md:text-3xl',
 			medium: 'text-md md:text-lg',
-			small: 'text-sm',
+			small: 'text-sm md:text-md',
 		},
 	},
 	defaultVariants: {
@@ -47,7 +47,7 @@ const Heading: FC<HeadingProps<any>> = ({
 			aria-level={getAriaLevel(Element)}
 		>
 			{icon && (
-				<Icon name={icon} color={color} className='mr-2 relative top-1' />
+				<Icon name={icon} color={color} className='mr-2 relative -top-0.5' />
 			)}
 			{title}
 		</Element>
