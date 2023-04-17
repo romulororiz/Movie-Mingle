@@ -22,7 +22,7 @@
 }
 
 .swiper-slide {
-  @apply w-[225px] h-[300px];
+  @apply w-[225px] h-[300px] px-8 xs:px-0;
 }
 
 .swiper .swiper-pagination-bullet {

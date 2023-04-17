@@ -7,13 +7,10 @@ import MovieCard from '@/components/ui/MovieCard';
 import { useAppState } from '@/context/stateContext';
 import { fetchFromHandler } from '@/helpers/tmdb';
 import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
-import { MovieResponse, PeopleResponse } from '@/types/tmdb';
-import { actorCardPerView } from '@/utils/cardPerView';
+import { CardPerView } from '@/utils/cardPerView';
 import { slugify } from '@/utils/formaters';
 import { isMovieResponse, isPeopleResponse } from '@/utils/typeGuards';
 import { useQuery } from '@tanstack/react-query';
-import { GetStaticProps, NextPage } from 'next';
-import { FC } from 'react';
 
 export default function Home() {
 	const { setActiveIndex } = useAppState();
@@ -70,7 +67,7 @@ export default function Home() {
 			<Section
 				icon='ThumbsUp'
 				title='Recommended' // change upon user preferences
-				className='absolute top-[550px] left-0 right-0 z-50'
+				className='-mt-[13rem] z-50'
 				sidebarOpen={sidebarOpen}
 				container={false}
 				route='/movies/popular'
@@ -85,9 +82,10 @@ export default function Home() {
 
 			<Section
 				icon='Users'
-				className='mt-[16.5rem] md:mt-[23rem]'
+				className='mt-12 md:mt-16'
 				title='Popular Actors'
 				route='/actors'
+				isActor={true}
 			>
 				{isPeopleResponse(popularActors) &&
 					popularActors
@@ -98,12 +96,12 @@ export default function Home() {
 								route={slugify(`/actors/${actor.name}`)}
 							/>
 						))
-						.slice(0, actorCardPerView(windowSize))}
+						.slice(0, CardPerView(windowSize))}
 			</Section>
 
 			<Section
 				icon='Flame'
-				className='mt-32'
+				className='mt-12 md:mt-28'
 				title='Trending this week'
 				route='/movies/trending'
 			>
@@ -116,12 +114,15 @@ export default function Home() {
 								route={slugify(`/movies/${movie.title}`)}
 							/>
 						))
-						.slice(0, 6)}
+						.slice(
+							0,
+							CardPerView(windowSize, { isActor: false, isMovie: true })
+						)}
 			</Section>
 
 			<Section
 				icon='Clapperboard'
-				className='mt-32'
+				className='mt-12 md:mt-28'
 				title='Coming up next'
 				route='/movies/coming-up'
 			>
@@ -134,12 +135,15 @@ export default function Home() {
 								route={slugify(`/movie/${movie.title}`)}
 							/>
 						))
-						.slice(0, 6)}
+						.slice(
+							0,
+							CardPerView(windowSize, { isActor: false, isMovie: true })
+						)}
 			</Section>
 
 			<Section
 				icon='Star'
-				className='mt-32 mb-24'
+				className='mt-12 md:mt-28 mb-24'
 				title='Best of the best'
 				route='/movies/top-rated'
 			>
@@ -152,7 +156,10 @@ export default function Home() {
 								route={slugify(`/movie/${movie.title}`)}
 							/>
 						))
-						.slice(0, 6)}
+						.slice(
+							0,
+							CardPerView(windowSize, { isActor: false, isMovie: true })
+						)}
 			</Section>
 
 			{/* <Section icon='Star' className='mt-14 mb-24' title='Skeleton'> */}

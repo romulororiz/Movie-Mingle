@@ -30,7 +30,7 @@ export default function RootLayout({
 					<TopHeader />
 					<Header />
 
-					<main>{children}</main>
+					<main className='ml-0 md:ml-64'>{children}</main>
 				</Providers>
 			</body>
 		</html>

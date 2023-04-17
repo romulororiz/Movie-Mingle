@@ -30,7 +30,7 @@ interface StateProviderProps {
 }
 
 export const StateProvider = ({ children }: StateProviderProps) => {
-	const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+	const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
 	const [activeIndex, setActiveIndex] = useState<number>(0);
 
 	return (

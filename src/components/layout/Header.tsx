@@ -60,7 +60,7 @@ export const Header = () => {
 	if (!isMovieResponse(popularMovies)) return null;
 
 	return (
-		<header className='h-[750px] relative overflow-hidden'>
+		<header className='h-[750px] relative overflow-hidden ml-0 md:ml-64'>
 			{previousImageIndex !== null && (
 				<BackgroundImage
 					imageKey={`prev-${previousImageIndex}`}

@@ -18,12 +18,12 @@ const MovieInfo = ({
 	if (isSlider) return null;
 
 	return (
-		<div className='absolute -bottom-12 left-0 w-full z-10 flex justify-between items-start'>
-			<div className='flex flex-col mr-2'>
+		<div className='absolute -bottom-14 left-0 w-full z-10 flex gap-x-2 justify-between items-start'>
+			<div className='flex flex-col truncate'>
 				<Heading
 					element='h3'
 					title={movie.title}
-					size='small'
+					size='medium'
 					id={`movie-title-${movie.id}`}
 				/>
 				<span className='text-sm'>
@@ -56,7 +56,7 @@ interface CardProps
 }
 
 const cardVariants = cva(
-	'transition shadow-black shadow-lg duration-700 grow relative w-[230px] aspect-square h-[380px] bg-cover bg-no-repeat bg-center cursor-pointer rounded-2xl after:content after:rounded-2xl after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-default'
+	'mb-[1.5rem] transition shadow-black shadow-lg duration-700 grow relative w-[230px] aspect-square h-[380px] bg-cover bg-no-repeat bg-center cursor-pointer rounded-2xl after:content after:rounded-2xl after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-default'
 );
 
 const generateArialLabel = (movie: MovieResponse) => {

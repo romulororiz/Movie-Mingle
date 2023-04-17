@@ -10,10 +10,7 @@ export const Sidebar = () => {
 	return (
 		<aside
 			className={cn(
-				'transition duration-200 ease-linear fixed -translate-x-[100%] top-0 z-[70] xs:w-72 h-screen bg-black backdrop-blur-lg shadow-dark-background shadow-md',
-				{
-					'translate-x-0 w-full': sidebarOpen,
-				}
+				'transition duration-200 ease-linear fixed top-0 z-[70] w-64 h-screen bg-black backdrop-blur-lg shadow-dark-background shadow-md hidden md:block'
 			)}
 		>
 			{/* //todo burger menu */}
