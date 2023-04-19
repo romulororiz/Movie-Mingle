@@ -24,7 +24,7 @@ const ActorInfo = ({ actor }: { actor: PeopleResponse }) => {
 };
 
 const cardVariants = cva(
-	'relative w-[150px] h-[280px] min-w-[150px] bg-cover bg-no-repeat bg-center cursor-pointer rounded-2xl relative after:border-2 after:border-transparent after:content after:rounded-2xl after:absolute after:inset-0 after:bg-dark-background/20 hover:after:bg-transparent after:transition after:hover:border-accent-default'
+	'relative w-[150px] grow h-[280px] min-w-[150px] bg-cover bg-no-repeat bg-center cursor-pointer rounded-xl relative after:border-2 after:border-transparent after:content after:rounded-xl after:absolute after:inset-0 after:bg-dark-background/20 hover:after:bg-transparent after:transition after:hover:border-accent-default'
 );
 
 interface CardProps
@@ -43,7 +43,7 @@ const ActorCard = forwardRef<HTMLDivElement, CardProps>(
 		return (
 			<Link
 				href={slugify(route)}
-				className={cn(cardVariants({ className }), 'grow')}
+				className={cn(cardVariants({ className }))}
 				style={getActorPath(actor)}
 			>
 				<div {...props} ref={ref}>

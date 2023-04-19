@@ -8,6 +8,7 @@ import { HTMLAttributes, forwardRef } from 'react';
 import Heading from './Heading';
 import Link from 'next/link';
 import Ratings from './Ratings';
+import SkeletonCard from './SkeletonCard';
 
 const MovieInfo = ({
 	movie,
@@ -49,7 +50,7 @@ interface CardProps
 }
 
 const cardVariants = cva(
-	'mb-[1.5rem] transition shadow-black shadow-lg duration-700 grow relative w-[250px] aspect-square h-[380px] bg-cover bg-no-repeat bg-center cursor-pointer rounded-xl after:content after:rounded-2xl after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-default'
+	'mb-[1.5rem] transition shadow-black shadow-lg duration-700 grow relative min-w-[200px] w-[250px] aspect-square h-[380px] bg-cover bg-no-repeat bg-center cursor-pointer rounded-xl after:content after:rounded-xl after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-default'
 );
 
 const generateArialLabel = (movie: MovieResponse) => {
@@ -72,6 +73,8 @@ const MovieCard = forwardRef<HTMLDivElement, CardProps>(
 		ref
 	) => {
 		if (!movie) return null;
+
+		if (isLoading) return <SkeletonCard />;
 
 		return (
 			//todo check div with props and ref

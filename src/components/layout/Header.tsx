@@ -1,20 +1,21 @@
 'use client';
 
 import { useAppState } from '@/context/stateContext';
+import { fetchFromHandler } from '@/helpers/tmdb';
+import { MovieResponse } from '@/types/tmdb';
+import { isMobile } from '@/utils/breakpoints';
+import { formatDate, slugify } from '@/utils/formaters';
 import { getMoviePath } from '@/utils/renderBg';
 import { isMovieResponse } from '@/utils/typeGuards';
 import { useQuery } from '@tanstack/react-query';
-import { fetchFromHandler } from '@/helpers/tmdb';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Heading from '../ui/Heading';
-import { MovieResponse } from '@/types/tmdb';
-import { formatDate, slugify } from '@/utils/formaters';
-import Ratings from '../ui/Ratings';
-import { isLaptop, isMobile } from '@/utils/breakpoints';
 import useWindowSize from '@/hooks/useWindowSize';
-import SeeMore from '../ui/SeeMore';
+import Heading from '../ui/Heading';
 import Paragraph from '../ui/Paragraph';
+import Ratings from '../ui/Ratings';
+import SeeMore from '../ui/SeeMore';
+import SkeletonHeader from '../ui/SkeletonHeader';
 
 const BackgroundImage = ({
 	src,
@@ -99,6 +100,9 @@ export const Header = () => {
 
 	const isHome = usePathname() === '/';
 	if (!isHome) return null;
+
+	if (isLoadingPopularMovies) return <SkeletonHeader />;
+
 	if (!isMovieResponse(popularMovies)) return null;
 
 	return (

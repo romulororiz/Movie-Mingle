@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import MovieCard from './ui/MovieCard';
 import Icon from './Icon';
+import { RenderSkeletonCards } from './ui/SkeletonCard';
 
 const PlayButton = ({
 	isPlaying,
@@ -34,10 +35,12 @@ const PlayButton = ({
 type SwiperComponentProps = {
 	movies: MovieResponse[];
 	onActiveIndexChange: (index: number) => void;
+	isLoading: boolean;
 };
 
 const SwiperComponent = ({
 	movies,
+	isLoading,
 	onActiveIndexChange,
 }: SwiperComponentProps) => {
 	const [activeIndex, setActiveIndex] = useState(0);
@@ -87,16 +90,15 @@ const SwiperComponent = ({
 					<SwiperSlide
 						key={`movie-${movie.id}`}
 						onClick={() => handleClick(index)}
+						className='flex justify-center w-full'
 					>
-						<div className='flex justify-center w-full'>
-							<MovieCard
-								movie={movie}
-								className={getMovieCardClass(index)}
-								isCurrentSlide={index === activeIndex}
-								isSlider={true}
-								route={`/#`}
-							/>
-						</div>
+						<MovieCard
+							movie={movie}
+							className={getMovieCardClass(index)}
+							isCurrentSlide={index === activeIndex}
+							isSlider={true}
+							route='/#'
+						/>
 					</SwiperSlide>
 				))}
 			</Swiper>

@@ -13,9 +13,6 @@
     height: 100vh;
 }
 
-
-
-
 /* Swiper */
 .swiper {
   @apply w-full h-[420px] md:h-[520px] md:pt-14;
