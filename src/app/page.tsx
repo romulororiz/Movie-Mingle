@@ -93,7 +93,7 @@ export default function Home() {
 							<ActorCard
 								key={`actor-${actor.id}`}
 								actor={actor}
-								route={slugify(`/actors/${actor.name}`)}
+								route={`/actors/${actor.name}`}
 							/>
 						))
 						.slice(0, CardPerView(windowSize))}
@@ -111,7 +111,7 @@ export default function Home() {
 							<MovieCard
 								key={`actor-${movie.id}`}
 								movie={movie}
-								route={slugify(`/movies/${movie.title}`)}
+								route={`/movies/${movie.title}`}
 							/>
 						))
 						.slice(
@@ -132,7 +132,7 @@ export default function Home() {
 							<MovieCard
 								key={`actor-${movie.id}`}
 								movie={movie}
-								route={slugify(`/movie/${movie.title}`)}
+								route={`/movie/${movie.title}`}
 							/>
 						))
 						.slice(
@@ -153,7 +153,7 @@ export default function Home() {
 							<MovieCard
 								key={`actor-${movie.id}`}
 								movie={movie}
-								route={slugify(`/movie/${movie.title}`)}
+								route={`/movie/${movie.title}`}
 							/>
 						))
 						.slice(

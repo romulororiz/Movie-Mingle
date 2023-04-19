@@ -11,7 +11,7 @@ export default function RootLayout({
 			style={{
 				backgroundImage: 'url(/assets/showcase.jpg)',
 			}}
-			className='bg-center bg-cover bg-no-repeat h-[750px]  overflow-hidden'
+			className='bg-center bg-cover bg-no-repeat overflow-hidden h-screen'
 		>
 			{children}
 			<div className='absolute inset-0 bg-gradient-to-b from-transparent from-35% via-dark-background via-[75%] to-dark-background'></div>

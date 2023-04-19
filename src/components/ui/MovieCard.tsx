@@ -1,6 +1,6 @@
 import { MovieResponse } from '@/types/tmdb';
 import { cn } from '@/utils/cn';
-import { formatDate } from '@/utils/formaters';
+import { formatDate, slugify } from '@/utils/formaters';
 import { getMoviePath } from '@/utils/renderBg';
 import { VariantProps, cva } from 'class-variance-authority';
 import Image from 'next/image';
@@ -32,7 +32,7 @@ const MovieInfo = ({
 					{formatDate(movie.release_date.toString())}
 				</span>
 			</div>
-			<Ratings movie={movie} className='flex items-center gap-2'/>
+			<Ratings movie={movie} className='flex items-center gap-2' />
 		</div>
 	);
 };
@@ -76,7 +76,7 @@ const MovieCard = forwardRef<HTMLDivElement, CardProps>(
 		return (
 			//todo check div with props and ref
 			<Link
-				href={route}
+				href={slugify(route)}
 				className={cn(cardVariants({ className }), {
 					'after:hover:border-accent-default after:border-2 after:border-transparent':
 						!isCurrentSlide,

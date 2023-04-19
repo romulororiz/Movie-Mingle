@@ -46,9 +46,7 @@ const Heading: FC<HeadingProps<any>> = ({
 			{...props}
 			aria-level={getAriaLevel(Element)}
 		>
-			{icon && (
-				<Icon name={icon} color={color} className='mr-2 relative -top-0.5' />
-			)}
+			{icon && <Icon name={icon} color={color} className='mr-2' />}
 			{title}
 		</Element>
 	);

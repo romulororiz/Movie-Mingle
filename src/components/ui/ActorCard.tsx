@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { HTMLAttributes, forwardRef } from 'react';
 import Heading from './Heading';
 import Icon from '../Icon';
-import { normalizePopularityScore } from '@/utils/formaters';
+import { normalizePopularityScore, slugify } from '@/utils/formaters';
 import Link from 'next/link';
 import { getActorPath } from '@/utils/renderBg';
 
@@ -42,7 +42,7 @@ const ActorCard = forwardRef<HTMLDivElement, CardProps>(
 
 		return (
 			<Link
-				href={route}
+				href={slugify(route)}
 				className={cn(cardVariants({ className }), 'grow')}
 				style={getActorPath(actor)}
 			>

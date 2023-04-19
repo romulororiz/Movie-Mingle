@@ -14,6 +14,7 @@ import Ratings from '../ui/Ratings';
 import { isLaptop, isMobile } from '@/utils/breakpoints';
 import useWindowSize from '@/hooks/useWindowSize';
 import SeeMore from '../ui/SeeMore';
+import Paragraph from '../ui/Paragraph';
 
 const BackgroundImage = ({
 	src,
@@ -48,15 +49,10 @@ const MovieInfo = ({ movie }: { movie: MovieResponse }) => {
 				title={movie.title}
 				className='text-2xl md:text-4xl'
 			/>
-			<div className='flex flex-col items-start gap-y-2 max-w-lg text-justify'>
-				<Heading
-					element='h3'
-					title={
-						movie.overview.slice(0, isMobile(windowSize) ? 120 : 200) + '...'
-					}
-					size='small'
-					className='text-md font-normal'
-				/>
+			<div className='flex flex-col items-start max-w-lg text-justify'>
+				<Paragraph className='text-md font-normal text-left' size='sm'>
+					{movie.overview.slice(0, isMobile(windowSize) ? 120 : 200) + '...'}
+				</Paragraph>
 				<div className='flex gap-6 justify-between w-full'>
 					<div className='flex gap-4 items-center'>
 						<Heading
