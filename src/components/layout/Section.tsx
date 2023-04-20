@@ -3,10 +3,7 @@
 import { cn } from '@/utils/cn';
 import { cva } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
-import Icon from '../Icon';
 import Heading from '../ui/Heading';
-import { Button } from '../ui/Button';
-import Link from 'next/link';
 import SeeMore from '../ui/SeeMore';
 
 interface SectionProps extends HTMLAttributes<HTMLDivElement> {
@@ -54,14 +51,15 @@ const Section: FC<SectionProps> = ({
 				<Heading
 					title={title}
 					element='h1'
+					size='large'
 					icon={icon}
-					className={cn('flex w-fit', {
+					className={cn({
 						'top-2 md:top-14 relative': !container,
 					})}
 				/>
 
 				{/* top see more */}
-				{seeMore && (
+				{/* {seeMore && (
 					<SeeMore
 						route={route}
 						container={container}
@@ -71,7 +69,7 @@ const Section: FC<SectionProps> = ({
 							hidden: container,
 						})}
 					/>
-				)}
+				)} */}
 			</div>
 
 			<div

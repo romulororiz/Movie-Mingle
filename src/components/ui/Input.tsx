@@ -1,9 +1,9 @@
 'use client';
+
+import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
 import { cn } from '@/utils/cn';
 import { forwardRef } from 'react';
 import Icon from '../Icon';
-import { isMobile } from '@/utils/breakpoints';
-import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
 
 export interface InputProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {}

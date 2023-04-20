@@ -3,10 +3,11 @@ import { VariantProps, cva } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
 import Icon from '../Icon';
 
-const headingVariants = cva(' text-white font-semibold tracking-tighter', {
+const headingVariants = cva('flex items-center text-white font-semibold tracking-tighter', {
 	variants: {
 		size: {
 			default: 'text-2xl md:text-3xl',
+			large: 'text-2xl md:text-3xl lg:text-4xl',
 			medium: 'text-md md:text-lg',
 			small: 'text-sm md:text-md',
 		},

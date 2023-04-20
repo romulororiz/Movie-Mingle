@@ -92,7 +92,7 @@ export default function Home() {
 
 			<Section
 				icon='Users'
-				className='mt-12 md:mt-16'
+				className='mt-12 md:mt-20'
 				title='Popular Actors'
 				route='/actors'
 				isActor={true}
@@ -118,7 +118,7 @@ export default function Home() {
 
 			<Section
 				icon='Flame'
-				className='mt-12 md:mt-28'
+				className='mt-12 md:mt-40'
 				title='Trending this week'
 				route='/movies/trending'
 			>
@@ -142,7 +142,7 @@ export default function Home() {
 
 			<Section
 				icon='Clapperboard'
-				className='mt-12 md:mt-28'
+				className='mt-12 md:mt-40'
 				title='Coming up next'
 				route='/movies/coming-up'
 			>
@@ -166,7 +166,7 @@ export default function Home() {
 
 			<Section
 				icon='Star'
-				className='mt-12 md:mt-28 mb-24'
+				className='mt-12 md:mt-40 mb-24'
 				title='Best of the best'
 				route='/movies/top-rated'
 			>

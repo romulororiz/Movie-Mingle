@@ -2,20 +2,19 @@ import * as React from 'react';
 import { VariantProps, cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
 
-export const paragraphVariants = cva(
-	'mb-2 text-center leading-3',
-	{
-		variants: {
-			size: {
-				default: 'text-base sm:text-lg',
-				sm: 'text-sm sm:text-base',
-			},
+export const paragraphVariants = cva('text-center max-w-prose leading-3', {
+	variants: {
+		size: {
+			default: 'text-md sm:text-lg',
+			sm: 'text-sm md:text-md',
+			md: 'text-sm lg:text-lg',
+			lg: 'text-lg md:text-xl',
 		},
-		defaultVariants: {
-			size: 'default',
-		},
-	}
-);
+	},
+	defaultVariants: {
+		size: 'default',
+	},
+});
 
 interface ParagraphProps
 	extends React.HTMLAttributes<HTMLParagraphElement>,

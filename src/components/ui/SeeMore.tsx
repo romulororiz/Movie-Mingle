@@ -20,20 +20,18 @@ const SeeMore: FC<SeeMoreProps> = ({
 	...props
 }) => {
 	return (
-		<div className={className} {...props}>
-			<Link href={route}>
-				<Button variant='ghost' className='ml-4 md:ml-0 pr-0 group'>
-					See More
-					{icon && (
-						<Icon
-							name='ArrowRight'
-							size={16}
-							className='ml-2 group-hover:animate-slideInOut'
-						/>
-					)}
-				</Button>
-			</Link>
-		</div>
+		<Link href={route} {...props} className={className}>
+			<Button variant='ghost' className='pr-0 group'>
+				See More
+				{icon && (
+					<Icon
+						name='ArrowRight'
+						size={16}
+						className='ml-2 group-hover:animate-slideInOut'
+					/>
+				)}
+			</Button>
+		</Link>
 	);
 };
 

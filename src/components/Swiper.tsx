@@ -80,7 +80,19 @@ const SwiperComponent = ({
 	};
 
 	return (
-		<div className='relative'>
+		<div
+			className='relative 
+					  after:hidden after:xs:block after:absolute 
+					  after:top-0 after:bottom-0 after:left-0 after:w-20 
+					  after:bg-gradient-to-r after:from-dark-background 
+					  after:from-0% after:via-dark-background 
+					  after:via-20% after:z-[65]
+					  before:hidden before:xs:block before:absolute 
+					  before:top-0 before:bottom-0 before:right-0 before:w-20 
+					  before:bg-gradient-to-l before:from-dark-background 
+					  before:from-0% before:via-dark-background 
+					  before:via-20% before:z-[65]'
+		>
 			<Swiper
 				{...getSwiperOptions(windowSize)}
 				onSlideChange={handleSlideChange}
@@ -105,16 +117,6 @@ const SwiperComponent = ({
 
 			{/* play / pause based on actual state */}
 			<PlayButton isPlaying={isPlaying} onClick={stopPlayAutoplay} />
-
-			{/* gradient to hide the overflow */}
-			<div
-				className='hidden xs:block absolute top-0 bottom-0 left-0 w-20 md:left-0 bg-gradient-to-r
-						 from-dark-background from-0% via-dark-background via-20% z-[65]'
-			></div>
-			<div
-				className='hidden xs:block absolute top-0 bottom-0 right-0 w-20 md:right-0 bg-gradient-to-l
-						 from-dark-background from-0% via-dark-background via-20% z-[65]'
-			></div>
 		</div>
 	);
 };

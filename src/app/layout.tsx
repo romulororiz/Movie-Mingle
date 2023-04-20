@@ -22,7 +22,7 @@ export default function RootLayout({
 
 	return (
 		<html lang='en' className={(cn('bg-dark-background'), inter.className)}>
-			<body className={cn('text-white bg-dark-background antialiased')}>
+			<body className={cn('text-slate-200 bg-dark-background antialiased')}>
 				<Providers>
 					<Sidebar />
 

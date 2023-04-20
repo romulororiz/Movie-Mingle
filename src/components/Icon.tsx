@@ -15,6 +15,13 @@ import {
 	Users,
 	Play,
 	Pause,
+	Calendar,
+	User,
+	Settings,
+	LogOut,
+	Award,
+	Home,
+	LogIn,
 } from 'lucide-react';
 
 export const lucideIcons: Record<string, LucideIcon> = {
@@ -29,6 +36,13 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	Users,
 	Play,
 	Pause,
+	Calendar,
+	User,
+	Settings,
+	LogOut,
+	Award,
+	Home,
+	LogIn,
 };
 
 import { FC, SVGProps } from 'react';

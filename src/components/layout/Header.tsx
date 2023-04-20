@@ -16,6 +16,8 @@ import Paragraph from '../ui/Paragraph';
 import Ratings from '../ui/Ratings';
 import SeeMore from '../ui/SeeMore';
 import SkeletonHeader from '../ui/SkeletonHeader';
+import Icon from '../Icon';
+import { cn } from '@/utils/cn';
 
 const BackgroundImage = ({
 	src,
@@ -29,9 +31,13 @@ const BackgroundImage = ({
 	return (
 		<div
 			key={imageKey}
-			className={`absolute inset-0 h-[750px] bg-cover bg-no-repeat bg-center transition-opacity duration-700 ${
-				active ? 'animate-fadeIn' : 'animate-fadeOut'
-			}`}
+			className={cn(
+				'absolute inset-0 h-[750px] bg-cover bg-no-repeat bg-center transition-opacity duration-700',
+				{
+					'animate-fadeIn': active,
+					'animate-fadeOut': !active,
+				}
+			)}
 			style={{ backgroundImage: src }}
 		></div>
 	);
@@ -41,30 +47,21 @@ const MovieInfo = ({ movie }: { movie: MovieResponse }) => {
 	const windowSize = useWindowSize();
 
 	return (
-		<div
-			className='absolute max-w-7xl left-0 right-0 container w-full top-[45%] md:top-[40%] flex flex-col items-start gap-4 opacity-80 max-h-[300px]
-		'
-		>
-			<Heading
-				element='h1'
-				title={movie.title}
-				className='text-2xl md:text-4xl'
-			/>
-			<div className='flex flex-col items-start max-w-lg text-justify'>
-				<Paragraph className='text-md font-normal text-left' size='sm'>
+		<div className='absolute max-w-7xl left-0 right-0 container top-[40%] flex flex-col justify-between gap-4 opacity-80 h-max z-[80]'>
+			<Heading element='h1' title={movie.title} />
+			<div className='flex flex-col max-w-lg text-justify'>
+				<Paragraph className='font-normal text-left' size='md'>
 					{movie.overview.slice(0, isMobile(windowSize) ? 120 : 200) + '...'}
 				</Paragraph>
-				<div className='flex gap-6 justify-between w-full'>
-					<div className='flex gap-4 items-center'>
-						<Heading
-							element='h3'
-							title={formatDate(movie.release_date.toString())}
-							size='small'
-							className='text-md'
-						/>
+				<div className='flex gap-8 mt-2'>
+					<div className='flex gap-3 items-center'>
+						<span className='flex items-center gap-1 text-sm md:text-md'>
+							<Icon name='Calendar' size={20} />
+							{formatDate(movie.release_date.toString())}
+						</span>
 						<Ratings movie={movie} className='flex items-center gap-2' />
 					</div>
-					<SeeMore route={`/movies/${slugify(movie.title)}`} icon={false} />
+					<SeeMore route={`/movies/${slugify(movie.title)}`} icon={true} />
 				</div>
 			</div>
 		</div>
@@ -106,7 +103,12 @@ export const Header = () => {
 	if (!isMovieResponse(popularMovies)) return null;
 
 	return (
-		<header className='h-[750px] relative overflow-hidden ml-0 md:ml-64'>
+		<header
+			className='h-[750px] relative overflow-hidden ml-0 md:ml-64 
+						 after:absolute after:inset-0 after:bg-gradient-to-b 
+						 after:via-dark-background after:from-transparent
+						 after:from-35% after:via-85% after:to-dark-background'
+		>
 			{previousImageIndex !== null && (
 				<BackgroundImage
 					imageKey={`prev-${previousImageIndex}`}
@@ -125,7 +127,6 @@ export const Header = () => {
 				}
 				active={true}
 			/>
-			<div className='absolute inset-0 bg-gradient-to-b from-transparent from-35% via-dark-background via-[80%] to-dark-background'></div>
 
 			<MovieInfo movie={popularMovies[currentImageIndex]} />
 		</header>
