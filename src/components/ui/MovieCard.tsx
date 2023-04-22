@@ -21,7 +21,7 @@ const MovieInfo = ({ movie }: { movie: MovieResponse }) => {
 						title={movie.title}
 						size='small'
 						id={`movie-title-${movie.id}`}
-						className='hover:text-accent-default transition truncate'
+						className='hover:text-primaryAccent-default transition truncate'
 					/>
 				</Link>
 				<span className='text-sm flex gap-1 items-center justify-start'>
@@ -59,7 +59,7 @@ const MovieCard: FC<CardProps> = ({
 }) => {
 	const cardClasses = cva(
 		cn(
-			'transition shadow-black shadow-md duration-700 cursor-pointer relative aspect-[2/3] overflow-hidden w-full h-full rounded-md after:rounded-md after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-default',
+			'transition shadow-black shadow-md duration-700 cursor-pointer relative aspect-[2/3] overflow-hidden w-full h-full rounded-md after:rounded-md after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primaryAccent-default',
 			{
 				'w-auto h-full': isSlider,
 			}

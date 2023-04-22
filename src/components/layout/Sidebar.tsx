@@ -15,7 +15,10 @@ export const Sidebar = () => {
 			{/* //todo create component burger menu */}
 			<div className='container px-6 flex flex-col gap-8 w-full '>
 				{/* logo - CHANGES PENDENT */}
-				<Link href='/' className='flex relative font-bold text-accent-default '>
+				<Link
+					href='/'
+					className='flex relative font-bold text-primaryAccent-default '
+				>
 					<h1 className='text-4xl'>MOVIE</h1>
 					<small className='text-lg absolute right-14 -bottom-5'>Mingle</small>
 				</Link>

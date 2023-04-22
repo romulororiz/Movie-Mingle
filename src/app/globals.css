@@ -1,25 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* custom */
-.spotlight {
-  @apply bg-gradient-to-r from-transparent via-slate-100/50 to-transparent rounded-full absolute -z-[1] blur-[120px];
-  @apply w-full h-40;
-  @apply left-0 right-0 top-20 mx-auto;
-  @apply pointer-events-none;
-}
-
-/* Swiper */
-.swiper {
-  @apply w-full h-auto pt-0 pb-8 md:py-20;
-}
-
-.swiper .swiper-pagination-bullet {
-  @apply w-2 h-2 bg-primaryAccent-default
-}
-
-/* Menu Shadcn */
+ 
 @layer base {
   :root {
     --background: 0 0% 100%;

@@ -1,91 +1,96 @@
-export const navItems = [
-	{
-		section: 'Discover',
-		items: [
-			{
-				title: 'Home',
-				path: '/',
-				icon: 'Home',
-				requiressAuth: false,
-			},
-			{
-				title: 'Popular Movies',
-				path: '/movies/popular',
-				icon: 'Star',
-				requiressAuth: false,
-			},
-			// {
-			//     title: 'For You',
-			//     path: '/movies/for-you',
-			//     icon: 'ThumbsUp',
-			//     requireAuth: true,
-			// },
-			{
-				title: 'Popular Actors',
-				path: '/actors/popular',
-				icon: 'Users',
-				requiressAuth: false,
-			},
-			{
-				title: 'Trending',
-				path: '/movies/trending',
-				icon: 'Flame',
-				requiressAuth: false,
-			},
-			{
-				title: 'Coming Up',
-				path: '/movies/coming-up',
-				icon: 'Clapperboard',
-				requiressAuth: false,
-			},
-			{
-				title: 'Best of the best',
-				path: '/movies/top-rated',
-				icon: 'Award',
-				requiressAuth: false,
-			},
-		],
-	},
-	{
-		section: 'Social',
-		items: [
-			{
-				title: 'Friends',
-				path: '/friends',
-				icon: 'Users',
-				requiresAuth: true,
-			},
-		],
-	},
-	{
-		section: 'My Account',
-		items: [
-			{
-				title: 'Profile',
-				path: '/profile',
-				icon: 'User',
-				requiresAuth: true,
-			},
-			{
-				title: 'Settings',
-				path: '/settings',
-				icon: 'Settings',
-				requiresAuth: true,
-			},
-			{
-				title: 'Logout',
-				path: '/logout',
-				icon: 'LogOut',
-				requiresAuth: true,
-			},
+import { HeaderConfig } from '@/types';
 
-			// render login instead of my account section if user is not logged in
-			{
-				title: 'Login',
-				path: '/login',
-				icon: 'LogIn',
-				requiresAuth: false,
-			},
-		],
-	},
-];
+export const headerConfig: HeaderConfig = {
+	mainNav: [
+		{
+			section: 'Discover',
+			items: [
+				{
+					title: 'Home',
+					href: '/',
+					icon: 'Home',
+					requiresAuth: false,
+				},
+				{
+					title: 'Popular Movies',
+					href: '/movies/popular',
+					icon: 'Star',
+					requiresAuth: false,
+				},
+				// {
+				//     title: 'For You',
+				//     href: '/movies/for-you',
+				//     icon: 'ThumbsUp',
+				//     requireAuth: true,
+				// },
+				{
+					title: 'Popular Actors',
+
+					href: '/actors/popular',
+					icon: 'Users',
+					requiresAuth: false,
+				},
+				{
+					title: 'Trending',
+					href: '/movies/trending',
+					icon: 'Flame',
+					requiresAuth: false,
+				},
+				{
+					title: 'Coming Up',
+					href: '/movies/coming-up',
+					icon: 'Clapperboard',
+					requiresAuth: false,
+				},
+				{
+					title: 'Best of the best',
+					href: '/movies/top-rated',
+					icon: 'Award',
+					requiresAuth: false,
+				},
+			],
+		},
+		{
+			section: 'Social',
+			items: [
+				{
+					title: 'Friends',
+					href: '/friends',
+					icon: 'Users',
+					requiresAuth: true,
+				},
+			],
+		},
+		// {
+		// 	section: 'My Account',
+		// 	items: [
+		// 		{
+		// 			title: 'Profile',
+		// 			href: '/profile',
+		// 			icon: 'User',
+		// 			requiresAuth: true,
+		// 		},
+		// 		{
+		// 			title: 'Settings',
+		// 			href: '/settings',
+		// 			icon: 'Settings',
+		// 			requiresAuth: true,
+		// 		},
+		// 		{
+		// 			title: 'Logout',
+		// 			href: '/logout',
+		// 			icon: 'LogOut',
+		// 			requiresAuth: true,
+		// 		},
+
+		// 		// render login instead of my account section if user is not logged in
+		// 		{
+		// 			title: 'Login',
+		// 			href: '/login',
+		// 			icon: 'LogIn',
+		// 			requiresAuth: false,
+		// 		},
+		// 	],
+		// },
+	],
+};

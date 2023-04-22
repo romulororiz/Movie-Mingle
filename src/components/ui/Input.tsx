@@ -22,7 +22,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 				/>
 				<input
 					className={cn(
-						'flex w-60 h-8 rounded-lg border border-accent-default bg-dark-background/50 backdrop-blur-sm truncate pl-4 pr-9 py-4 text-sm placeholder:text-slate-400 disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none',
+						'flex w-60 h-8 rounded-lg border border-primaryAccent-default bg-dark-background/50 backdrop-blur-sm truncate pl-4 pr-9 py-4 text-sm placeholder:text-slate-400 disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none',
 						className
 					)}
 					ref={ref}

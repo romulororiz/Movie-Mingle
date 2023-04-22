@@ -41,7 +41,7 @@ const SwiperComponent = ({
 
 	const getMovieCardClass = (index: number) => {
 		if (index === activeIndex)
-			return 'border-2 border-accent-default after:bg-transparent z-50 md:scale-125';
+			return 'border-2 border-primaryAccent-default after:bg-transparent z-50 md:scale-125';
 		return '';
 	};
 

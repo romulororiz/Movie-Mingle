@@ -20,9 +20,9 @@ const NavItem: FC<NavItemProps> = ({ title, icon, path, ...props }) => {
 		<Link
 			href={path}
 			className={cn(
-				'flex items-center w-full pl-2 gap-3 transition relative hover:text-accent-default',
+				'flex items-center w-full pl-2 gap-3 transition relative hover:text-primaryAccent-default',
 				{
-					'after:absolute after:w-1 after:h-5 after:bg-accent-default after:-right-6 transition-all duration-300 ease-in-out':
+					'after:absolute after:w-1 after:h-5 after:bg-primaryAccent-default after:-right-6 transition-all duration-300 ease-in-out':
 						isActive,
 				}
 			)}

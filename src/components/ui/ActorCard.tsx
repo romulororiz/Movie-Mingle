@@ -29,7 +29,7 @@ const ActorInfo = ({ actor }: { actor: PeopleResponse }) => {
 };
 
 const cardClasses = cva(
-	'transition shadow-black shadow-md duration-700 cursor-pointer relative aspect-[2/3] overflow-hidden w-full h-full rounded-md after:rounded-md after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-default'
+	'transition shadow-black shadow-md duration-700 cursor-pointer relative aspect-[2/3] overflow-hidden w-full h-full rounded-md after:rounded-md after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primaryAccent-default'
 );
 
 interface CardProps
@@ -45,12 +45,7 @@ const generateArialLabel = (actor: PeopleResponse) => {
 	return `${actor.name}, Rating: ${actor.popularity}`;
 };
 
-const ActorCard: FC<CardProps> = ({
-	className,
-	actor,
-	isLoading,
-	route,
-}) => {
+const ActorCard: FC<CardProps> = ({ className, actor, isLoading, route }) => {
 	if (!actor) return null;
 
 	return (

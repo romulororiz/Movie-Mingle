@@ -8,13 +8,15 @@ const buttonVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: 'bg-accent-default text-dark-primary hover:bg-opacity-80',
+				default:
+					'bg-primaryAccent-default text-dark-primary hover:bg-opacity-80',
 				destructive: 'bg-red-500 text-dark-primary hover:bg-red-600',
 				outline:
-					'bg-transparent text-accent-default/50 hover:text-accent-default border border-accent-default/50 hover:border-accent-default',
-				subtle: 'bg-dark-background text-accent-default hover:bg-opacity-20',
-				ghost: 'bg-transparent hover:text-accent-default',
-				link: 'bg-transparent underline-offset-4 hover:underline text-accent-default hover:bg-transparent',
+					'bg-transparent text-primaryAccent-default/50 hover:text-primaryAccent-default border border-primaryAccent-default/50 hover:border-primaryAccent-default',
+				subtle:
+					'bg-dark-background text-primaryAccent-default hover:bg-opacity-20',
+				ghost: 'bg-transparent hover:text-primaryAccent-default',
+				link: 'bg-transparent underline-offset-4 hover:underline text-primaryAccent-default hover:bg-transparent',
 			},
 			size: {
 				default: 'h-10 py-2 px-4',
