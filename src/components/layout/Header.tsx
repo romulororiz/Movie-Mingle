@@ -7,12 +7,8 @@ export const Header = async () => {
 	const session = await getServerSession(authOptions);
 
 	return (
-		// todo header bg after scroll and mobile menu
 		<div className='fixed h-20 z-[80] top-0 left-0 w-full'>
 			<div className='container max-w-7xl flex justify-between items-center gap-12 h-full mx-auto w-full'>
-				{/* Search Input Component */}
-				{/* <Input placeholder='Search movies...' /> */}
-
 				{/* Logo */}
 				<Link href='/' className='flex relative font-bold text-slate-200'>
 					<h1 className='text-4xl'>LOGO</h1>

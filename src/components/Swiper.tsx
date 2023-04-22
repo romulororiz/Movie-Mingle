@@ -61,14 +61,14 @@ const SwiperComponent = ({
 		<div className='relative'>
 			<Overlay
 				className='after:hidden after:sm:block after:absolute 
-					  after:-top-2 md:after:top-0 after:bottom-0 after:left-0 after:w-20 
+					  after:top-2 after:bottom-0 after:left-0 after:w-20 
 					  after:bg-gradient-to-r after:from-dark-background 
 					  after:from-0% after:via-dark-background 
 					  after:via-20% after:z-[2]'
 			/>
 			<Overlay
 				className='before:hidden before:sm:block before:absolute 
-					  before:-top-2 md:before:top-0 before:bottom-0 before:right-0 before:w-20 
+					  before:top-2 before:bottom-0 before:right-0 before:w-20 
 					  before:bg-gradient-to-l before:from-dark-background 
 					  before:from-0% before:via-dark-background 
 					  before:via-20% before:z-[2]'

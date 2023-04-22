@@ -15,16 +15,20 @@ import useBgChange, { MovieInfo } from '@/hooks/useSliderChange';
 import useTMDB from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
 import SkeletonHero from '@/components/ui/SkeletonHero';
+import useScrollPosition from '@/hooks/useScrollPosition';
 
 export default function Home() {
 	const { setActiveIndex } = useAppState();
 	const { currentImageIndex, previousImageIndex } = useBgChange();
 	const windowSize = useWindowSize();
+	const scrollPosition = useScrollPosition();
 
 	const { topRated, popularMovies, nowPlaying, upcoming, popularActors } =
 		useTMDB();
 
 	if (!popularMovies.data) return null;
+
+	console.log('scrollPosition', scrollPosition);
 
 	return (
 		<div className='min-h-screen'>

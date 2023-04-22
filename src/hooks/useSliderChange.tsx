@@ -16,7 +16,7 @@ export const MovieInfo = ({ movie }: { movie: MovieResponse }) => {
 			<Heading
 				element='h1'
 				title={movie.title}
-				className='h-fit'
+				className='h-fit mb-2'
 				size='large'
 			/>
 			<div className='flex flex-col max-w-lg'>
