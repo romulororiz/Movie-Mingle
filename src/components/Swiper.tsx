@@ -3,34 +3,13 @@
 import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
 import { getSwiperOptions } from '@/lib/swiper';
 import { MovieResponse } from '@/types/tmdb';
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Swiper as SwiperClass } from 'swiper';
-import { Swiper, SwiperSlide, SwiperRef } from 'swiper/react';
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
+import PlayBtnSwiper from './PlayBtnSwiper';
 import MovieCard from './ui/MovieCard';
-import Icon from './Icon';
-import { RenderSkeletonCards } from './ui/SkeletonCard';
-
-const PlayButton = ({
-	isPlaying,
-	onClick,
-}: {
-	isPlaying: boolean;
-	onClick: () => void;
-}) => {
-	return (
-		<div
-			onClick={onClick}
-			className='absolute bottom-0 md:bottom-8 right-0 z-[80] cursor-pointer max-w-7xl mx-auto w-full container left-0 flex justify-end'
-		>
-			{isPlaying ? (
-				<Icon name='Pause' fill='white' color='white' size={26} />
-			) : (
-				<Icon name='Play' fill='white' color='white' size={26} />
-			)}
-		</div>
-	);
-};
+import Overlay from './ui/Overlay';
 
 type SwiperComponentProps = {
 	movies: MovieResponse[];
@@ -40,7 +19,6 @@ type SwiperComponentProps = {
 
 const SwiperComponent = ({
 	movies,
-	isLoading,
 	onActiveIndexChange,
 }: SwiperComponentProps) => {
 	const [activeIndex, setActiveIndex] = useState(0);
@@ -80,19 +58,21 @@ const SwiperComponent = ({
 	};
 
 	return (
-		<div
-			className='relative 
-					  after:hidden after:xs:block after:absolute 
-					  after:top-0 after:bottom-0 after:left-0 after:w-20 
+		<div className='relative'>
+			<Overlay
+				className='after:hidden after:sm:block after:absolute 
+					  after:-top-2 md:after:top-0 after:bottom-0 after:left-0 after:w-20 
 					  after:bg-gradient-to-r after:from-dark-background 
 					  after:from-0% after:via-dark-background 
-					  after:via-20% after:z-[65]
-					  before:hidden before:xs:block before:absolute 
-					  before:top-0 before:bottom-0 before:right-0 before:w-20 
+					  after:via-20% after:z-[2]'
+			/>
+			<Overlay
+				className='before:hidden before:sm:block before:absolute 
+					  before:-top-2 md:before:top-0 before:bottom-0 before:right-0 before:w-20 
 					  before:bg-gradient-to-l before:from-dark-background 
 					  before:from-0% before:via-dark-background 
-					  before:via-20% before:z-[65]'
-		>
+					  before:via-20% before:z-[2]'
+			/>
 			<Swiper
 				{...getSwiperOptions(windowSize)}
 				onSlideChange={handleSlideChange}
@@ -109,16 +89,16 @@ const SwiperComponent = ({
 							className={getMovieCardClass(index)}
 							isCurrentSlide={index === activeIndex}
 							isSlider={true}
-							route='/#'
+							route='#'
 						/>
 					</SwiperSlide>
 				))}
 			</Swiper>
 
 			{/* play / pause based on actual state */}
-			<PlayButton isPlaying={isPlaying} onClick={stopPlayAutoplay} />
+			<PlayBtnSwiper isPlaying={isPlaying} onClick={stopPlayAutoplay} />
 		</div>
 	);
 };
 
-export default SwiperComponent;
+export default React.memo(SwiperComponent);

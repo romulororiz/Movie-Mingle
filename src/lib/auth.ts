@@ -3,21 +3,6 @@ import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from '@/lib/db';
 
-function getGoogleCredentials(): { clientId: string; clientSecret: string } {
-	const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-	const clientSecret = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
-
-	if (!clientId || clientId.length === 0) {
-		throw new Error('Missing GOOGLE_CLIENT_ID');
-	}
-
-	if (!clientSecret || clientSecret.length === 0) {
-		throw new Error('Missing GOOGLE_CLIENT_SECRET');
-	}
-
-	return { clientId, clientSecret };
-}
-
 export const authOptions: NextAuthOptions = {
 	adapter: PrismaAdapter(prisma),
 	session: {
@@ -29,7 +14,8 @@ export const authOptions: NextAuthOptions = {
 	providers: [
 		// todo google provider
 		GoogleProvider({
-			...getGoogleCredentials(),
+			clientId: process.env.GOOGLE_CLIENT_ID || '',
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
 		}),
 	],
 	callbacks: {

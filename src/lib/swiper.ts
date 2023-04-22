@@ -3,36 +3,31 @@ import { Autoplay, Pagination } from 'swiper';
 
 export const getSwiperOptions = (windowSize: WindowSize) => {
 	let slidesPerView;
-	let spaceBetween;
+	let spaceBetween = 15;
 
 	switch (true) {
-		case windowSize.width! < 576:
+		case windowSize.width! < 440:
 			slidesPerView = 1;
-			spaceBetween = -45;
+		case windowSize.width! < 576:
+			slidesPerView = 2;
 			break;
 		case windowSize.width! < 640:
-			slidesPerView = 2;
-			spaceBetween = 15;
+			slidesPerView = 3;
 			break;
 		case windowSize.width! < 768:
-			slidesPerView = 2;
-			spaceBetween = 15;
+			slidesPerView = 3;
 			break;
 		case windowSize.width! < 1024:
-			slidesPerView = 2;
-			spaceBetween = 15;
+			slidesPerView = 4;
 			break;
 		case windowSize.width! < 1280:
-			slidesPerView = 3;
-			spaceBetween = 15;
+			slidesPerView = 5;
 			break;
 		case windowSize.width! < 1536:
-			slidesPerView = 4;
-			spaceBetween = 15;
+			slidesPerView = 6;
 			break;
 		default:
-			slidesPerView = 5;
-			spaceBetween = 15;
+			slidesPerView = 6;
 	}
 
 	return {

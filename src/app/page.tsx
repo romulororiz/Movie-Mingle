@@ -1,85 +1,78 @@
 'use client';
 
+import { CardPerView } from '@/utils/cardPerView';
+import { getMoviePath } from '@/utils/getPath';
+import { isMovieResponse } from '@/utils/typeGuards';
+import { RenderSkeletonCards } from '@/components/ui/SkeletonCard';
+import { useAppState } from '@/context/stateContext';
+import HeroBg from '@/components/ui/HeroBg';
 import SwiperComponent from '@/components/Swiper';
 import Section from '@/components/layout/Section';
 import ActorCard from '@/components/ui/ActorCard';
 import MovieCard from '@/components/ui/MovieCard';
-import { RenderSkeletonCards } from '@/components/ui/SkeletonCard';
-import { useAppState } from '@/context/stateContext';
-import { fetchFromHandler } from '@/helpers/tmdb';
-import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
-import { CardPerView } from '@/utils/cardPerView';
-import { isMovieResponse, isPeopleResponse } from '@/utils/typeGuards';
-import { useQuery } from '@tanstack/react-query';
+import Overlay from '@/components/ui/Overlay';
+import useBgChange, { MovieInfo } from '@/hooks/useSliderChange';
+import useTMDB from '@/hooks/useTMDB';
+import useWindowSize from '@/hooks/useWindowSize';
+import SkeletonHero from '@/components/ui/SkeletonHero';
 
 export default function Home() {
 	const { setActiveIndex } = useAppState();
-	const { sidebarOpen } = useAppState();
+	const { currentImageIndex, previousImageIndex } = useBgChange();
+	const windowSize = useWindowSize();
 
-	const windowSize: WindowSize = useWindowSize();
+	const { topRated, popularMovies, nowPlaying, upcoming, popularActors } =
+		useTMDB();
 
-	const {
-		data: topRated,
-		isLoading: isLoadingTopRated,
-		error: errorTopRated,
-	} = useQuery({
-		queryKey: ['topRated'],
-		queryFn: () => fetchFromHandler('top_rated'),
-	});
-
-	const {
-		data: popularMovies,
-		isLoading: isLoadingPopularMovies,
-		error: errorPopularMovies,
-	} = useQuery({
-		queryKey: ['popularMovies'],
-		queryFn: () => fetchFromHandler('popular'),
-	});
-
-	const {
-		data: nowPlaying,
-		isLoading: isLoadingNowPlaying,
-		error: errorNowPlaying,
-	} = useQuery({
-		queryKey: ['nowPlaying'],
-		queryFn: () => fetchFromHandler('now_playing'),
-	});
-
-	const {
-		data: upcoming,
-		isLoading: isLoadingUpcoming,
-		error: errorUpcoming,
-	} = useQuery({
-		queryKey: ['upcoming'],
-		queryFn: () => fetchFromHandler('upcoming'),
-	});
-
-	const {
-		data: popularActors,
-		isLoading: isLoadingPopularActors,
-		error: errorPopularActors,
-	} = useQuery({
-		queryKey: ['popularActors'],
-		queryFn: () => fetchFromHandler('popular_actors'),
-	});
-
-	const isLoading = true;
+	if (!popularMovies.data) return null;
 
 	return (
 		<div className='min-h-screen'>
+			{!popularMovies.isLoading ? (
+				<section className='h-[750px] relative overflow-hidden'>
+					<Overlay
+						className='bg-gradient-to-b from-dark-background/40 from-35%
+						   via-dark-background via-45% md:via-65% to-dark-background z-[1]'
+					/>
+					{
+						<HeroBg
+							imageKey={`prev-${previousImageIndex}`}
+							src={
+								getMoviePath(popularMovies.data[previousImageIndex], {
+									isBG: true,
+								}).backgroundImage
+							}
+						/>
+					}
+					<HeroBg
+						imageKey={`curr-${currentImageIndex}`}
+						src={
+							getMoviePath(popularMovies.data[currentImageIndex], {
+								isBG: true,
+							}).backgroundImage
+						}
+					/>
+
+					{popularMovies.data[currentImageIndex] && (
+						<MovieInfo movie={popularMovies.data[currentImageIndex]} />
+					)}
+				</section>
+			) : (
+				<SkeletonHero />
+			)}
+
 			<Section
 				icon='ThumbsUp'
 				title='Recommended' // change upon user preferences
-				className='-mt-[13rem] z-50'
-				sidebarOpen={sidebarOpen}
+				className='md:-mt-[20rem] -mt-[28rem] z-50'
 				container={false}
 				route='/movies/popular'
 			>
-				{!isLoadingPopularMovies && isMovieResponse(popularMovies) ? (
+				{!popularMovies.isLoading ? (
 					<SwiperComponent
-						movies={popularMovies}
+						movies={popularMovies.data}
 						onActiveIndexChange={setActiveIndex}
-						isLoading={isLoadingPopularMovies}
+						isLoading={popularMovies.isLoading}
 					/>
 				) : (
 					<RenderSkeletonCards
@@ -97,8 +90,8 @@ export default function Home() {
 				route='/actors'
 				isActor={true}
 			>
-				{!isLoadingPopularActors && isPeopleResponse(popularActors) ? (
-					popularActors
+				{!popularActors.isLoading ? (
+					popularActors.data
 						.map(actor => (
 							<ActorCard
 								key={`actor-${actor.id}`}
@@ -106,7 +99,10 @@ export default function Home() {
 								route={`/actors/${actor.name}`}
 							/>
 						))
-						.slice(0, CardPerView(windowSize))
+						.slice(
+							0,
+							CardPerView(windowSize, { isActor: true, isMovie: false })
+						)
 				) : (
 					<RenderSkeletonCards
 						windowSize={windowSize}
@@ -122,19 +118,16 @@ export default function Home() {
 				title='Trending this week'
 				route='/movies/trending'
 			>
-				{!isLoadingNowPlaying && isMovieResponse(nowPlaying) ? (
-					nowPlaying
+				{!nowPlaying.isLoading ? (
+					nowPlaying.data
 						.map(movie => (
 							<MovieCard
-								key={`actor-${movie.id}`}
+								key={`movie-${movie.id}`}
 								movie={movie}
 								route={`/movies/${movie.title}`}
 							/>
 						))
-						.slice(
-							0,
-							CardPerView(windowSize, { isActor: false, isMovie: true })
-						)
+						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards windowSize={windowSize} />
 				)}
@@ -146,19 +139,16 @@ export default function Home() {
 				title='Coming up next'
 				route='/movies/coming-up'
 			>
-				{!isLoadingUpcoming && isMovieResponse(upcoming) ? (
-					upcoming
+				{!upcoming.isLoading ? (
+					upcoming.data
 						.map(movie => (
 							<MovieCard
-								key={`actor-${movie.id}`}
+								key={`movie-${movie.id}`}
 								movie={movie}
-								route={`/movie/${movie.title}`}
+								route={`/movies/${movie.title}`}
 							/>
 						))
-						.slice(
-							0,
-							CardPerView(windowSize, { isActor: false, isMovie: true })
-						)
+						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards windowSize={windowSize} isMovie={true} />
 				)}
@@ -170,19 +160,16 @@ export default function Home() {
 				title='Best of the best'
 				route='/movies/top-rated'
 			>
-				{!isLoadingTopRated && isMovieResponse(topRated) ? (
-					topRated
+				{!topRated.isLoading ? (
+					topRated.data
 						.map(movie => (
 							<MovieCard
-								key={`actor-${movie.id}`}
+								key={`movie-${movie.id}`}
 								movie={movie}
-								route={`/movie/${movie.title}`}
+								route={`/movies/${movie.title}`}
 							/>
 						))
-						.slice(
-							0,
-							CardPerView(windowSize, { isActor: false, isMovie: true })
-						)
+						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards windowSize={windowSize} isMovie={true} />
 				)}
@@ -190,9 +177,3 @@ export default function Home() {
 		</div>
 	);
 }
-
-// {[
-// 	...Array(CardPerView(windowSize, { isActor: false, isMovie: true })),
-// ].map((_, i) => (
-// 	<SkeletonCard key={`skeleton-${i}`} />
-// ))}

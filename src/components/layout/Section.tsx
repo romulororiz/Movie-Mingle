@@ -5,6 +5,7 @@ import { cva } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
 import Heading from '../ui/Heading';
 import SeeMore from '../ui/SeeMore';
+import Overlay from '../ui/Overlay';
 
 interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;
@@ -12,7 +13,6 @@ interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	icon?: string;
 	color?: string;
 	container?: boolean;
-	sidebarOpen?: boolean;
 	seeMore?: boolean;
 	isActor?: boolean;
 	route: string;
@@ -24,59 +24,55 @@ const Section: FC<SectionProps> = ({
 	title,
 	icon,
 	color,
-	sidebarOpen,
 	container = true,
 	seeMore = true,
 	isActor = false,
 	route,
-	...props
 }) => {
 	const sectionVariants = cva(
-		cn('mx-auto max-w-[85rem] w-full', {
+		cn('mx-auto max-w-[85rem] w-full relative z-[2]', {
 			'md:max-w-[95rem]': !container,
 			container: container,
 		})
 	);
 
 	return (
-		<section className={cn(sectionVariants({ className }))} {...props}>
+		<section className={cn(sectionVariants({ className }))}>
+			{container && <Overlay className='spotlight' />}
 			<div
 				className={cn(
-					'flex flex-col sm:flex-row justify-between max-w-7xl mx-auto z-[70] mb-5 relative',
+					'flex justify-between max-w-7xl mx-auto z-[70] mb-5 relative',
 					{
-						'container mx-auto': !container,
+						'px-[2rem] mx-auto top-2 md:top-8 md:mb-0': !container,
 					}
 				)}
 			>
-				<Heading
-					title={title}
-					element='h1'
-					size='large'
-					icon={icon}
-					className={cn({
-						'top-2 md:top-14 relative': !container,
-					})}
-				/>
+				<Heading title={title} element='h1' size='large' icon={icon} />
 
 				{/* top see more */}
-				{/* {seeMore && (
+				{seeMore && (
 					<SeeMore
 						route={route}
 						container={container}
 						isActor={isActor}
-						className={cn('w-fit md:flex', {
-							'top-2 md:top-14 relative': !container,
-							hidden: container,
+						className={cn('w-fit md:flex hidden', {
+							hidden: !container,
 						})}
 					/>
-				)} */}
+				)}
 			</div>
 
 			<div
+				// className={cn({
+				// 	'flex flex-wrap justify-start gap-x-8 gap-y-[3.5rem] relative':
+				// 		container,
+				// 	'flex-nowrap overflow-x-auto': !container,
+				// })}
 				className={cn({
-					'flex flex-wrap justify-start gap-x-8 gap-y-[3.5rem] relative':
-						container,
-					'flex-nowrap overflow-x-auto': !container,
+					'grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12':
+						container && !isActor,
+					'grid grid-cols-2 xs:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-4':
+						container && isActor,
 				})}
 			>
 				{children}
@@ -88,9 +84,7 @@ const Section: FC<SectionProps> = ({
 					route={route}
 					container={container}
 					isActor={isActor}
-					className={cn('flex justify-end md:hidden mt-6', {
-						'mt-10': isActor,
-					})}
+					className={cn('flex justify-end md:hidden', {})}
 				/>
 			)}
 		</section>

@@ -13,31 +13,29 @@ interface SkeletonCardProps {
 }
 
 const SkeletonCard: FC<SkeletonCardProps> = ({
-	isMovie = true,
 	isActor = false,
 	isSlider = false,
 }) => {
 	const skeletonClasses = cn(
-		'mb-[1.5rem] shadow-black shadow-lg grow relative rounded-xl animate-pulse',
-		{
-			'w-[250px] aspect-square h-[380px]': isMovie,
-			'w-[150px] grow h-[280px] min-w-[150px]': isActor,
-		}
+		'mb-[1.5rem] grow relative rounded-md animate-pulse aspect-[2/3] w-full h-full flex flex-col',
+		{ 'h-[250px]': isSlider }
 	);
 
 	return (
 		<div className={skeletonClasses}>
-			<div className='absolute top-0 left-0 w-full h-full bg-gray-400 rounded-xl'></div>
+			<div className='w-full h-full bg-gray-400 rounded-md'></div>
 
 			{!isSlider && (
-				<div className='absolute -bottom-14 left-0 w-full z-10 flex gap-x-1 justify-between items-start'>
+				<div className='w-full z-10 flex gap-x-1 justify-between items-start mt-2'>
 					<div className='flex flex-col'>
-						<div className='h-4 bg-gray-400 rounded w-32'></div>
-						<div className='h-3 bg-gray-400 rounded w-16 mt-2'></div>
+						<div className='h-4 bg-gray-400 rounded w-24'></div>
+						{!isActor && (
+							<div className='h-3 bg-gray-400 rounded w-16 mt-2'></div>
+						)}
 					</div>
 					<div className='flex items-center gap-2'>
-						<div className='h-3 bg-gray-400 rounded w-8'></div>
-						{!isActor && <div className='h-3 bg-gray-400 rounded w-6'></div>}
+						<div className='h-4 bg-gray-400 rounded w-8'></div>
+						{!isActor && <div className='h-4 bg-gray-400 rounded w-6'></div>}
 					</div>
 				</div>
 			)}

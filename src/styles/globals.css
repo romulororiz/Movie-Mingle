@@ -3,23 +3,16 @@
 @tailwind utilities;
 
 /* custom */
-.no-scroll {
-    overflow: hidden;
-    height: 100vh;
-}
-
-.scroll {
-    overflow: auto;
-    height: 100vh;
+.spotlight {
+  @apply bg-gradient-to-r from-transparent via-slate-100/50 to-transparent rounded-full absolute -z-[1] blur-[120px];
+  @apply w-full h-40;
+  @apply left-0 right-0 top-20 mx-auto;
+  @apply pointer-events-none;
 }
 
 /* Swiper */
 .swiper {
-  @apply w-full h-[420px] md:h-[520px] md:pt-14;
-}
-
-.swiper-slide {
-  @apply w-[225px] h-[300px] px-8 xs:px-0;
+  @apply w-full h-auto pt-0 pb-8 md:py-20;
 }
 
 .swiper .swiper-pagination-bullet {

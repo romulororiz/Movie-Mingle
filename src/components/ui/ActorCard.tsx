@@ -1,18 +1,23 @@
 import { PeopleResponse } from '@/types/tmdb';
 import { cn } from '@/utils/cn';
+import { normalizePopularityScore, slugify } from '@/utils/formaters';
 import { VariantProps, cva } from 'class-variance-authority';
 import Image from 'next/image';
-import { HTMLAttributes, forwardRef } from 'react';
-import Heading from './Heading';
-import Icon from '../Icon';
-import { normalizePopularityScore, slugify } from '@/utils/formaters';
 import Link from 'next/link';
-import { getActorPath } from '@/utils/renderBg';
+import { FC, HTMLAttributes } from 'react';
+import Icon from '../Icon';
+import Heading from './Heading';
+import { getActorPath } from '@/utils/getPath';
 
 const ActorInfo = ({ actor }: { actor: PeopleResponse }) => {
 	return (
-		<div className='absolute -bottom-8 left-0 w-full z-10 flex justify-between items-start'>
-			<Heading element='h3' title={actor.name} size='small' />
+		<div className='mt-2 w-full z-10 flex justify-between items-start'>
+			<Heading
+				element='h3'
+				title={actor.name}
+				size='small'
+				className='truncate'
+			/>
 			<span className='flex gap-1 items-center text-sm'>
 				<Icon name='Star' size={16} fill='#FDBB30' />
 				<span className='text-white'>
@@ -23,36 +28,53 @@ const ActorInfo = ({ actor }: { actor: PeopleResponse }) => {
 	);
 };
 
-const cardVariants = cva(
-	'relative w-[150px] grow h-[280px] min-w-[150px] bg-cover bg-no-repeat bg-center cursor-pointer rounded-xl relative after:border-2 after:border-transparent after:content after:rounded-xl after:absolute after:inset-0 after:bg-dark-background/20 hover:after:bg-transparent after:transition after:hover:border-accent-default'
+const cardClasses = cva(
+	'transition shadow-black shadow-md duration-700 cursor-pointer relative aspect-[2/3] overflow-hidden w-full h-full rounded-md after:rounded-md after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-default'
 );
 
 interface CardProps
 	extends HTMLAttributes<HTMLDivElement>,
-		VariantProps<typeof cardVariants> {
+		VariantProps<typeof cardClasses> {
 	key?: string;
 	actor: PeopleResponse;
 	isLoading?: boolean;
 	route: string;
 }
 
-const ActorCard = forwardRef<HTMLDivElement, CardProps>(
-	({ className, actor, isLoading, route, ...props }, ref) => {
-		if (!actor) return null;
+const generateArialLabel = (actor: PeopleResponse) => {
+	return `${actor.name}, Rating: ${actor.popularity}`;
+};
 
-		return (
+const ActorCard: FC<CardProps> = ({
+	className,
+	actor,
+	isLoading,
+	route,
+}) => {
+	if (!actor) return null;
+
+	return (
+		<div className='h-full w-full flex flex-col'>
 			<Link
 				href={slugify(route)}
-				className={cn(cardVariants({ className }))}
-				style={getActorPath(actor)}
+				aria-label={generateArialLabel(actor)}
+				aria-labelledby={`actor-title-${actor.id}`}
+				tabIndex={0}
 			>
-				<div {...props} ref={ref}>
-					<ActorInfo actor={actor} />
-				</div>
+				<figure className={cn(cardClasses({ className }))}>
+					<Image
+						src={getActorPath(actor).backgroundImage || ''}
+						alt={actor.name}
+						fill
+						priority
+						sizes='(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw'
+					/>
+				</figure>
 			</Link>
-		);
-	}
-);
+			<ActorInfo actor={actor} />
+		</div>
+	);
+};
 
 ActorCard.displayName = 'ActorCard';
 
