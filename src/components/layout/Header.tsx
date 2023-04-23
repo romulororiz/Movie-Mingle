@@ -4,7 +4,7 @@ import { headerConfig } from '@/config/header';
 import useScrollPosition from '@/hooks/useScrollPosition';
 import { cn } from '@/lib/utils';
 import { Session } from 'next-auth';
-import { MainNav } from '../ui/mainNav';
+import { MainNav } from '@/components/ui/MainNav';
 
 interface HeaderProps {
 	session: Session;

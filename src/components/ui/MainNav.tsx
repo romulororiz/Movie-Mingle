@@ -10,7 +10,7 @@ import Dropdown from '@/ui/Dropdown';
 interface MainNavProps {
 	items?: MainNavItem[];
 }
-45;
+45
 export function MainNav({ items }: MainNavProps) {
 	const route = usePathname();
 
