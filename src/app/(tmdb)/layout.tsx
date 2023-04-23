@@ -6,7 +6,8 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	// offset navbar height
+
+	
 	return (
 		<header
 			style={{

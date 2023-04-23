@@ -13,7 +13,7 @@ export default function useScrollPosition() {
 		window.addEventListener('scroll', handleScroll, { passive: true });
 
 		return () => window.removeEventListener('scroll', handleScroll);
-	}, []);
+	}, [scrollPosition]);
 
 	return { scrollPosition, isScrolled };
 }

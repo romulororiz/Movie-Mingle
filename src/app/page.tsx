@@ -1,33 +1,29 @@
 'use client';
 
-import { CardPerView } from '@/utils/cardPerView';
-import { getMoviePath } from '@/utils/getPath';
-import { isMovieResponse } from '@/utils/typeGuards';
-import { RenderSkeletonCards } from '@/components/ui/SkeletonCard';
-import { useAppState } from '@/context/stateContext';
-import HeroBg from '@/components/ui/HeroBg';
 import SwiperComponent from '@/components/Swiper';
 import Section from '@/components/layout/Section';
 import ActorCard from '@/components/ui/ActorCard';
+import HeroBg from '@/components/ui/HeroBg';
 import MovieCard from '@/components/ui/MovieCard';
 import Overlay from '@/components/ui/Overlay';
+import { RenderSkeletonCards } from '@/components/ui/SkeletonCard';
+import SkeletonHero from '@/components/ui/SkeletonHero';
+import { useAppState } from '@/context/stateContext';
 import useBgChange, { MovieInfo } from '@/hooks/useSliderChange';
 import useTMDB from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
-import SkeletonHero from '@/components/ui/SkeletonHero';
-import useScrollPosition from '@/hooks/useScrollPosition';
+import { CardPerView } from '@/utils/cardPerView';
+import { getMoviePath } from '@/utils/getPath';
 
 export default function Home() {
 	const { setActiveIndex } = useAppState();
 	const { currentImageIndex, previousImageIndex } = useBgChange();
 	const windowSize = useWindowSize();
-	const scrollPosition = useScrollPosition();
 
 	const { topRated, popularMovies, nowPlaying, upcoming, popularActors } =
 		useTMDB();
 
 	if (!popularMovies.data) return null;
-
 
 	return (
 		<div className='min-h-screen'>
