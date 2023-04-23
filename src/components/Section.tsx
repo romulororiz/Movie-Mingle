@@ -3,9 +3,9 @@
 import { cn } from '@/utils/cn';
 import { cva } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
-import Heading from '../ui/Heading';
-import SeeMore from '../ui/SeeMore';
-import Overlay from '../ui/Overlay';
+import Heading from './ui/Heading';
+import SeeMore from './ui/SeeMore';
+import Overlay from './ui/Overlay';
 
 interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;

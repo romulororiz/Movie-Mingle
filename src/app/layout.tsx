@@ -1,4 +1,4 @@
-import { Header } from '@/components/layout/Header';
+import { Header } from '@/components/Header';
 import { cn } from '@/utils/cn';
 import { Inter } from 'next/font/google';
 import Providers from '@/components/Providers';

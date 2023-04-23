@@ -1,7 +1,7 @@
 'use client';
 
 import SwiperComponent from '@/components/Swiper';
-import Section from '@/components/layout/Section';
+import Section from '@/components/Section';
 import ActorCard from '@/components/ui/ActorCard';
 import HeroBg from '@/components/ui/HeroBg';
 import MovieCard from '@/components/ui/MovieCard';

@@ -10,16 +10,16 @@ import Dropdown from '@/ui/Dropdown';
 interface MainNavProps {
 	items?: MainNavItem[];
 }
-45
+45;
 export function MainNav({ items }: MainNavProps) {
 	const route = usePathname();
 
 	return (
-		<div className={cn('flex justify-start items-center')}>
+		<div className={cn('flex justify-between md:justify-start items-center w-full')}>
 			<Link href='/' className='flex relative font-bold'>
 				<Heading element='h1' className='text-4xl' title='LOGO' />
 			</Link>
-			<div className='flex items-center gap-6 ml-20'>
+			<div className='hidden md:flex md:items-center md:gap-6 md:ml-20'>
 				<Link href='/'>
 					<Heading
 						element='h2'
@@ -37,6 +37,7 @@ export function MainNav({ items }: MainNavProps) {
 					<Dropdown item={item} key={index} />
 				))}
 			</div>
+			<div className='flex md:hidden'>Menu</div>
 		</div>
 	);
 }

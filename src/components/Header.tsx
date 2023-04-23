@@ -24,13 +24,15 @@ export const Header = ({ session }: HeaderProps) => {
 		>
 			<div className='container max-w-7xl flex justify-between items-center mx-auto gap-12'>
 				<MainNav items={headerConfig.mainNav} />
-				{session ? (
-					<div>User</div>
-				) : (
-					<div className='hidden sm:flex sm:items-center sm:justify-center'>
-						<button>SIGN IN</button>
-					</div>
-				)}
+				<div className='hidden md:flex md:items-center md:justify-center'>
+					{session ? (
+						<div>User</div>
+					) : (
+						<div>
+							<button>SIGN IN</button>
+						</div>
+					)}
+				</div>
 			</div>
 		</header>
 	);
