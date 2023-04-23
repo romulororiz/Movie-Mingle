@@ -4,18 +4,13 @@ export const headerConfig: HeaderConfig = {
 	mainNav: [
 		{
 			section: 'Discover',
-			items: [
-				{
-					title: 'Home',
-					href: '/',
-					icon: 'Home',
-					requiresAuth: false,
-				},
+			navItems: [
 				{
 					title: 'Popular Movies',
 					href: '/movies/popular',
 					icon: 'Star',
 					requiresAuth: false,
+					description: 'Find the most popular movies out there',
 				},
 				// {
 				//     title: 'For You',
@@ -25,45 +20,49 @@ export const headerConfig: HeaderConfig = {
 				// },
 				{
 					title: 'Popular Actors',
-
 					href: '/actors/popular',
 					icon: 'Users',
 					requiresAuth: false,
+					description: 'A collection of the most popular actors',
 				},
 				{
 					title: 'Trending',
 					href: '/movies/trending',
 					icon: 'Flame',
 					requiresAuth: false,
+					description: 'Find the hottest movies right now',
 				},
 				{
 					title: 'Coming Up',
 					href: '/movies/coming-up',
 					icon: 'Clapperboard',
 					requiresAuth: false,
+					description:
+						'Find upcoming movies that are about to hit the theaters',
 				},
 				{
 					title: 'Best of the best',
 					href: '/movies/top-rated',
 					icon: 'Award',
 					requiresAuth: false,
-				},
-			],
-		},
-		{
-			section: 'Social',
-			items: [
-				{
-					title: 'Friends',
-					href: '/friends',
-					icon: 'Users',
-					requiresAuth: true,
+					description: 'A collection of the best of all time',
 				},
 			],
 		},
 		// {
+		// 	section: 'Social',
+		// 	navItems: [
+		// 		{
+		// 			title: 'Friends',
+		// 			href: '/friends',
+		// 			icon: 'Users',
+		// 			requiresAuth: true,
+		// 		},
+		// 	],
+		// },
+		// {
 		// 	section: 'My Account',
-		// 	items: [
+		// 	navItems: [
 		// 		{
 		// 			title: 'Profile',
 		// 			href: '/profile',

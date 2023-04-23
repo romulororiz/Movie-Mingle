@@ -28,7 +28,6 @@ export default function Home() {
 
 	if (!popularMovies.data) return null;
 
-	console.log('scrollPosition', scrollPosition);
 
 	return (
 		<div className='min-h-screen'>

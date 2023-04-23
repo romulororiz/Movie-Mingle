@@ -1,32 +1,42 @@
 'use client';
 
-import * as React from 'react';
+import { usePathname } from 'next/navigation';
 import { MainNavItem } from '@/types';
-import Link from 'next/link';
-import Heading from './Heading';
-import useScrollPosition from '@/hooks/useScrollPosition';
-import { useSelectedLayoutSegment } from 'next/navigation';
 import { cn } from '@/utils/cn';
+import Link from 'next/link';
+import Heading from '@/ui/Heading';
+import Dropdown from '@/ui/Dropdown';
 
 interface mainNavProps {
 	items?: MainNavItem[];
 }
-
+45
 export function MainNav({ items }: mainNavProps) {
-	const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
-
-	const segment = useSelectedLayoutSegment();
-	const scrollPosition = useScrollPosition();
+	const route = usePathname();
 
 	return (
-		<div className='flex bg-red-500'>
-			<Link href='/' className='flex relative font-bold text-slate-200'>
+		<div className={cn('flex justify-start items-center')}>
+			<Link href='/' className='flex relative font-bold'>
 				<Heading element='h1' className='text-4xl' title='LOGO' />
 			</Link>
-
-			{items?.length && <nav className='flex bg-green transition'>
-                    
-                </nav>}
+			<div className='flex items-center gap-6 ml-20'>
+				<Link href='/'>
+					<Heading
+						element='h2'
+						size='small'
+						title={'HOME'}
+						className={cn(
+							'transition hover:text-primaryAccent-default font-normal pt-[2px]',
+							{
+								'text-primaryAccent-default': route === '/',
+							}
+						)}
+					/>
+				</Link>
+				{items?.map((item, index) => (
+					<Dropdown item={item} key={index} />
+				))}
+			</div>
 		</div>
 	);
 }

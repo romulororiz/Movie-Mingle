@@ -1,3 +1,4 @@
+import Overlay from '@/components/ui/Overlay';
 import '@/styles/globals.css';
 
 export default function RootLayout({
@@ -13,8 +14,8 @@ export default function RootLayout({
 			}}
 			className='bg-center bg-cover bg-no-repeat overflow-hidden h-screen'
 		>
-			{children}
-			<div className='absolute inset-0 bg-gradient-to-b from-transparent from-35% via-dark-background via-[75%] to-dark-background'></div>
+			<main className='container mt-16 max-w-7xl mx-auto'>{children}</main>
+			<Overlay className='bg-gradient-to-b from-transparent from-35% via-dark-background via-[75%] to-dark-background' />
 		</header>
 	);
 }

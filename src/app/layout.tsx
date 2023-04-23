@@ -19,7 +19,6 @@ export default function RootLayout({
 				<Providers>
 					{/* @ts-expect-error Server Component */}
 					<Header />
-
 					<main>{children}</main>
 				</Providers>
 			</body>

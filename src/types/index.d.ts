@@ -6,11 +6,12 @@ export type SiteConfig = {
 
 export type NavItem = {
 	section: string;
-	items: {
+	navItems: {
 		title: string;
 		href: string;
 		icon: string;
 		requiresAuth: boolean;
+		description?: string;
 	}[];
 };
 

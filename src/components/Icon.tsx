@@ -4,6 +4,8 @@ import useWindowSize from '@/hooks/useWindowSize';
 import { isLaptop, isMobile, isTablet } from '@/utils/breakpoints';
 import {
 	ChevronLeft,
+	ChevronDown,
+	ChevronUp,
 	Clapperboard,
 	Flame,
 	LucideIcon,
@@ -28,6 +30,8 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	TrendingUp,
 	Flame,
 	ChevronLeft,
+	ChevronDown,
+	ChevronUp,
 	Search,
 	Star,
 	ThumbsUp,
