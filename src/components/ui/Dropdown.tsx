@@ -3,18 +3,33 @@
 import { cn } from '@/lib/utils';
 import { MainNavItem } from '@/types';
 import { Menu, Transition } from '@headlessui/react';
-import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import Icon from '../Icon';
 import { usePathname } from 'next/navigation';
 import Heading from './Heading';
+import Link from 'next/link';
 
 interface DropdownProps {
 	item?: MainNavItem;
 	key?: number | string;
+	menuBtnClassName?: string;
+	menuItemsClassName?: string;
+	linkClassName?: string;
+	linkActiveHoverClassName?: string;
+	linkLabelClassName?: string;
+	linkLabelActiveClassName?: string;
+	icon?: boolean;
 }
 
-export function Dropdown({ item }: DropdownProps) {
+export function Dropdown({
+	item,
+	menuItemsClassName,
+	linkClassName,
+	linkActiveHoverClassName,
+	linkLabelClassName,
+	linkLabelActiveClassName,
+	icon = true,
+}: DropdownProps) {
 	const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
 	const route = usePathname();
@@ -49,29 +64,32 @@ export function Dropdown({ item }: DropdownProps) {
 				leaveFrom='transform opacity-100 scale-100'
 				leaveTo='transform opacity-0 scale-95'
 			>
-				<Menu.Items className='flex flex-col p-2 absolute left-0 mt-2 w-56 origin-top-left rounded-lg border border-primaryAccent-default bg-dark-background shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
+				<Menu.Items
+					className={cn(
+						'absolute mt-2 p-2 w-56 flex flex-col origin-top-left left-0 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+						menuItemsClassName
+					)}
+				>
 					{item?.navItems.map((navItem, index) => (
 						<Menu.Item key={index}>
 							{({ active }) => (
 								<Link
 									href={navItem.href}
 									className={cn(
-										'p-2 rounded-md flex items-center transition duration-75 w-fit',
-										{
-											'text-primaryAccent-default': active,
-										}
+										'p-2 mb-1 rounded-md flex items-center transition duration-75 w-fit',
+										active && linkActiveHoverClassName,
+										linkClassName
 									)}
 									onClick={() => setMenuOpen(false)}
 								>
 									<span
 										className={cn(
 											'text-sm md:text-md flex items-center gap-2',
-											{
-												'text-primaryAccent-default': route === navItem.href,
-											}
+											route === navItem.href && linkLabelActiveClassName,
+											linkLabelClassName
 										)}
 									>
-										<Icon name={navItem.icon} size={16} />
+										{icon && <Icon name={navItem.icon} size={16} />}
 										{navItem.title}
 									</span>
 								</Link>

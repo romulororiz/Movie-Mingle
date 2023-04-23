@@ -15,7 +15,11 @@ export function MainNav({ items }: MainNavProps) {
 	const route = usePathname();
 
 	return (
-		<div className={cn('flex justify-between md:justify-start items-center w-full')}>
+		<div
+			className={cn(
+				'flex justify-between md:justify-start items-center w-full'
+			)}
+		>
 			<Link href='/' className='flex relative font-bold'>
 				<Heading element='h1' className='text-4xl' title='LOGO' />
 			</Link>
@@ -34,7 +38,13 @@ export function MainNav({ items }: MainNavProps) {
 					/>
 				</Link>
 				{items?.map((item, index) => (
-					<Dropdown item={item} key={index} />
+					<Dropdown
+						item={item}
+						key={index}
+						menuItemsClassName='bg-dark-background'
+						linkActiveHoverClassName='text-primaryAccent-default'
+						linkLabelActiveClassName='text-primaryAccent-default'
+					/>
 				))}
 			</div>
 			<div className='flex md:hidden'>Menu</div>
