@@ -18,7 +18,7 @@ const Providers: FC<ProvidersProps> = ({ children }) => {
 			<StateProvider>
 				<SessionProvider>{children}</SessionProvider>
 			</StateProvider>
-			<ReactQueryDevtools initialIsOpen={false} />
+			{/* <ReactQueryDevtools initialIsOpen={false} /> */}
 		</QueryClientProvider>
 	);
 };

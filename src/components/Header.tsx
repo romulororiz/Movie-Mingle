@@ -5,6 +5,7 @@ import useScrollPosition from '@/hooks/useScrollPosition';
 import { cn } from '@/lib/utils';
 import { Session } from 'next-auth';
 import { MainNav } from '@/components/ui/MainNav';
+import MobileNav from './ui/MobileNav';
 
 interface HeaderProps {
 	session: Session;
@@ -18,7 +19,7 @@ export const Header = ({ session }: HeaderProps) => {
 			className={cn(
 				'transition-all duration-300 fixed h-24 top-0 w-full flex z-[100]',
 				{
-					'bg-dark-background/80 backdrop-blur-lg h-20': isScrolled,
+					'bg-dark-background/60 backdrop-blur-lg h-20': isScrolled,
 				}
 			)}
 		>
@@ -32,6 +33,9 @@ export const Header = ({ session }: HeaderProps) => {
 							<button>SIGN IN</button>
 						</div>
 					)}
+				</div>
+				<div className='flex md:hidden '>
+					<MobileNav />
 				</div>
 			</div>
 		</header>

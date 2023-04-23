@@ -80,6 +80,9 @@ module.exports = {
 				fadeIn: 'fadeIn',
 				fadeOut: 'fadeOut',
 			},
+			transitionTimingFunction: {
+				sidebar: 'cubic-bezier(0.23,1,0.32,1)',
+			},
 		},
 	},
 	plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],

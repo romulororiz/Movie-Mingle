@@ -82,8 +82,10 @@ const MovieCard: FC<CardProps> = ({
 					<Image
 						src={getMoviePath(movie).backgroundImage || ''}
 						alt={movie.title}
-						fill
-						priority
+						width='0'
+						height='0'
+						sizes='100vw'
+						className='w-full h-full'
 					/>
 				</figure>
 			</Link>

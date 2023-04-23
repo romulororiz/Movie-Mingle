@@ -24,6 +24,8 @@ import {
 	Award,
 	Home,
 	LogIn,
+	Menu,
+	X as Close,
 } from 'lucide-react';
 
 export const lucideIcons: Record<string, LucideIcon> = {
@@ -47,6 +49,8 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	Award,
 	Home,
 	LogIn,
+	Menu,
+	Close,
 };
 
 import { FC, SVGProps } from 'react';

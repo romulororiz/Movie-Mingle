@@ -47,7 +47,6 @@ export function MainNav({ items }: MainNavProps) {
 					/>
 				))}
 			</div>
-			<div className='flex md:hidden'>Menu</div>
 		</div>
 	);
 }
