@@ -1,37 +1,43 @@
 'use client';
 
-import { headerConfig } from '@/config/header';
-import useScrollPosition from '@/hooks/useScrollPosition';
 import { cn } from '@/lib/utils';
-import { Session } from 'next-auth';
+import { User } from '@prisma/client';
 import { MainNav } from '@/components/ui/MainNav';
+import { headerConfig } from '@/config/header';
+import { UserAccountNav } from './ui/UserAccountNav';
 import MobileNav from './ui/MobileNav';
+import useScrollPosition from '@/hooks/useScrollPosition';
+import SignInButton from './ui/SignInButton';
 
 interface HeaderProps {
-	session: Session;
+	user: User;
 }
 
-export const Header = ({ session }: HeaderProps) => {
+export const Header = ({ user }: HeaderProps) => {
 	const { isScrolled } = useScrollPosition();
 
 	return (
 		<header
 			className={cn(
-				'transition-all duration-300 fixed h-24 top-0 w-full flex z-[100]',
+				'transition-all duration-200 fixed h-24 top-0 w-full flex z-[100]',
 				{
 					'bg-dark-background/60 backdrop-blur-lg h-20': isScrolled,
 				}
 			)}
 		>
-			<div className='container max-w-7xl flex justify-between items-center mx-auto gap-12'>
+			<div className='container max-w-7xl flex justify-between items-center mx-auto'>
 				<MainNav items={headerConfig.mainNav} />
 				<div className='hidden md:flex md:items-center md:justify-center'>
-					{session ? (
-						<div>User</div>
+					{user ? (
+						<UserAccountNav
+							user={{
+								name: user.name,
+								image: user.image,
+								email: user.email,
+							}}
+						/>
 					) : (
-						<div>
-							<button>SIGN IN</button>
-						</div>
+						<SignInButton />
 					)}
 				</div>
 				<div className='flex md:hidden '>

@@ -17,7 +17,7 @@ export function MainNav({ items }: MainNavProps) {
 	return (
 		<div
 			className={cn(
-				'flex justify-between md:justify-start items-center w-full'
+				'flex justify-between md:justify-start items-center'
 			)}
 		>
 			<Link href='/' className='flex relative font-bold'>

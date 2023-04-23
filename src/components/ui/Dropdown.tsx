@@ -66,7 +66,7 @@ export function Dropdown({
 			>
 				<Menu.Items
 					className={cn(
-						'absolute mt-2 p-2 w-56 flex flex-col origin-top-left left-0 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+						'absolute mt-2 p-2 w-56 flex flex-col origin-top-left left-0 rounded-lg shadow-md shadow-black ring-1 ring-black ring-opacity-5 focus:outline-none',
 						menuItemsClassName
 					)}
 				>

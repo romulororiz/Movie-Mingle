@@ -1,8 +1,9 @@
 import { Header } from '@/components/Header';
+import Providers from '@/components/Providers';
+import { getCurrentUser } from '@/lib/session';
 import { cn } from '@/utils/cn';
 import { Inter } from 'next/font/google';
-import { getSession } from '@/lib/session';
-import Providers from '@/components/Providers';
+
 import '@/styles/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -12,14 +13,14 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const session = await getSession();
+	const user = await getCurrentUser();
 
 	return (
 		<html lang='en' className={(cn('bg-dark-background'), inter.className)}>
 			<body className={cn('text-slate-200 bg-dark-background antialiased')}>
 				<Providers>
 					{/* @ts-expect-error Server Component */}
-					<Header session={session} />
+					<Header user={user} />
 					<main>{children}</main>
 				</Providers>
 			</body>
