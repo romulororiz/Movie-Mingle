@@ -1,5 +1,4 @@
 import { cn } from '@/utils/cn';
-import { navItems } from '@/config/header';
 import Link from 'next/link';
 import Icon from '../Icon';
 import NavItem from '../ui/sidebar/NavItem';
@@ -23,7 +22,7 @@ export const Sidebar = () => {
 					<small className='text-lg absolute right-14 -bottom-5'>Mingle</small>
 				</Link>
 
-				<div className='mt-12 flex flex-col h-full gap-y-12 '>
+				{/* <div className='mt-12 flex flex-col h-full gap-y-12 '>
 					{navItems.map((item, index) => (
 						<div key={index}>
 							<Heading
@@ -44,7 +43,7 @@ export const Sidebar = () => {
 							</div>
 						</div>
 					))}
-				</div>
+				</div> */}
 			</div>
 		</aside>
 	);

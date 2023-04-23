@@ -1,10 +1,10 @@
 'use client';
 
-import Icon from '@/components/Icon';
-import { cn } from '@/utils/cn';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { FC } from 'react';
+import { cn } from '@/utils/cn';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import Icon from '@/components/Icon';
 
 interface NavItemProps {
 	title: string;
