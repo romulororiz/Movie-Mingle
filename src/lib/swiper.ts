@@ -10,6 +10,7 @@ export const getSwiperOptions = (windowSize?: WindowSize) => {
 			spaceBetween: 30,
 			effect: 'fade' as const,
 			navigation: true,
+			speed: 400,
 			loop: true,
 			modules: [EffectFade, Navigation],
 		};
