@@ -12,8 +12,8 @@ import Icon from '../Icon';
 interface HambugerMenuProps {
 	isOpen: boolean;
 	iconName: string;
-	openModal: () => void;
-	closeModal: () => void;
+	openModal?: () => void;
+	closeModal?: () => void;
 }
 
 export function HamburgerMenu({
@@ -54,21 +54,16 @@ const MobileNav = () => {
 
 	return (
 		<>
-			<HamburgerMenu
-				isOpen={isOpen}
-				openModal={openModal}
-				closeModal={closeModal}
-				iconName='Menu'
-			/>
+			<HamburgerMenu isOpen={isOpen} openModal={openModal} iconName='Menu' />
 
 			<Transition appear show={isOpen} as={Fragment}>
 				<Dialog as='div' onClose={closeModal} className='relative z-[100]'>
 					<Transition.Child
 						as={Fragment}
-						enter='ease-sidebar duration-300 delay-300'
+						enter='ease-out'
 						enterFrom='opacity-0'
 						enterTo='opacity-100'
-						leave='ease-sidebar duration-300 delay-300'
+						leave='ease-in'
 						leaveFrom='opacity-100'
 						leaveTo='opacity-0'
 					>
@@ -83,21 +78,20 @@ const MobileNav = () => {
 						>
 							<Transition.Child
 								as={Fragment}
-								enter='ease-sidebar duration-300 delay-300 '
+								enter='ease-out '
 								enterFrom='translate-x-[90%] opacity-0'
 								enterTo='translate-x-0 opacity-100'
-								leave='ease-sidebar duration-300 delay-300'
+								leave='ease-in'
 								leaveFrom='translate-x-0 opacity-100'
 								leaveTo='translate-x-full opacity-0'
 							>
-								<Dialog.Panel className='w-80 h-screen max-w-md overflow-hidden bg-dark-background backdrop-blur-lg px-6 py-8 text-left align-middle shadow-black shadow-xl transition-all'>
+								<Dialog.Panel className='w-80 h-screen max-w-md overflow-hidden bg-dark-background backdrop-blur-lg p-6 text-left align-middle shadow-black shadow-xl transition-all'>
 									<Dialog.Title className='flex items-center justify-between'>
 										<Link href='/'>
 											<Heading element='h1' title='LOGO' size='large' />
 										</Link>
 										<HamburgerMenu
 											isOpen={isOpen}
-											openModal={openModal}
 											closeModal={closeModal}
 											iconName='Close'
 										/>

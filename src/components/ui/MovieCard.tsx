@@ -54,15 +54,11 @@ const MovieCard: FC<CardProps> = ({
 	movie,
 	isLoading,
 	isSlider = false,
-	isCurrentSlide,
 	route,
 }) => {
 	const cardClasses = cva(
 		cn(
-			'transition shadow-black shadow-md duration-700 cursor-pointer relative aspect-[2/3] overflow-hidden w-full h-full rounded-md after:rounded-md after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primaryAccent-default',
-			{
-				'w-auto h-full': isSlider,
-			}
+			'transition shadow-black shadow-md duration-700 cursor-pointer relative aspect-[2/3] overflow-hidden w-full h-full rounded-md after:rounded-md after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primaryAccent-default'
 		)
 	);
 

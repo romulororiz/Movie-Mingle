@@ -12,7 +12,7 @@ const buttonVariants = cva(
 					'bg-primaryAccent-default text-dark-primary hover:bg-opacity-80',
 				destructive: 'bg-red-500 text-dark-primary hover:bg-red-600',
 				outline:
-					'bg-transparent text-primaryAccent-default/50 hover:text-primaryAccent-default border border-primaryAccent-default/50 hover:border-primaryAccent-default',
+					'bg-transparent text-slate-100 hover:text-dark-background border-2 border-primaryAccent-default hover:border-primaryAccent-default hover:bg-primaryAccent-default',
 				subtle:
 					'bg-dark-background text-primaryAccent-default hover:bg-opacity-20',
 				ghost: 'bg-transparent hover:text-primaryAccent-default',
@@ -20,8 +20,8 @@ const buttonVariants = cva(
 			},
 			size: {
 				default: 'h-10 py-2 px-4',
-				sm: 'h-9 px-4 rounded-md',
-				lg: 'h-11 px-8 rounded-md',
+				sm: 'h-9 px-4',
+				lg: 'h-11 px-8',
 			},
 		},
 		defaultVariants: {

@@ -1,21 +1,23 @@
 'use client';
 
-import SwiperComponent from '@/components/Swiper';
-import Section from '@/components/Section';
-import ActorCard from '@/components/ui/ActorCard';
-import HeroBg from '@/components/ui/HeroBg';
-import MovieCard from '@/components/ui/MovieCard';
-import Overlay from '@/components/ui/Overlay';
-import { RenderSkeletonCards } from '@/components/ui/SkeletonCard';
-import SkeletonHero from '@/components/ui/SkeletonHero';
-import { useAppState } from '@/context/stateContext';
-import useBgChange, { MovieInfo } from '@/hooks/useSliderChange';
-import useTMDB from '@/hooks/useTMDB';
-import useWindowSize from '@/hooks/useWindowSize';
+import { isTablet } from '@/utils/breakpoints';
 import { CardPerView } from '@/utils/cardPerView';
-import { getMoviePath } from '@/utils/getPath';
+import { useAppState } from '@/context/stateContext';
+import { HeroBgSection } from '@/components/ui/HeroBg';
+import { RenderSkeletonCards } from '@/components/ui/SkeletonCard';
+
+import Section from '@/components/Section';
+import useTMDB from '@/hooks/useTMDB';
+import ActorCard from '@/components/ui/ActorCard';
+import MovieCard from '@/components/ui/MovieCard';
+import useBgChange from '@/hooks/useSliderChange';
+import SkeletonHero from '@/components/ui/SkeletonHero';
+import useWindowSize from '@/hooks/useWindowSize';
+import { SwiperComponent, SwiperMobileComponent } from '@/components/Swiper';
 
 export default function Home() {
+	// Get global state for the current slide index from Swiper
+	//see context/stateContext.tsx
 	const { setActiveIndex } = useAppState();
 	const { currentImageIndex, previousImageIndex } = useBgChange();
 	const windowSize = useWindowSize();
@@ -28,59 +30,45 @@ export default function Home() {
 	return (
 		<div className='min-h-screen'>
 			{!popularMovies.isLoading ? (
-				<section className='h-[750px] relative overflow-hidden'>
-					<Overlay
-						className='bg-gradient-to-b from-dark-background/40 from-35%
-						   via-dark-background via-45% md:via-65% to-dark-background z-[1]'
-					/>
-					{
-						<HeroBg
-							imageKey={`prev-${previousImageIndex}`}
-							src={
-								getMoviePath(popularMovies.data[previousImageIndex], {
-									isBG: true,
-								}).backgroundImage
-							}
-						/>
-					}
-					<HeroBg
-						imageKey={`curr-${currentImageIndex}`}
-						src={
-							getMoviePath(popularMovies.data[currentImageIndex], {
-								isBG: true,
-							}).backgroundImage
-						}
-					/>
-
-					{popularMovies.data[currentImageIndex] && (
-						<MovieInfo movie={popularMovies.data[currentImageIndex]} />
-					)}
-				</section>
+				<HeroBgSection
+					currentImageIndex={currentImageIndex}
+					previousImageIndex={previousImageIndex}
+					popularMovies={popularMovies.data}
+				/>
 			) : (
 				<SkeletonHero />
 			)}
 
-			<Section
-				icon='ThumbsUp'
-				title='Recommended' // change upon user preferences
-				className='md:-mt-[20rem] -mt-[28rem] z-50'
-				container={false}
-				route='/movies/popular'
-			>
-				{!popularMovies.isLoading ? (
-					<SwiperComponent
-						movies={popularMovies.data}
-						onActiveIndexChange={setActiveIndex}
-						isLoading={popularMovies.isLoading}
-					/>
-				) : (
-					<RenderSkeletonCards
-						windowSize={windowSize}
-						isMovie={true}
-						isSlider={true}
-					/>
-				)}
-			</Section>
+			{isTablet(windowSize) ? (
+				<Section container={false} route='/movies/popular' className='mt-16'>
+					{!popularMovies.isLoading ? (
+						<SwiperMobileComponent
+							movies={popularMovies.data}
+							isLoading={popularMovies.isLoading}
+						/>
+					) : (
+						<RenderSkeletonCards isMovie={true} isCardSlider={true} />
+					)}
+				</Section>
+			) : (
+				<Section
+					icon='ThumbsUp'
+					title='Recommended' // change upon user preferences
+					className='md:-mt-[20rem] z-50'
+					container={false}
+					route='/movies/popular'
+				>
+					{!popularMovies.isLoading ? (
+						<SwiperComponent
+							movies={popularMovies.data}
+							onActiveIndexChange={setActiveIndex}
+							isLoading={popularMovies.isLoading}
+						/>
+					) : (
+						<RenderSkeletonCards isMovie={true} isCardSlider={true} />
+					)}
+				</Section>
+			)}
 
 			<Section
 				icon='Users'
@@ -103,11 +91,7 @@ export default function Home() {
 							CardPerView(windowSize, { isActor: true, isMovie: false })
 						)
 				) : (
-					<RenderSkeletonCards
-						windowSize={windowSize}
-						isMovie={false}
-						isActor={true}
-					/>
+					<RenderSkeletonCards isMovie={false} isActor={true} />
 				)}
 			</Section>
 
@@ -128,7 +112,7 @@ export default function Home() {
 						))
 						.slice(0, CardPerView(windowSize))
 				) : (
-					<RenderSkeletonCards windowSize={windowSize} />
+					<RenderSkeletonCards />
 				)}
 			</Section>
 
@@ -149,7 +133,7 @@ export default function Home() {
 						))
 						.slice(0, CardPerView(windowSize))
 				) : (
-					<RenderSkeletonCards windowSize={windowSize} isMovie={true} />
+					<RenderSkeletonCards isMovie={true} />
 				)}
 			</Section>
 
@@ -170,7 +154,7 @@ export default function Home() {
 						))
 						.slice(0, CardPerView(windowSize))
 				) : (
-					<RenderSkeletonCards windowSize={windowSize} isMovie={true} />
+					<RenderSkeletonCards isMovie={true} />
 				)}
 			</Section>
 		</div>

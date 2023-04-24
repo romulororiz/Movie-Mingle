@@ -56,10 +56,11 @@ export const UserAvatar = ({ user, ...props }: UserAvatarProps) => {
 	return (
 		<Avatar {...props}>
 			{user.image ? (
-				<AvatarImage alt='Picture' src={user.image} />
+				<AvatarImage alt={`${user.name}'s profile picture`} src={user.image} />
 			) : (
 				<AvatarFallback>
 					<span className='sr-only'>{user.name}</span>
+					{user.name}
 				</AvatarFallback>
 			)}
 		</Avatar>

@@ -66,7 +66,7 @@ export function Dropdown({
 			>
 				<Menu.Items
 					className={cn(
-						'absolute mt-2 p-2 w-56 flex flex-col origin-top-left left-0 rounded-lg shadow-md shadow-black ring-1 ring-black ring-opacity-5 focus:outline-none',
+						'absolute mt-2 p-2 w-56 space-y-1  flex flex-col origin-top-left left-0 rounded-lg shadow-md shadow-black ring-1 ring-black ring-opacity-5 focus:outline-none',
 						menuItemsClassName
 					)}
 				>
@@ -76,7 +76,7 @@ export function Dropdown({
 								<Link
 									href={navItem.href}
 									className={cn(
-										'p-2 mb-1 rounded-md flex items-center transition duration-75 w-fit',
+										'p-2 rounded-md flex items-center transition duration-75 w-fit',
 										active && linkActiveHoverClassName,
 										linkClassName
 									)}

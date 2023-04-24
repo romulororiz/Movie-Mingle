@@ -1,9 +1,7 @@
-import { FC } from 'react';
+import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
 import { CardPerView } from '@/utils/cardPerView';
-import { WindowSize } from '@/hooks/useWindowSize';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { getSwiperOptions } from '@/lib/swiper';
 import { cn } from '@/utils/cn';
+import { FC } from 'react';
 
 interface SkeletonCardProps {
 	key?: string;
@@ -46,25 +44,25 @@ const SkeletonCard: FC<SkeletonCardProps> = ({
 export default SkeletonCard;
 
 interface RenderSkeletonCardsProps {
-	windowSize: WindowSize;
 	isMovie?: boolean;
 	isActor?: boolean;
-	isSlider?: boolean;
+	isCardSlider?: boolean;
 }
 
 export const RenderSkeletonCards = ({
-	windowSize,
 	isMovie = true,
 	isActor = false,
-	isSlider = false,
+	isCardSlider = false,
 }: RenderSkeletonCardsProps) => {
+	const windowSize = useWindowSize();
+
 	const cards = [
 		...Array(CardPerView(windowSize, { isActor: isActor, isMovie: isMovie })),
 	];
 
 	return (
 		<>
-			{isSlider ? (
+			{isCardSlider ? (
 				<div className='mt-12 relative flex gap-5 overflow-hidden'>
 					{cards.map((_, i) => (
 						<SkeletonCard key={`skeleton-${i}`} isSlider={true} />

@@ -11,18 +11,22 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
 import { UserAvatar } from './Avatar';
+import useScrollPosition from '@/hooks/useScrollPosition';
+import { cn } from '@/lib/utils';
 
 interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 	user: Pick<User, 'name' | 'image' | 'email'>;
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
+	const { isScrolled } = useScrollPosition();
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger>
 				<UserAvatar
 					user={{ name: user.name || null, image: user.image || null }}
-					className='h-14 w-14'
+					className={cn('h-14 w-14 transition-all', isScrolled && 'h-12 w-12')}
 				/>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
@@ -43,9 +47,6 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 					<Link href='/dashboard'>Dashboard</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem asChild>
-					<Link href='/dashboard/billing'>Billing</Link>
-				</DropdownMenuItem>
-				<DropdownMenuItem asChild>
 					<Link href='/dashboard/settings'>Settings</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem
@@ -53,7 +54,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
 					onSelect={event => {
 						event.preventDefault();
 						signOut({
-							callbackUrl: `${window.location.origin}/login`,
+							callbackUrl: `${window.location.origin}`,
 						});
 					}}
 				>

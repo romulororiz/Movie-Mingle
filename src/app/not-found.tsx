@@ -5,10 +5,11 @@ import { FC } from 'react';
 
 import type { Metadata } from 'next';
 
-// export const metadata: Metadata = {
-// 	title: 'Similarity API | Page not found',
-// 	description: 'Free & open-source text similarity API',
-// };
+export const metadata: Metadata = {
+	title: 'Movie Mingle | Page not found',
+	description:
+		'A movie social network where you can find friends, discover movies, and share your thoughts.',
+};
 
 const PageNotFound: FC = () => {
 	return (

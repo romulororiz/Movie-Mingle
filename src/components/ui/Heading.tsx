@@ -26,7 +26,7 @@ interface HeadingProps<T extends HeadingLevels>
 	extends HTMLAttributes<HTMLHeadingElement>,
 		VariantProps<typeof headingVariants> {
 	element: T;
-	title: string;
+	title?: string;
 	icon?: string;
 	color?: string;
 }

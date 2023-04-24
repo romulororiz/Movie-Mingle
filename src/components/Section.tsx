@@ -9,9 +9,8 @@ import Overlay from './ui/Overlay';
 
 interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;
-	title: string;
+	title?: string;
 	icon?: string;
-	color?: string;
 	container?: boolean;
 	seeMore?: boolean;
 	isActor?: boolean;
@@ -23,7 +22,6 @@ const Section: FC<SectionProps> = ({
 	className,
 	title,
 	icon,
-	color,
 	container = true,
 	seeMore = true,
 	isActor = false,
