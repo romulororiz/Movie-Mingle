@@ -129,8 +129,8 @@ type SwiperMobileComponentProps = {
 
 const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 	return (
-		<>
-			<Swiper {...getSwiperOptions()} grabCursor>
+		<div className='relative'>
+			<Swiper {...getSwiperOptions()} cssMode>
 				{movies.map(movie => (
 					<SwiperSlide key={`movie-${movie.id}`}>
 						<MovieCard
@@ -140,10 +140,14 @@ const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 							className='pointer-events-none rounded-none after:rounded-none shadow-none'
 						/>
 						<MovieInfo movie={movie} />
+						<Overlay
+							className='bg-gradient-to-b from-transparent from-65%
+						via-dark-background via-[90%] to-dark-background z-[1]'
+						/>
 					</SwiperSlide>
 				))}
 			</Swiper>
-		</>
+		</div>
 	);
 };
 

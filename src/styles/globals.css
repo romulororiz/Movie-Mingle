@@ -98,5 +98,5 @@
 }
 
 .swiper-button-prev, .swiper-button-next {
-  @apply text-primaryAccent-default !important;
+  @apply text-primaryAccent-default -mt-16 !important;
 }

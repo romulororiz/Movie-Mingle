@@ -17,7 +17,7 @@ export default async function RootLayout({
 
 	return (
 		<html lang='en' className={(cn('bg-dark-background'), inter.className)}>
-			<body className={cn('text-slate-200 bg-dark-background antialiased')}>
+			<body className={cn('min-h-screen text-slate-200 bg-dark-background antialiased')}>
 				<Providers>
 					{/* @ts-expect-error Server Component */}
 					<Header user={user} />

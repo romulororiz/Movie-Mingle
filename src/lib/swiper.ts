@@ -11,11 +11,7 @@ export const getSwiperOptions = (windowSize?: WindowSize) => {
 			effect: 'fade' as const,
 			navigation: true,
 			loop: true,
-			pagination: {
-				dynamicBullets: true,
-				clickable: true,
-			},
-			modules: [EffectFade, Navigation, Pagination],
+			modules: [EffectFade, Navigation],
 		};
 
 	switch (true) {

@@ -73,7 +73,7 @@ const MobileNav = () => {
 					<div className='fixed inset-0 overflow-y-auto'>
 						<div
 							className={cn(
-								'min-h-full flex justify-end text-center w-full transform overflow-hidden shadow-xl transition-all'
+								'min-h-full flex justify-end text-center w-full transform overflow-hidden shadow-xl transition-transform'
 							)}
 						>
 							<Transition.Child
