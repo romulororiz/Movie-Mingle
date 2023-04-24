@@ -6,7 +6,7 @@ export const paragraphVariants = cva('text-center max-w-prose leading-3', {
 	variants: {
 		size: {
 			default: 'text-md sm:text-lg',
-			sm: 'text-sm',
+			sm: 'text-sm md:text-base',
 			md: 'text-sm lg:text-base',
 			lg: 'text-lg md:text-xl',
 		},

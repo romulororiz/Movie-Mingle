@@ -16,10 +16,13 @@ export const MovieInfo = ({ movie }: { movie: MovieResponse }) => {
 			<Heading
 				element='h1'
 				title={movie.title}
-				className='h-fit mb-2 text-slate-200 text-md md:text-lg font-semibold'
+				className='h-fit mb-2 text-slate-200 text-md md:text-xl lg:text-3xl font-semibold'
 			/>
 			<div className='flex flex-col max-w-lg'>
-				<Paragraph className='font-normal text-justify line-clamp-3 md:line-clamp-4 text-sm md:text-lg'>
+				<Paragraph
+					className='font-normal text-justify line-clamp-3 md:line-clamp-4'
+					size='sm'
+				>
 					{movie.overview}
 				</Paragraph>
 				<div className='flex justify-between md:justify-start gap-4 md:gap-8 mt-2'>
