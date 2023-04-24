@@ -28,7 +28,7 @@ export default function Home() {
 	if (!popularMovies.data) return null;
 
 	return (
-		<div className='h-full'>
+		<div className='min-h-screen'>
 			{!popularMovies.isLoading ? (
 				<HeroBgSection
 					currentImageIndex={currentImageIndex}
@@ -40,7 +40,7 @@ export default function Home() {
 			)}
 
 			{isTablet(windowSize) ? (
-				<Section container={false} route='/movies/popular' className='mt-16'>
+				<Section container={false} route='/movies/popular' className=''>
 					{!popularMovies.isLoading ? (
 						<SwiperMobileComponent
 							movies={popularMovies.data}
@@ -72,7 +72,7 @@ export default function Home() {
 
 			<Section
 				icon='Users'
-				className='mt-12 md:mt-20'
+				className='mt-7 md:mt-20'
 				title='Popular Actors'
 				route='/actors'
 				isActor={true}

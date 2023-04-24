@@ -64,6 +64,7 @@ const ActorCard: FC<CardProps> = ({ className, actor, isLoading, route }) => {
 						height='0'
 						sizes='100vw'
 						className='w-full h-full'
+						priority
 					/>
 				</figure>
 			</Link>

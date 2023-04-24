@@ -6,22 +6,36 @@ import { cn } from '@/utils/cn';
 import Link from 'next/link';
 import Heading from '@/ui/Heading';
 import Dropdown from '@/ui/Dropdown';
+import useScrollPosition from '@/hooks/useScrollPosition';
 
 interface MainNavProps {
 	items?: MainNavItem[];
 }
 45;
 export function MainNav({ items }: MainNavProps) {
+
+	const { isScrolled } = useScrollPosition();
+
 	const route = usePathname();
 
 	return (
-		<div
-			className={cn(
-				'flex justify-between md:justify-start items-center'
+		<div className={cn('flex justify-between md:justify-start items-center')}>
+			{isScrolled && (
+				<Link href='/'>
+					<Heading
+						element='h1'
+						className='md:hidden font-bold text-3xl text-primaryAccent-default'
+						title='LOGO'
+					/>
+				</Link>
 			)}
-		>
-			<Link href='/' className='flex relative font-bold'>
-				<Heading element='h1' className='text-4xl' title='LOGO' />
+
+			<Link href='/'>
+				<Heading
+					element='h1'
+					className='hidden md:block font-bold text-3xl text-primaryAccent-default'
+					title='LOGO'
+				/>
 			</Link>
 			<div className='hidden md:flex md:items-center md:gap-6 md:ml-20'>
 				<Link href='/'>

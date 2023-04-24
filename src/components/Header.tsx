@@ -20,9 +20,9 @@ export const Header = ({ user }: HeaderProps) => {
 	return (
 		<header
 			className={cn(
-				'transition-all duration-200 fixed h-20 top-0 w-full flex z-[100] bg-dark-background/75 backdrop-blur-md',
+				'transition-all duration-200 fixed h-20 top-0 w-full flex z-[100]',
 				{
-					'h-16': isScrolled,
+					'bg-dark-background/75 backdrop-blur-md h-16': isScrolled,
 				}
 			)}
 		>

@@ -28,7 +28,7 @@ export function HamburgerMenu({
 			onClick={isOpen ? closeModal : openModal}
 		>
 			<span className='sr-only'>{isOpen ? 'Close menu' : 'Open menu'}</span>
-			<Icon name={iconName} color='#fff' size={30} />
+			<Icon name={iconName} size={30} />
 		</div>
 	);
 }

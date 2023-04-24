@@ -12,7 +12,7 @@ import SeeMore from '@/components/ui/SeeMore';
 
 export const MovieInfo = ({ movie }: { movie: MovieResponse }) => {
 	return (
-		<div className='gap-2 text-th text-slate-100/80 absolute md:max-w-7xl left-0 right-0 md:container p-6 pb-2 md:backdrop-blur-0 backdrop-blur-md bg-dark-background/60 md:bg-transparent -bottom-0 md:top-[25%] flex flex-col justify-between h-auto md:h-[230px] w-auto z-50'>
+		<div className='gap-2 text-th text-slate-100/80 absolute md:max-w-7xl left-0 right-0 md:container p-6 pb-2 md:backdrop-blur-0 backdrop-blur-sm bg-dark-background/50 md:bg-transparent bottom-0 md:top-[25%] flex flex-col justify-between h-auto md:h-[230px] w-auto z-50'>
 			<Heading
 				element='h1'
 				title={movie.title}

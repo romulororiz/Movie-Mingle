@@ -12,6 +12,8 @@ import Overlay from './ui/Overlay';
 import { isTablet } from '@/utils/breakpoints';
 import 'swiper/swiper-bundle.css';
 import { MovieInfo } from '@/hooks/useSliderChange';
+import Image from 'next/image';
+import { getMoviePath } from '@/utils/getPath';
 
 // Card Slider Desktop
 type SwiperComponentProps = {
@@ -129,21 +131,26 @@ type SwiperMobileComponentProps = {
 
 const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 	return (
-		<div className='relative'>
-			<Swiper {...getSwiperOptions()}>
-				{movies.map(movie => (
-					<SwiperSlide key={`movie-${movie.id}`}>
-						<MovieCard
-							movie={movie}
-							isSlider={true}
-							route='#'
-							className='pointer-events-none rounded-none after:rounded-none shadow-none after:bg-transparent'
-						/>
-						<MovieInfo movie={movie} />
-					</SwiperSlide>
-				))}
-			</Swiper>
-		</div>
+		<Swiper {...getSwiperOptions()}>
+			{movies.map(movie => (
+				<SwiperSlide key={`movie-${movie.id}`}>
+					<Image
+						src={getMoviePath(movie).backgroundImage || ''}
+						alt={movie.title}
+						width='0'
+						height='0'
+						sizes='100vw'
+						className='w-full h-full'
+						priority
+					/>
+					<MovieInfo movie={movie} />
+					<Overlay
+						className='bg-gradient-to-b from-transparent from-75%
+				via-dark-background to-dark-background z-[1]'
+					/>
+				</SwiperSlide>
+			))}
+		</Swiper>
 	);
 };
 

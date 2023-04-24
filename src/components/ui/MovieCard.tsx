@@ -82,6 +82,7 @@ const MovieCard: FC<CardProps> = ({
 						height='0'
 						sizes='100vw'
 						className='w-full h-full'
+						priority
 					/>
 				</figure>
 			</Link>
