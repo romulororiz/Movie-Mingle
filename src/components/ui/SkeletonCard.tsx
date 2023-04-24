@@ -16,7 +16,7 @@ const SkeletonCard: FC<SkeletonCardProps> = ({
 }) => {
 	const skeletonClasses = cn(
 		'mb-[1.5rem] grow relative rounded-md animate-pulse aspect-[2/3] w-full h-full flex flex-col',
-		{ 'h-[250px] md:h-[450px]': isSlider }
+		{ 'h-[250px] md:h-[360px]': isSlider }
 	);
 
 	return (

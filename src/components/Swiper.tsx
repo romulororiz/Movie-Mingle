@@ -140,10 +140,6 @@ const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 							className='pointer-events-none rounded-none after:rounded-none shadow-none after:bg-transparent'
 						/>
 						<MovieInfo movie={movie} />
-						<Overlay
-							className='bg-gradient-to-b from-transparent from-45%
-						via-dark-background via-[90%] to-dark-background z-[1]'
-						/>
 					</SwiperSlide>
 				))}
 			</Swiper>

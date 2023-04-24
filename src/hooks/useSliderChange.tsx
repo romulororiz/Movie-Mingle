@@ -12,15 +12,15 @@ import SeeMore from '@/components/ui/SeeMore';
 
 export const MovieInfo = ({ movie }: { movie: MovieResponse }) => {
 	return (
-		<div className='text-slate-200 absolute md:max-w-7xl left-0 right-0 md:container p-4 mx-4 md:backdrop-blur-0 backdrop-blur-md bg-dark-background/60 rounded-md md:border-none border border-primaryAccent-default border-opacity-20 md:bg-transparent md:rounded-none bottom-[15%] md:top-[25%] flex flex-col justify-between h-auto md:h-[180px] w-auto z-[100]'>
+		<div className='gap-2 text-th text-slate-100/80 absolute md:max-w-7xl left-0 right-0 md:container p-6 pb-2 md:backdrop-blur-0 backdrop-blur-md bg-dark-background/60 md:bg-transparent -bottom-0 md:top-[25%] flex flex-col justify-between h-auto md:h-[230px] w-auto z-50'>
 			<Heading
 				element='h1'
 				title={movie.title}
-				className='h-fit mb-2 text-slate-200 text-md md:text-xl lg:text-3xl font-semibold'
+				className=' text-slate-100/80 text-md md:text-xl lg:text-3xl font-semibold text-primaryAccent-default'
 			/>
-			<div className='flex flex-col max-w-lg'>
+			<div className='flex flex-col max-w-lg gap-4 md:gap-1'>
 				<Paragraph
-					className='font-normal text-justify line-clamp-3 md:line-clamp-4'
+					className='font-light md:font-normal text-justify line-clamp-3 md:line-clamp-4'
 					size='sm'
 				>
 					{movie.overview}

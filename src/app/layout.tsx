@@ -16,8 +16,17 @@ export default async function RootLayout({
 	const user = await getCurrentUser();
 
 	return (
-		<html lang='en' className={(cn('bg-dark-background'), inter.className)}>
-			<body className={cn('min-h-screen text-slate-200 bg-dark-background antialiased')}>
+		<html
+			lang='en'
+			className={
+				(cn('bg-dark-background h-[-webkit-fill-available]'), inter.className)
+			}
+		>
+			<body
+				className={cn(
+					'min-h-screen text-slate-200 bg-dark-background antialiased'
+				)}
+			>
 				<Providers>
 					{/* @ts-expect-error Server Component */}
 					<Header user={user} />

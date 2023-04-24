@@ -28,7 +28,7 @@ export default function Home() {
 	if (!popularMovies.data) return null;
 
 	return (
-		<div className='h-screen'>
+		<div className='h-full'>
 			{!popularMovies.isLoading ? (
 				<HeroBgSection
 					currentImageIndex={currentImageIndex}
