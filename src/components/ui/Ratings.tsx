@@ -21,8 +21,8 @@ const Ratings: FC<RatingsProps> = ({
 			<Image
 				src='/assets/imdb.svg'
 				alt='imdb icon'
-				width={isMobile(windowSize) ? 30 : 35}
-				height={isMobile(windowSize) ? 30 : 35}
+				width={isMobile(windowSize) ? 25 : 35}
+				height={isMobile(windowSize) ? 25 : 35}
 				quality={100}
 			/>
 			<span className='text-sm md:text-md'>

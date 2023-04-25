@@ -31,7 +31,13 @@ const SignInButton: FC<SignInButtonProps> = ({}) => {
 	};
 
 	return (
-		<Button onClick={signInWithGoogle} variant='outline' size='lg' className='rounded-3xl font-bold'>
+		<Button
+			onClick={signInWithGoogle}
+			isLoading={isLoading}
+			variant='outline'
+			size='lg'
+			className='rounded-3xl font-bold'
+		>
 			SIGN IN
 		</Button>
 	);

@@ -57,6 +57,7 @@ export default function Home() {
 					className='md:-mt-[20rem] z-50'
 					container={false}
 					route='/movies/popular'
+					seeMore={false}
 				>
 					{!popularMovies.isLoading ? (
 						<SwiperComponent

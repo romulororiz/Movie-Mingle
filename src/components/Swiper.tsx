@@ -11,9 +11,10 @@ import MovieCard from './ui/MovieCard';
 import Overlay from './ui/Overlay';
 import { isTablet } from '@/utils/breakpoints';
 import 'swiper/swiper-bundle.css';
-import { MovieInfo } from '@/hooks/useSliderChange';
+
 import Image from 'next/image';
 import { getMoviePath } from '@/utils/getPath';
+import MovieInfoHero from './MovieInfoHero';
 
 // Card Slider Desktop
 type SwiperComponentProps = {
@@ -143,7 +144,7 @@ const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 						className='w-full h-full'
 						priority
 					/>
-					<MovieInfo movie={movie} />
+					<MovieInfoHero movie={movie} />
 					<Overlay
 						className='bg-gradient-to-b from-transparent from-75%
 				via-dark-background to-dark-background z-[1]'

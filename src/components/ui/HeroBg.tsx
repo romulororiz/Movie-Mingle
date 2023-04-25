@@ -1,9 +1,9 @@
 import Overlay from './Overlay';
 import React from 'react';
 import { cn } from '@/utils/cn';
-import { MovieInfo } from '@/hooks/useSliderChange';
 import { MovieResponse } from '@/types/tmdb';
 import { getMoviePath } from '@/utils/getPath';
+import MovieInfoHero from '../MovieInfoHero';
 
 interface HeroBgProps {
 	src: string;
@@ -79,7 +79,7 @@ export const HeroBgSection = ({
 			/>
 
 			{popularMovies[currentImageIndex] && (
-				<MovieInfo movie={popularMovies[currentImageIndex]} />
+				<MovieInfoHero movie={popularMovies[currentImageIndex]} />
 			)}
 		</section>
 	);

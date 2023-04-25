@@ -52,40 +52,39 @@ const MobileNav = () => {
 		setIsOpen(true);
 	}
 
+	const animateOverlay = {
+		as: Fragment,
+		enter: 'ease-out duration-200',
+		enterFrom: 'opacity-0',
+		enterTo: 'opacity-100',
+		leave: 'ease-in  duration-200',
+		leaveFrom: 'opacity-100',
+		leaveTo: 'opacity-0',
+	};
+
+	const animateSidePanel = {
+		as: Fragment,
+		enter: 'ease-out duration-200',
+		enterFrom: 'opacity-0 translate-x-[80%]',
+		enterTo: 'opacity-100',
+		leave: 'ease-in duration-200',
+		leaveFrom: 'opacity-100',
+		leaveTo: 'opacity-0 translate-x-full',
+	};
+
 	return (
 		<>
 			<HamburgerMenu isOpen={isOpen} openModal={openModal} iconName='Menu' />
-
 			<Transition appear show={isOpen} as={Fragment}>
-				<Dialog as='div' onClose={closeModal} className='relative z-[100]'>
-					<Transition.Child
-						as={Fragment}
-						enter='ease-out'
-						enterFrom='opacity-0'
-						enterTo='opacity-100'
-						leave='ease-in'
-						leaveFrom='opacity-100'
-						leaveTo='opacity-0'
-					>
-						<div className='fixed inset-0 bg-dark-background/90'></div>
+				<Dialog as='div' className='relative z-[100]' onClose={closeModal}>
+					<Transition.Child {...animateOverlay}>
+						<div className='fixed inset-0 bg-dark-background/90' />
 					</Transition.Child>
 
 					<div className='fixed inset-0 overflow-y-auto'>
-						<div
-							className={cn(
-								'min-h-full flex justify-end text-center w-full transform overflow-hidden shadow-xl transition-transform'
-							)}
-						>
-							<Transition.Child
-								as={Fragment}
-								enter='ease-out '
-								enterFrom='translate-x-[90%] opacity-0'
-								enterTo='translate-x-0 opacity-100'
-								leave='ease-in'
-								leaveFrom='translate-x-0 opacity-100'
-								leaveTo='translate-x-full opacity-0'
-							>
-								<Dialog.Panel className='w-80 h-screen max-w-md overflow-hidden bg-dark-background backdrop-blur-lg p-6 text-left align-middle shadow-black shadow-xl transition-all'>
+						<div className='flex min-h-full items-center justify-end text-center'>
+							<Transition.Child {...animateSidePanel}>
+								<Dialog.Panel className='w-80 max-w-md h-screen overflow-hidden bg-dark-background p-6 text-left align-middle shadow-lg shadow-black transform transition-all'>
 									<Dialog.Title className='flex items-center justify-between'>
 										<Link href='/'>
 											<Heading element='h1' title='LOGO' size='large' />
@@ -118,6 +117,53 @@ const MobileNav = () => {
 					</div>
 				</Dialog>
 			</Transition>
+
+			{/* <Transition appear show={isOpen} as={Fragment}>
+				<Dialog as='div' onClose={closeModal} className='relative z-[100]'>
+					<Transition.Child {...animateOverlay}>
+						<div className='fixed inset-0 bg-dark-background/90'></div>
+					</Transition.Child>
+
+					<div className='fixed inset-0 overflow-y-auto'>
+						<div
+							className={cn(
+								'min-h-full flex justify-end text-center w-full overflow-hidden shadow-xl'
+							)}
+						>
+							<Transition.Child {...animateSidePanel}>
+								<Dialog.Panel className='w-80 h-screen max-w-md overflow-hidden bg-dark-background backdrop-blur-lg p-6 text-left align-middle shadow-black shadow-xl transition-all'>
+									<Dialog.Title className='flex items-center justify-between'>
+										<Link href='/'>
+											<Heading element='h1' title='LOGO' size='large' />
+										</Link>
+										<HamburgerMenu
+											isOpen={isOpen}
+											closeModal={closeModal}
+											iconName='Close'
+										/>
+									</Dialog.Title>
+									<div className='mt-10'>
+										<p className='text-sm text-gray-500'>
+											Your payment has been successfully submitted. We’ve sent
+											you an email with all of the details of your order.
+										</p>
+									</div>
+
+									<div className='mt-4'>
+										<button
+											type='button'
+											className='inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2'
+											onClick={closeModal}
+										>
+											Got it, thanks!
+										</button>
+									</div>
+								</Dialog.Panel>
+							</Transition.Child>
+						</div>
+					</div>
+				</Dialog>
+			</Transition> */}
 		</>
 	);
 };
