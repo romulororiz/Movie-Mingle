@@ -2,8 +2,8 @@
 
 import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
 import { cn } from '@/utils/cn';
+import { Icon } from '@/components/Icon';
 import { forwardRef } from 'react';
-import Icon from '../Icon';
 
 export interface InputProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -22,7 +22,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 				/>
 				<input
 					className={cn(
-						'flex w-60 h-8 rounded-lg border border-primaryAccent-default bg-dark-background/50 backdrop-blur-sm truncate pl-4 pr-9 py-4 text-sm placeholder:text-slate-400 disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none',
+						'flex w-60 h-6 rounded-full border-2 border-primaryAccent-default/20 focus-within:border-primaryAccent-default transition bg-dark-background/40 backdrop-blur-sm truncate pl-4 pr-9 py-4 text-sm placeholder:text-slate-400 disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none',
 						className
 					)}
 					ref={ref}
@@ -34,4 +34,4 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 );
 Input.displayName = 'Input';
 
-export { Input };
+export default Input;

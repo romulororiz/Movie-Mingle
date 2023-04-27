@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { FC } from 'react';
+import { Icon } from '@/components/Icon';
 import { Button } from './Button';
-import Icon from '../Icon';
 
 interface SeeMoreProps {
 	route: string;

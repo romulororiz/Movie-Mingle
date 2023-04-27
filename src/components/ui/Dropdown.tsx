@@ -4,10 +4,11 @@ import { cn } from '@/lib/utils';
 import { MainNavItem } from '@/types';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
-import Icon from '../Icon';
+import Icon from '../Icon/Icon';
 import { usePathname } from 'next/navigation';
 import Heading from './Heading';
 import Link from 'next/link';
+import { User } from '@prisma/client';
 
 interface DropdownProps {
 	item?: MainNavItem;

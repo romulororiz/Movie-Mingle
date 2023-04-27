@@ -1,19 +1,20 @@
-import { PeopleResponse } from '@/types/tmdb';
-import { cn } from '@/utils/cn';
-import { normalizePopularityScore, slugify } from '@/utils/formaters';
-import { VariantProps, cva } from 'class-variance-authority';
-import Image from 'next/image';
 import Link from 'next/link';
-import { FC, HTMLAttributes } from 'react';
-import Icon from '../Icon';
-import Heading from './Heading';
+import Image from 'next/image';
+
+import { cn } from '@/utils/cn';
+import { Icon } from '@/components/Icon';
+import { Heading } from '@/components/ui';
 import { getActorPath } from '@/utils/getPath';
+import { PeopleResponse } from '@/types/tmdb';
+import { VariantProps, cva } from 'class-variance-authority';
+import { FC, HTMLAttributes } from 'react';
+import { normalizePopularityScore, slugify } from '@/utils/formaters';
 
 const ActorInfo = ({ actor }: { actor: PeopleResponse }) => {
 	return (
 		<div className='mt-2 w-full z-10 flex justify-between items-start'>
 			<Heading
-				element='h3'
+				element='h2'
 				title={actor.name}
 				size='small'
 				className='truncate'
@@ -54,7 +55,6 @@ const ActorCard: FC<CardProps> = ({ className, actor, isLoading, route }) => {
 				href={slugify(route)}
 				aria-label={generateArialLabel(actor)}
 				aria-labelledby={`actor-title-${actor.id}`}
-				tabIndex={0}
 			>
 				<figure className={cn(cardClasses({ className }))}>
 					<Image

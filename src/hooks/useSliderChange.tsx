@@ -6,7 +6,7 @@ import { MovieResponse } from '@/types/tmdb';
 import { formatDate, slugify } from '@/utils/formaters';
 import Heading from '@/components/ui/Heading';
 import Paragraph from '@/components/ui/Paragraph';
-import Icon from '@/components/Icon';
+import Icon from '@/components/Icon/Icon';
 import Ratings from '@/components/ui/Ratings';
 import SeeMore from '@/components/ui/SeeMore';
 

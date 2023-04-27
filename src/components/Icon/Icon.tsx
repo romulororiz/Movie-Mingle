@@ -25,6 +25,9 @@ import {
 	Home,
 	LogIn,
 	Menu,
+	Compass,
+	Cog,
+	UserPlus,
 	X as Close,
 } from 'lucide-react';
 
@@ -51,6 +54,9 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	LogIn,
 	Menu,
 	Close,
+	Compass,
+	Cog,
+	UserPlus,
 };
 
 import { FC, SVGProps } from 'react';

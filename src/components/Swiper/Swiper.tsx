@@ -1,20 +1,20 @@
 'use client';
 
-import React, { useRef, useState, useMemo } from 'react';
-import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
-import { getSwiperOptions } from '@/lib/swiper';
-import { MovieResponse } from '@/types/tmdb';
-import { Swiper as SwiperClass } from 'swiper';
-import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
-import PlayBtnSwiper from './ui/PlayBtnSwiper';
-import MovieCard from './ui/MovieCard';
-import Overlay from './ui/Overlay';
+import { Overlay } from '@/components/ui';
 import { isTablet } from '@/utils/breakpoints';
-import 'swiper/swiper-bundle.css';
+import { MovieCard } from '@/components/Cards';
+import { getMoviePath } from '@/utils/getPath';
+import { MovieResponse } from '@/types/tmdb';
+import { PlayBtnSwiper } from './PlayBtnSwiper';
+import { MovieInfoHero } from '@/components/ui';
+import { getSwiperOptions } from '@/lib/swiper';
+import { Swiper as SwiperClass } from 'swiper';
+import React, { useRef, useState } from 'react';
+import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
 import Image from 'next/image';
-import { getMoviePath } from '@/utils/getPath';
-import MovieInfoHero from './MovieInfoHero';
+import 'swiper/swiper-bundle.css';
 
 // Card Slider Desktop
 type SwiperComponentProps = {

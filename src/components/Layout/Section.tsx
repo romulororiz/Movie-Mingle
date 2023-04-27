@@ -2,10 +2,10 @@
 
 import { cn } from '@/utils/cn';
 import { cva } from 'class-variance-authority';
+import { Heading } from '@/components/ui';
+import { SeeMore } from '@/components/ui';
+import { Overlay } from '@/components/ui';
 import { FC, HTMLAttributes } from 'react';
-import Heading from './ui/Heading';
-import SeeMore from './ui/SeeMore';
-import Overlay from './ui/Overlay';
 
 interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;
@@ -61,11 +61,6 @@ const Section: FC<SectionProps> = ({
 			</div>
 
 			<div
-				// className={cn({
-				// 	'flex flex-wrap justify-start gap-x-8 gap-y-[3.5rem] relative':
-				// 		container,
-				// 	'flex-nowrap overflow-x-auto': !container,
-				// })}
 				className={cn({
 					'grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12':
 						container && !isActor,

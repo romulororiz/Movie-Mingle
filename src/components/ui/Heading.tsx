@@ -1,7 +1,7 @@
 import { cn } from '@/utils/cn';
+import { Icon } from '@/components/Icon';
 import { VariantProps, cva } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
-import Icon from '../Icon';
 
 const headingVariants = cva(
 	'flex items-center text-white font-semibold tracking-tighter',

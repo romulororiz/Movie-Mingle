@@ -1,8 +1,8 @@
-import { Header } from '@/components/Header';
-import Providers from '@/components/Providers';
-import { getCurrentUser } from '@/lib/session';
 import { cn } from '@/utils/cn';
 import { Inter } from 'next/font/google';
+import { Header } from '@/components/Layout';
+import { Providers } from '@/components';
+import { getCurrentUser } from '@/lib/session';
 
 import '@/styles/globals.css';
 

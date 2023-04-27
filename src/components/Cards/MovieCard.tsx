@@ -1,23 +1,24 @@
-import { FC, HTMLAttributes } from 'react';
-import { MovieResponse } from '@/types/tmdb';
 import { cn } from '@/utils/cn';
-import { formatDate, slugify } from '@/utils/formaters';
 import { cva } from 'class-variance-authority';
+import { Icon } from '@/components/Icon';
+import { Heading } from '@/components/ui';
+import { Ratings } from '@/components/ui';
+import { SkeletonCard } from '@/components/Cards';
 import { getMoviePath } from '@/utils/getPath';
+import { MovieResponse } from '@/types/tmdb';
+import { FC, HTMLAttributes } from 'react';
+import { formatDate, slugify } from '@/utils/formaters';
+
 import Link from 'next/link';
-import Icon from '../Icon';
-import Heading from './Heading';
-import Ratings from './Ratings';
-import SkeletonCard from './SkeletonCard';
 import Image from 'next/image';
 
-const MovieInfo = ({ movie }: { movie: MovieResponse }) => {
+const MovieCardInfo = ({ movie }: { movie: MovieResponse }) => {
 	return (
 		<div className='mt-2 w-full z-10 flex gap-x-1 justify-between items-start'>
 			<div className='flex flex-col truncate gap-1'>
 				<Link href={slugify(`/movies/${movie.title}`)}>
 					<Heading
-						element='h3'
+						element='h2'
 						title={movie.title}
 						size='small'
 						id={`movie-title-${movie.id}`}
@@ -72,7 +73,6 @@ const MovieCard: FC<CardProps> = ({
 				href={slugify(route)}
 				aria-label={generateArialLabel(movie)}
 				aria-labelledby={`movie-title-${movie.id}`}
-				tabIndex={0}
 			>
 				<figure className={cn(cardClasses({ className }))}>
 					<Image
@@ -86,7 +86,7 @@ const MovieCard: FC<CardProps> = ({
 					/>
 				</figure>
 			</Link>
-			{!isSlider && <MovieInfo movie={movie} />}
+			{!isSlider && <MovieCardInfo movie={movie} />}
 		</div>
 	);
 };

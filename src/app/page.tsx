@@ -1,19 +1,18 @@
 'use client';
 
+import { Section } from '@/components/Layout';
 import { isTablet } from '@/utils/breakpoints';
 import { CardPerView } from '@/utils/cardPerView';
 import { useAppState } from '@/context/stateContext';
+import { SkeletonHero } from '@/components/ui';
 import { HeroBgSection } from '@/components/ui/HeroBg';
-import { RenderSkeletonCards } from '@/components/ui/SkeletonCard';
-
-import Section from '@/components/Section';
-import useTMDB from '@/hooks/useTMDB';
-import ActorCard from '@/components/ui/ActorCard';
-import MovieCard from '@/components/ui/MovieCard';
-import useBgChange from '@/hooks/useSliderChange';
-import SkeletonHero from '@/components/ui/SkeletonHero';
-import useWindowSize from '@/hooks/useWindowSize';
+import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
+import { ActorCard, MovieCard } from '@/components/Cards';
 import { SwiperComponent, SwiperMobileComponent } from '@/components/Swiper';
+
+import useTMDB from '@/hooks/useTMDB';
+import useBgChange from '@/hooks/useSliderChange';
+import useWindowSize from '@/hooks/useWindowSize';
 
 export default function Home() {
 	// Get global state for the current slide index from Swiper

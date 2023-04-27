@@ -21,10 +21,14 @@
 		],
 		"paths": {
 			"@/*": ["./src/*"],
+			"@/components/*": ["./src/components/*"],
+			"@/components/Swiper/*": ["./src/components/Swiper/*"],
+			"@/components/Layout/*": ["./src/components/Layout/*"],
+			"@/components/Cards/*": ["./src/components/Cards/*"],
+			"@/components/ui/*": ["./src/components/ui/*"],
+			"@/components/Icon/*": ["./src/components/Icon/*"],
 			"@/styles/*": ["./src/styles/*"],
 			"@/lib/*": ["./src/lib/*"],
-			"@/components/*": ["./src/components/*"],
-			"@/ui/*": ["./src/components/ui/*"],
 			"@/hooks/*": ["./src/hooks/*"],
 			"@/helpers/*": ["./src/helpers/*"],
 			"@/utils/*": ["./src/utils/*"]

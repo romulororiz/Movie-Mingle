@@ -1,14 +1,17 @@
 import { FC } from 'react';
-import Icon from '../Icon';
+import { Icon } from '@/components/Icon';
 import { isMobile } from '@/utils/breakpoints';
+
 import useWindowSize from '@/hooks/useWindowSize';
 
 interface PlayBtnSwiperProps {
 	isPlaying: boolean;
 	onClick: () => void;
 }
-
-const PlayBtnSwiper: FC<PlayBtnSwiperProps> = ({ isPlaying, onClick }) => {
+export const PlayBtnSwiper: FC<PlayBtnSwiperProps> = ({
+	isPlaying,
+	onClick,
+}) => {
 	const windowSize = useWindowSize();
 
 	return (

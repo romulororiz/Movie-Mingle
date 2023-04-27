@@ -3,30 +3,38 @@
 import Link from 'next/link';
 import { User } from 'next-auth';
 import { signOut } from 'next-auth/react';
-
+import { UserAvatar } from './Avatar';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/DropdownMenu';
-import { UserAvatar } from './Avatar';
-import useScrollPosition from '@/hooks/useScrollPosition';
-import { cn } from '@/lib/utils';
 
-interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
+interface UserNavProps extends React.HTMLAttributes<HTMLDivElement> {
 	user: Pick<User, 'name' | 'image' | 'email'>;
 }
 
-export function UserAccountNav({ user }: UserAccountNavProps) {
-	const { isScrolled } = useScrollPosition();
+export const UserNavMobile = ({ user }: UserNavProps) => {
+	return (
+		<div className='flex items-center gap-4'>
+			<UserAvatar
+				user={{ name: user.name || null, image: user.image || null }}
+			/>
+			<div className='flex flex-col'>
+				<div className='text-md font-semibold'>{user.name}</div>
+				<div className='text-sm font-light text-slate-300'>{user.email}</div>
+			</div>
+		</div>
+	);
+};
 
+export default function UserNav({ user }: UserNavProps) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger>
 				<UserAvatar
 					user={{ name: user.name || null, image: user.image || null }}
-					className={cn('h-12 w-12 transition-all')}
 				/>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent

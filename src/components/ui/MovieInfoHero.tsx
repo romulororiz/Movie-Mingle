@@ -1,11 +1,7 @@
+import { Icon } from '@/components/Icon';
 import { MovieResponse } from '@/types/tmdb';
-import { FC } from 'react';
-import Heading from './ui/Heading';
-import Paragraph from './ui/Paragraph';
 import { formatDate, slugify } from '@/utils/formaters';
-import Icon from './Icon';
-import Ratings from './ui/Ratings';
-import SeeMore from './ui/SeeMore';
+import { Ratings, SeeMore, Heading, Paragraph } from '@/components/ui';
 
 interface MovieInfoHeroProps {
 	movie: MovieResponse;

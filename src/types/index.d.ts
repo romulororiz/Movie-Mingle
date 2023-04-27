@@ -5,18 +5,23 @@ export type SiteConfig = {
 };
 
 export type NavItem = {
-	section: string;
-	navItems: {
-		title: string;
-		href: string;
-		icon: string;
-		requiresAuth: boolean;
-		description?: string;
-	}[];
+	title: string;
+	href: string;
+	icon: string;
+	isLogout?: boolean;
+	description?: string;
 };
 
-export type MainNavItem = NavItem;
+export type MainNavItem = {
+	section: string;
+	requiresAuth: boolean;
+	navItems: NavItem[];
+};
 
 export type HeaderConfig = {
+	mainNav: MainNavItem[];
+};
+
+export type SidebarConfig = {
 	mainNav: MainNavItem[];
 };

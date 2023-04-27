@@ -1,19 +1,19 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
-import { MainNavItem } from '@/types';
 import { cn } from '@/utils/cn';
+import { Heading } from '@/components/ui';
+import { Dropdown } from '@/components/ui/Dropdown';
+import { MainNavItem } from '@/types';
+import { usePathname } from 'next/navigation';
+
 import Link from 'next/link';
-import Heading from '@/ui/Heading';
-import Dropdown from '@/ui/Dropdown';
 import useScrollPosition from '@/hooks/useScrollPosition';
 
 interface MainNavProps {
 	items?: MainNavItem[];
 }
 45;
-export function MainNav({ items }: MainNavProps) {
-
+export default function MainNav({ items }: MainNavProps) {
 	const { isScrolled } = useScrollPosition();
 
 	const route = usePathname();
@@ -37,12 +37,13 @@ export function MainNav({ items }: MainNavProps) {
 					title='LOGO'
 				/>
 			</Link>
+
 			<div className='hidden md:flex md:items-center md:gap-6 md:ml-20'>
 				<Link href='/'>
 					<Heading
 						element='h2'
 						size='small'
-						title={'HOME'}
+						title='HOME'
 						className={cn(
 							'transition hover:text-primaryAccent-default font-normal pt-[2px]',
 							{
@@ -51,15 +52,19 @@ export function MainNav({ items }: MainNavProps) {
 						)}
 					/>
 				</Link>
-				{items?.map((item, index) => (
-					<Dropdown
-						item={item}
-						key={index}
-						menuItemsClassName='bg-dark-background'
-						linkActiveHoverClassName='text-primaryAccent-default'
-						linkLabelActiveClassName='text-primaryAccent-default'
-					/>
-				))}
+
+				{items?.map(
+					(item, index) =>
+						!item.requiresAuth && (
+							<Dropdown
+								item={item}
+								key={index}
+								menuItemsClassName='bg-dark-background'
+								linkActiveHoverClassName='text-primaryAccent-default'
+								linkLabelActiveClassName='text-primaryAccent-default'
+							/>
+						)
+				)}
 			</div>
 		</div>
 	);

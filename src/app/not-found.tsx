@@ -1,8 +1,7 @@
-import Icon from '@/components/Icon';
-import Heading from '@/components/ui/Heading';
 import Link from 'next/link';
 import { FC } from 'react';
-
+import { Icon } from '@/components/Icon';
+import { Heading } from '@/components/ui';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

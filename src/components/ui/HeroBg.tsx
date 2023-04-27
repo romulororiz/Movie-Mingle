@@ -1,9 +1,10 @@
-import Overlay from './Overlay';
 import React from 'react';
+
 import { cn } from '@/utils/cn';
+import { Overlay } from '@/components/ui';
 import { MovieResponse } from '@/types/tmdb';
 import { getMoviePath } from '@/utils/getPath';
-import MovieInfoHero from '../MovieInfoHero';
+import { MovieInfoHero } from '@/components/ui';
 
 interface HeroBgProps {
 	src: string;

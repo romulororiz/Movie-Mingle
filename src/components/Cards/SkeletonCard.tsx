@@ -1,7 +1,8 @@
-import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
-import { CardPerView } from '@/utils/cardPerView';
 import { cn } from '@/utils/cn';
 import { FC } from 'react';
+import { CardPerView } from '@/utils/cardPerView';
+
+import useWindowSize from '@/hooks/useWindowSize';
 
 interface SkeletonCardProps {
 	key?: string;
