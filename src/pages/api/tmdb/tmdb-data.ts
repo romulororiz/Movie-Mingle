@@ -7,6 +7,7 @@ export const tmdbKey = env.TMDB_API_KEY as string;
 
 // Validate query parameters
 const movieQuerySchema = z.object({
+	title: z.string().optional(),
 	'release_date.gte': z.string().optional(),
 	'release_date.lte': z.string().optional(),
 	with_genres: z.array(z.string()).optional(),
@@ -40,21 +41,35 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			case 'popular':
 				data = await fetchData('/movie/popular');
 				break;
+
 			case 'now_playing':
 				data = await fetchData('/movie/now_playing');
 				break;
+
 			case 'top_rated':
 				data = await fetchData('/movie/top_rated');
 				break;
+
 			case 'upcoming':
 				data = await fetchData('/movie/upcoming');
 				break;
+
 			case 'genres':
 				data = await fetchData('/genre/movie/list');
 				break;
+
 			case 'popular_actors':
 				data = await fetchData('/person/popular');
 				break;
+
+			case 'movie_details':
+				const { id } = req.query;
+
+				if (!id) throw new Error('Missing id parameter');
+
+				data = await fetchData(`/movie/${id}`);
+				break;
+
 			case 'movie_query':
 				const { releaseDateGte, releaseDateLte, genres, voteGte, voteLte } =
 					req.query;

@@ -29,9 +29,9 @@ export const Header = ({ user }: HeaderProps) => {
 		>
 			<div className='container max-w-7xl flex justify-between gap-10 items-center mx-auto'>
 				<MainNav items={headerConfig.mainNav} />
-				<div className='flex w-full justify-end'>
+				{/* <div className='flex w-full justify-end'>
 					<Input />
-				</div>
+				</div> */}
 				<div className='hidden md:flex'>
 					{user ? (
 						<UserNav

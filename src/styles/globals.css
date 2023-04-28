@@ -2,11 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* add smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
 /* custom */
 .spotlight {
   @apply bg-gradient-to-r from-transparent via-slate-100/50 to-transparent rounded-full absolute -z-[1] blur-[120px];
   @apply w-full h-40;
-  @apply left-0 right-0 top-20 mx-auto;
+  @apply left-0 right-0 top-16 mx-auto;
   @apply pointer-events-none;
 }
 

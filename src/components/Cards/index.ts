@@ -1,3 +1,2 @@
-export { default as MovieCard } from './MovieCard';
+export { default as Card } from './Card';
 export { default as SkeletonCard } from './SkeletonCard';
-export { default as ActorCard } from './ActorCard';

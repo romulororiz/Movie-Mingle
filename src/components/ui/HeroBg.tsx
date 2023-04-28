@@ -3,8 +3,8 @@ import React from 'react';
 import { cn } from '@/utils/cn';
 import { Overlay } from '@/components/ui';
 import { MovieResponse } from '@/types/tmdb';
-import { getMoviePath } from '@/utils/getPath';
 import { MovieInfoHero } from '@/components/ui';
+import { getBackgroundImagePath } from '@/utils/getPath';
 
 interface HeroBgProps {
 	src: string;
@@ -25,7 +25,7 @@ const HeroBg = ({
 		<div
 			key={imageKey}
 			className={cn(
-				'absolute inset-0 min-h-screen h-[750px] bg-cover bg-no-repeat bg-center md:bg-[center_-100px]',
+				'absolute inset-0 min-h-screen h-[750px] bg-cover bg-no-repeat bg-center md:bg-[center_-200px]',
 				{
 					'transition-opacity duration-700': isSlider,
 					'animate-fadeIn': isSlider && active,
@@ -64,18 +64,16 @@ export const HeroBgSection = ({
 				<HeroBg
 					imageKey={`prev-${previousImageIndex}`}
 					src={
-						getMoviePath(popularMovies[previousImageIndex], {
-							isBG: true,
-						}).backgroundImage
+						getBackgroundImagePath(popularMovies[previousImageIndex])
+							?.backgroundImage || ''
 					}
 				/>
 			}
 			<HeroBg
 				imageKey={`curr-${currentImageIndex}`}
 				src={
-					getMoviePath(popularMovies[currentImageIndex], {
-						isBG: true,
-					}).backgroundImage
+					getBackgroundImagePath(popularMovies[currentImageIndex])
+						?.backgroundImage || ''
 				}
 			/>
 

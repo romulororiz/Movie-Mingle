@@ -7,12 +7,12 @@ import { useAppState } from '@/context/stateContext';
 import { SkeletonHero } from '@/components/ui';
 import { HeroBgSection } from '@/components/ui/HeroBg';
 import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
-import { ActorCard, MovieCard } from '@/components/Cards';
 import { SwiperComponent, SwiperMobileComponent } from '@/components/Swiper';
 
 import useTMDB from '@/hooks/useTMDB';
 import useBgChange from '@/hooks/useSliderChange';
 import useWindowSize from '@/hooks/useWindowSize';
+import Card from '@/components/Cards/Card';
 
 export default function Home() {
 	// Get global state for the current slide index from Swiper
@@ -39,7 +39,7 @@ export default function Home() {
 			)}
 
 			{isTablet(windowSize) ? (
-				<Section container={false} route='/movies/popular' className=''>
+				<Section container={false} route='/movies/popular'>
 					{!popularMovies.isLoading ? (
 						<SwiperMobileComponent
 							movies={popularMovies.data}
@@ -79,13 +79,7 @@ export default function Home() {
 			>
 				{!popularActors.isLoading ? (
 					popularActors.data
-						.map(actor => (
-							<ActorCard
-								key={`actor-${actor.id}`}
-								actor={actor}
-								route={`/actors/${actor.name}`}
-							/>
-						))
+						.map(actor => <Card key={`actor-${actor.id}`} item={actor} />)
 						.slice(
 							0,
 							CardPerView(windowSize, { isActor: true, isMovie: false })
@@ -103,13 +97,7 @@ export default function Home() {
 			>
 				{!nowPlaying.isLoading ? (
 					nowPlaying.data
-						.map(movie => (
-							<MovieCard
-								key={`movie-${movie.id}`}
-								movie={movie}
-								route={`/movies/${movie.title}`}
-							/>
-						))
+						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards />
@@ -124,13 +112,7 @@ export default function Home() {
 			>
 				{!upcoming.isLoading ? (
 					upcoming.data
-						.map(movie => (
-							<MovieCard
-								key={`movie-${movie.id}`}
-								movie={movie}
-								route={`/movies/${movie.title}`}
-							/>
-						))
+						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards isMovie={true} />
@@ -145,13 +127,7 @@ export default function Home() {
 			>
 				{!topRated.isLoading ? (
 					topRated.data
-						.map(movie => (
-							<MovieCard
-								key={`movie-${movie.id}`}
-								movie={movie}
-								route={`/movies/${movie.title}`}
-							/>
-						))
+						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards isMovie={true} />

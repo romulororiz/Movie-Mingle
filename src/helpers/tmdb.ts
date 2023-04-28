@@ -1,11 +1,16 @@
-import { MovieData, PeopleData } from '@/types/tmdb';
-import { isMovieResponse, isPeopleResponse } from '@/utils/typeGuards';
+import { MovieData, MovieDetailResponse, PeopleData } from '@/types/tmdb';
+import {
+	isMovieDetailResponse,
+	isMovieResponse,
+	isPeopleResponse,
+} from '@/utils/typeGuards';
 import axios from 'axios';
 
-export const fetchFromHandler = async (type: string) => {
+export const fetchFromHandler = async (type: string, id?: number) => {
 	const response = await axios.get(`/api/tmdb/tmdb-data`, {
 		params: {
 			type,
+			id,
 		},
 	});
 
@@ -23,6 +28,10 @@ export const fetchFromHandler = async (type: string) => {
 		} else if (isPeopleResponse(data.results)) {
 			return data.results;
 		}
+	}
+
+	if (type === 'movie_details') {
+		return response.data as MovieDetailResponse;
 	}
 
 	throw new Error(`Unexpected data type received for ${type}`);

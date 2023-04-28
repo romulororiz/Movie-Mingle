@@ -2,8 +2,7 @@
 
 import { Overlay } from '@/components/ui';
 import { isTablet } from '@/utils/breakpoints';
-import { MovieCard } from '@/components/Cards';
-import { getMoviePath } from '@/utils/getPath';
+import { getImagePath } from '@/utils/getPath';
 import { MovieResponse } from '@/types/tmdb';
 import { PlayBtnSwiper } from './PlayBtnSwiper';
 import { MovieInfoHero } from '@/components/ui';
@@ -14,6 +13,8 @@ import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
 import Image from 'next/image';
+import Card from '../Cards/Card';
+import { cn } from '@/utils/cn';
 import 'swiper/swiper-bundle.css';
 
 // Card Slider Desktop
@@ -48,7 +49,7 @@ const SwiperComponent = ({
 	const getMovieCardClass = (index: number) => {
 		if (index === activeIndex)
 			return 'border-2 border-primaryAccent-default after:bg-transparent z-50 md:scale-125';
-		return '';
+		return 'border border-dark-background';
 	};
 
 	const stopPlayAutoplay = () => {
@@ -95,26 +96,21 @@ const SwiperComponent = ({
 				ref={swiperRef}
 			>
 				{movies.map((movie, index) => (
-					<SwiperSlide
-						key={`movie-${movie.id}`}
-						onClick={() => handleClick(index)}
-						className='flex justify-center w-full '
-					>
-						<MovieCard
-							movie={movie}
-							className={getMovieCardClass(index)}
-							isCurrentSlide={index === activeIndex}
-							isSlider={true}
-							route='#'
-						/>
-					</SwiperSlide>
+					<div key={`movie-${movie.id}`} className='relative'>
+						<Overlay className='spotlight' />
+						<SwiperSlide onClick={() => handleClick(index)}>
+							<Card
+								item={movie}
+								className={getMovieCardClass(index)}
+								isSlider={true}
+							/>
+						</SwiperSlide>
+					</div>
 				))}
+				<div className='absolute bottom-0 md:bottom-8 right-0 max-w-7xl mx-auto px-[5rem] left-0 flex -z-[1] w-full justify-end'>
+					<PlayBtnSwiper isPlaying={isPlaying} onClick={stopPlayAutoplay} />
+				</div>
 			</Swiper>
-
-			{/* play / pause based on actual state */}
-			<div className='absolute bottom-0 md:bottom-8 right-0 max-w-7xl mx-auto container left-0 flex z-50 w-full justify-end'>
-				<PlayBtnSwiper isPlaying={isPlaying} onClick={stopPlayAutoplay} />
-			</div>
 		</>
 	);
 };
@@ -136,7 +132,7 @@ const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 			{movies.map(movie => (
 				<SwiperSlide key={`movie-${movie.id}`}>
 					<Image
-						src={getMoviePath(movie).backgroundImage || ''}
+						src={getImagePath(movie)}
 						alt={movie.title}
 						width='0'
 						height='0'
@@ -145,10 +141,10 @@ const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 						priority
 					/>
 					<MovieInfoHero movie={movie} />
-					<Overlay
+					{/* <Overlay
 						className='bg-gradient-to-b from-transparent from-75%
 				via-dark-background to-dark-background z-[1]'
-					/>
+					/> */}
 				</SwiperSlide>
 			))}
 		</Swiper>

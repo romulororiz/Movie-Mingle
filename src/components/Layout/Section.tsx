@@ -5,7 +5,10 @@ import { cva } from 'class-variance-authority';
 import { Heading } from '@/components/ui';
 import { SeeMore } from '@/components/ui';
 import { Overlay } from '@/components/ui';
+import { isTablet } from '@/utils/breakpoints';
 import { FC, HTMLAttributes } from 'react';
+
+import useWindowSize from '@/hooks/useWindowSize';
 
 interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;
@@ -27,6 +30,8 @@ const Section: FC<SectionProps> = ({
 	isActor = false,
 	route,
 }) => {
+	const windowSize = useWindowSize();
+
 	const sectionVariants = cva(
 		cn('mx-auto max-w-[85rem] w-full relative z-[2]', {
 			'md:max-w-[95rem]': !container,
@@ -61,12 +66,16 @@ const Section: FC<SectionProps> = ({
 			</div>
 
 			<div
-				className={cn({
-					'grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-12':
-						container && !isActor,
-					'grid grid-cols-2 xs:grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-4':
-						container && isActor,
-				})}
+				className={
+					container
+						? cn('grid gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10', {
+								'grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4':
+									container && !isActor,
+								'grid-cols-2 xs:grid-cols-3 lg:grid-cols-6':
+									container && isActor,
+						  })
+						: ''
+				}
 			>
 				{children}
 			</div>
@@ -75,9 +84,10 @@ const Section: FC<SectionProps> = ({
 			{seeMore && container && (
 				<SeeMore
 					route={route}
-					container={container}
+					isSection={true}
 					isActor={isActor}
-					className={cn('flex justify-end md:hidden', {})}
+					icon={!isTablet(windowSize)}
+					className={cn('flex justify-center mt-8 md:hidden')}
 				/>
 			)}
 		</section>

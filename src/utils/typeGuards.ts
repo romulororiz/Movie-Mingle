@@ -1,10 +1,18 @@
 import {
 	GenreResponse,
 	MovieData,
+	MovieDetailResponse,
 	MovieResponse,
 	PeopleData,
 	PeopleResponse,
 } from '@/types/tmdb';
+
+export const isMovieResponseItem = (data: any): data is MovieResponse => {
+	if (typeof data === 'object' && data !== null && 'backdrop_path' in data) {
+		return true;
+	}
+	return false;
+};
 
 export const isMovieResponse = (data: any): data is MovieResponse[] => {
 	if (Array.isArray(data) && data.length) {
@@ -12,6 +20,15 @@ export const isMovieResponse = (data: any): data is MovieResponse[] => {
 			movie =>
 				typeof movie === 'object' && movie !== null && 'backdrop_path' in movie
 		);
+	}
+	return false;
+};
+
+export const isMovieDetailResponse = (
+	data: any
+): data is MovieDetailResponse => {
+	if (typeof data === 'object' && data !== null && 'revenue' in data) {
+		return true;
 	}
 	return false;
 };
@@ -24,6 +41,13 @@ export const isMovieData = (data: any): data is MovieData[] => {
 		'results' in data &&
 		isMovieResponse(data.results)
 	) {
+		return true;
+	}
+	return false;
+};
+
+export const isPeopleResponseItem = (data: any): data is PeopleResponse => {
+	if (typeof data === 'object' && data !== null && 'known_for' in data) {
 		return true;
 	}
 	return false;

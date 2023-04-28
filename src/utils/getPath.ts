@@ -1,7 +1,7 @@
-import { MovieResponse, PeopleResponse } from '@/types/tmdb';
-import { isMovieResponse } from './typeGuards';
+import { MovieOrActor } from '@/types/tmdb';
+import { isMovieResponseItem } from './typeGuards';
 
-const getImg = (path: string, isImage: boolean) => {
+const getAbsoluteUrl = (path: string, isImage: boolean) => {
 	switch (path) {
 		case null:
 			return isImage ? `assets/no-image.jpg` : `url(assets/no-image.jpg)`;
@@ -12,26 +12,18 @@ const getImg = (path: string, isImage: boolean) => {
 	}
 };
 
-export const getMoviePath = (
-	movie: MovieResponse,
-	options: { isBG?: boolean } = {
-		isBG: false,
+export const getImagePath = (item: MovieOrActor) => {
+	if (isMovieResponseItem(item)) {
+		return getAbsoluteUrl(item.poster_path, true);
+	} else {
+		return getAbsoluteUrl(item.profile_path, true);
 	}
-) => {
-	if (!movie) {
-		return { backgroundImage: '' };
-	}
-
-	const { backdrop_path, poster_path } = movie;
-
-	const { isBG } = options;
-
-	return isBG
-		? { backgroundImage: getImg(backdrop_path, false) }
-		: { backgroundImage: getImg(poster_path, true) };
 };
 
-export const getActorPath = (actor: PeopleResponse) => {
-	const { profile_path } = actor;
-	return { backgroundImage: getImg(profile_path, true) };
+export const getBackgroundImagePath = (item: MovieOrActor) => {
+	if (isMovieResponseItem(item)) {
+		return {
+			backgroundImage: getAbsoluteUrl(item.backdrop_path, false),
+		};
+	}
 };

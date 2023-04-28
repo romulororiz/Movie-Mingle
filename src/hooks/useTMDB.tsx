@@ -1,5 +1,9 @@
 import { fetchFromHandler } from '@/helpers/tmdb';
-import { isMovieResponse, isPeopleResponse } from '@/utils/typeGuards';
+import {
+	isMovieDetailResponse,
+	isMovieResponse,
+	isPeopleResponse,
+} from '@/utils/typeGuards';
 import { useQuery } from '@tanstack/react-query';
 
 const useTMDB = () => {
