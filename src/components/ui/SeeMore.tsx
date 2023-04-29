@@ -10,7 +10,6 @@ import { cn } from '@/utils/cn';
 
 interface SeeMoreProps {
 	route: string;
-	container?: boolean;
 	isActor?: boolean;
 	className?: string;
 	icon?: boolean;
@@ -40,8 +39,9 @@ const SeeMore: FC<SeeMoreProps> = ({
 			<Link href={route}>
 				<Button
 					variant={getVariant(windowSize)}
-					className={cn('group font-semibold tracking-wider', {
-						'pr-0 tracking-tight font-thin': !isSection,
+					className={cn('group', {
+						'font-semibold tracking-wider md:pr-0 pr-4': isSection,
+						'font-normal pr-0': !isSection,
 					})}
 				>
 					See More

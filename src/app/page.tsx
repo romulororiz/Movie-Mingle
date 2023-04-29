@@ -53,7 +53,7 @@ export default function Home() {
 				<Section
 					icon='ThumbsUp'
 					title='Recommended' // change upon user preferences
-					className='md:-mt-[20rem] z-50'
+					className='md:-mt-[10rem] z-50'
 					container={false}
 					route='/movies/popular'
 					seeMore={false}
@@ -72,7 +72,7 @@ export default function Home() {
 
 			<Section
 				icon='Users'
-				className='mt-7 md:mt-20'
+				className='mt-7 md:mt-24'
 				title='Popular Actors'
 				route='/actors'
 				isActor={true}

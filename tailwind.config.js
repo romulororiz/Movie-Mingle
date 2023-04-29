@@ -40,8 +40,9 @@ module.exports = {
 					secondary: '#707070',
 					hover: '#B3B3B3',
 				},
-				primaryAccent: {
-					default: '#FDBB30',
+				accent: {
+					primary: '#FDBB30',
+					secondary: '#c99629',
 				},
 			},
 			keyframes: {

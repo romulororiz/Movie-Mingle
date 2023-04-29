@@ -1,2 +1,2 @@
 export { SwiperComponent, SwiperMobileComponent } from './Swiper';
-export { PlayBtnSwiper } from './PlayBtnSwiper';
+export { default as PlayBtnSwiper } from './PlayBtnSwiper';

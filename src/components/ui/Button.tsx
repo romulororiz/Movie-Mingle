@@ -4,24 +4,25 @@ import { Loader2 } from 'lucide-react';
 import * as React from 'react';
 
 const buttonVariants = cva(
-	'active:scale-95 inline-flex items-center justify-center rounded-full text-sm font-medium transition-all disabled:pointer-events-none',
+	'active:scale-95 shadow-[-1px_11px_12px_-8px_rgba(0,0,0,0.25)] active:shadow-none inline-flex items-center justify-center rounded-full text-sm font-medium transition-all disabled:pointer-events-none',
 	{
 		variants: {
 			variant: {
 				default:
-					'bg-primaryAccent-default text-dark-primary hover:bg-opacity-80',
+					'bg-accent-primary text-dark-background active:bg-accent-secondary',
 				destructive: 'bg-red-500 text-dark-primary hover:bg-red-600',
 				outline:
-					'bg-transparent text-primaryAccent-default hover:text-dark-background border-2 border-primaryAccent-default hover:border-primaryAccent-default hover:bg-primaryAccent-default',
+					'bg-transparent text-accent-primary hover:text-dark-background border-2 border-accent-primary hover:border-accent-primary hover:bg-accent-primary',
 				subtle:
-					'bg-dark-background text-primaryAccent-default hover:bg-opacity-20',
-				ghost: 'bg-transparent hover:text-primaryAccent-default',
-				link: 'bg-transparent underline-offset-4 hover:underline text-primaryAccent-default hover:bg-transparent',
+					'bg-accent-primary bg-opacity-20 text-dark-background hover:bg-opacity-100',
+				ghost: 'bg-transparent hover:text-accent-primary',
+				link: 'bg-transparent underline-offset-4 hover:text-accent-primary shadow-none',
 			},
 			size: {
 				default: 'h-10 py-2 px-4',
-				sm: 'h-9 px-4',
-				lg: 'h-11 px-8',
+				lg: 'h-11 py-6 px-8',
+				md: 'h-9 py-4 px-6',
+				sm: 'h-8 py-2 px-4',
 			},
 		},
 		defaultVariants: {

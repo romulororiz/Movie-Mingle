@@ -25,9 +25,9 @@ html {
 }
 
 .swiper .swiper-pagination-bullet {
-  @apply w-2 h-2 bg-primaryAccent-default !important;
+  @apply w-2 h-2 bg-accent-primary !important;
 }
 
 .swiper-button-prev, .swiper-button-next {
-  @apply text-primaryAccent-default -mt-16 !important;
+  @apply text-accent-primary -mt-16 !important;
 }

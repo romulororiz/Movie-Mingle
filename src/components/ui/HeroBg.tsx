@@ -3,8 +3,8 @@ import React from 'react';
 import { cn } from '@/utils/cn';
 import { Overlay } from '@/components/ui';
 import { MovieResponse } from '@/types/tmdb';
-import { MovieInfoHero } from '@/components/ui';
 import { getBackgroundImagePath } from '@/utils/getPath';
+import { MovieInfoHero } from '@/components/ui';
 
 interface HeroBgProps {
 	src: string;
@@ -55,8 +55,8 @@ export const HeroBgSection = ({
 	return (
 		<section className='hidden md:block h-[750px] relative overflow-hidden'>
 			<Overlay
-				className='md:bg-gradient-to-b md:from-dark-background/40 md:from-35%
-		   md:via-dark-background md:via-65% md:to-dark-background z-[1]
+				className='md:bg-gradient-to-b md:from-dark-background/50 md:from-35%
+		   md:via-dark-background md:via-85% md:to-dark-background z-[1]
 		   bg-gradient-to-b from-dark-background/40 from-65%
 		   via-dark-background/90 via-[90%] to-dark-background'
 			/>

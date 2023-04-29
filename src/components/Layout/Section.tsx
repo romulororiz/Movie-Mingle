@@ -50,14 +50,15 @@ const Section: FC<SectionProps> = ({
 					}
 				)}
 			>
-				<Heading title={title} element='h1' size='large' icon={icon} />
+				<Heading title={title} element='h1' size='lg' icon={icon} />
 
 				{/* top see more */}
 				{seeMore && (
 					<SeeMore
 						route={route}
-						container={container}
 						isActor={isActor}
+						isSection={true}
+						icon={!isTablet(windowSize)}
 						className={cn('w-fit md:flex hidden', {
 							hidden: !container,
 						})}
@@ -84,8 +85,8 @@ const Section: FC<SectionProps> = ({
 			{seeMore && container && (
 				<SeeMore
 					route={route}
-					isSection={true}
 					isActor={isActor}
+					isSection={true}
 					icon={!isTablet(windowSize)}
 					className={cn('flex justify-center mt-8 md:hidden')}
 				/>

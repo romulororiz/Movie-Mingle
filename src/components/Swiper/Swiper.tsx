@@ -4,7 +4,7 @@ import { Overlay } from '@/components/ui';
 import { isTablet } from '@/utils/breakpoints';
 import { getImagePath } from '@/utils/getPath';
 import { MovieResponse } from '@/types/tmdb';
-import { PlayBtnSwiper } from './PlayBtnSwiper';
+import { PlayBtnSwiper } from '@/components/Swiper';
 import { MovieInfoHero } from '@/components/ui';
 import { getSwiperOptions } from '@/lib/swiper';
 import { Swiper as SwiperClass } from 'swiper';
@@ -14,7 +14,6 @@ import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
 import Image from 'next/image';
 import Card from '../Cards/Card';
-import { cn } from '@/utils/cn';
 import 'swiper/swiper-bundle.css';
 
 // Card Slider Desktop
@@ -48,7 +47,7 @@ const SwiperComponent = ({
 
 	const getMovieCardClass = (index: number) => {
 		if (index === activeIndex)
-			return 'border-2 border-primaryAccent-default after:bg-transparent z-50 md:scale-125';
+			return 'border-2 border-accent-primary after:bg-transparent z-50 md:scale-125';
 		return 'border border-dark-background';
 	};
 
@@ -96,16 +95,16 @@ const SwiperComponent = ({
 				ref={swiperRef}
 			>
 				{movies.map((movie, index) => (
-					<div key={`movie-${movie.id}`} className='relative'>
-						<Overlay className='spotlight' />
-						<SwiperSlide onClick={() => handleClick(index)}>
-							<Card
-								item={movie}
-								className={getMovieCardClass(index)}
-								isSlider={true}
-							/>
-						</SwiperSlide>
-					</div>
+					<SwiperSlide
+						onClick={() => handleClick(index)}
+						key={`movie-${movie.id}`}
+					>
+						<Card
+							item={movie}
+							className={getMovieCardClass(index)}
+							isSlider={true}
+						/>
+					</SwiperSlide>
 				))}
 				<div className='absolute bottom-0 md:bottom-8 right-0 max-w-7xl mx-auto px-[5rem] left-0 flex -z-[1] w-full justify-end'>
 					<PlayBtnSwiper isPlaying={isPlaying} onClick={stopPlayAutoplay} />
@@ -141,10 +140,6 @@ const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 						priority
 					/>
 					<MovieInfoHero movie={movie} />
-					{/* <Overlay
-						className='bg-gradient-to-b from-transparent from-75%
-				via-dark-background to-dark-background z-[1]'
-					/> */}
 				</SwiperSlide>
 			))}
 		</Swiper>

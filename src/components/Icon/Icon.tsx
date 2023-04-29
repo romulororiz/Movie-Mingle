@@ -73,12 +73,12 @@ const Icon: FC<IconProps> = ({ name, color = '#FDBB30', size, ...props }) => {
 	size =
 		size ||
 		(isMobile(windowSize)
-			? 24
+			? 22
 			: isTablet(windowSize)
-			? 28
+			? 26
 			: isLaptop(windowSize)
-			? 30
-			: 32);
+			? 28
+			: 30);
 
 	const IconComponent = lucideIcons[name];
 

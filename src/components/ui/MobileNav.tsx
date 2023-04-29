@@ -128,8 +128,8 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 											<Heading
 												element='h1'
 												title='LOGO'
-												size='large'
-												className='text-primaryAccent-default'
+												size='lg'
+												className='text-accent-primary'
 											/>
 										</Link>
 										<HamburgerMenu
@@ -154,8 +154,8 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 													<Heading
 														element='h2'
 														title={itemSection.section}
-														size='medium'
-														className='text-primaryAccent-default'
+														size='md'
+														className='text-accent-primary'
 													/>
 												</div>
 											)}
@@ -169,7 +169,7 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 																	href={navItem.href}
 																	onClick={() => handleLogout(navItem)}
 																	className={cn(
-																		'flex w-full items-center py-2 px-4 text-md font-medium transition hover:text-primaryAccent-default'
+																		'flex w-full items-center py-2 px-4 text-md font-medium transition hover:text-accent-primary'
 																	)}
 																>
 																	<div className='flex gap-2 items-center'>

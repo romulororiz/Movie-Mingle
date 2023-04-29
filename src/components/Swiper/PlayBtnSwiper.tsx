@@ -8,7 +8,7 @@ interface PlayBtnSwiperProps {
 	isPlaying: boolean;
 	onClick: () => void;
 }
-export const PlayBtnSwiper: FC<PlayBtnSwiperProps> = ({
+const PlayBtnSwiper: FC<PlayBtnSwiperProps> = ({
 	isPlaying,
 	onClick,
 }) => {

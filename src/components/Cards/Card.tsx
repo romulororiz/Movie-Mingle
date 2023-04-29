@@ -38,11 +38,11 @@ const CardInfo = ({ item }: CardInfoProps) => {
 					<Heading
 						element='h2'
 						title={isMovie(item) ? item.title : item.name}
-						size='small'
+						size='sm'
 						id={
 							isMovie(item) ? `movie-title-${item.id}` : `actor-name-${item.id}`
 						}
-						className='hover:text-primaryAccent-default transition truncate'
+						className='hover:text-accent-primary transition truncate'
 					/>
 				</Link>
 				{isMovie(item) ? (
@@ -98,7 +98,7 @@ const Card: FC<CardProps> = ({
 
 	const cardClasses = cva(
 		cn(
-			'transition shadow-black shadow-md duration-700 cursor-pointer relative aspect-[2/3] overflow-hidden w-full h-full rounded-md after:rounded-md after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primaryAccent-default'
+			'transition shadow-black shadow-md duration-700 cursor-pointer relative aspect-[2/3] overflow-hidden w-full h-full rounded-md after:rounded-md after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-primary'
 		)
 	);
 
@@ -107,7 +107,10 @@ const Card: FC<CardProps> = ({
 	return (
 		<div className='h-full w-full flex flex-col justify-between'>
 			<Link
-				href={isSlider ? 'javascript:void(0);' : (createSlug(item) as string)}
+				href={createSlug(item) || '/'}
+				onClick={e => {
+					isSlider && e.preventDefault();
+				}}
 				aria-label={generateArialLabel(item)}
 				aria-labelledby={
 					isMovie(item) ? `movie-title-${item.id}` : `actor-name-${item.id}`

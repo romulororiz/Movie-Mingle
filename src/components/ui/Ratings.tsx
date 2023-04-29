@@ -25,7 +25,7 @@ const Ratings: FC<RatingsProps> = ({
 				height={isMobile(windowSize) ? 25 : 35}
 				quality={100}
 			/>
-			<span className='text-sm md:text-md'>
+			<span className='text-sm md:text-md font-normal'>
 				{movie.vote_average}/<span className='text-xs'>10</span>
 			</span>
 		</div>

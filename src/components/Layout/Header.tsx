@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { User } from '@prisma/client';
-import { Input } from '@/components/ui';
+import { Heading, Input } from '@/components/ui';
 import { UserNav } from '@/components/ui';
 import { MainNav } from '@/components/ui';
 import { MobileNav } from '@/components/ui';
@@ -10,6 +10,7 @@ import { SignInButton } from '@/components/ui';
 import { headerConfig } from '@/config/header';
 
 import useScrollPosition from '@/hooks/useScrollPosition';
+import Link from 'next/link';
 
 interface HeaderProps {
 	user: User;
@@ -21,13 +22,20 @@ export const Header = ({ user }: HeaderProps) => {
 	return (
 		<header
 			className={cn(
-				'transition-all duration-200 fixed h-20 top-0 w-full flex z-[100]',
+				'transition-all duration-200 fixed h-24 top-0 left-0 w-full flex z-[100]',
 				{
-					'bg-dark-background/80 backdrop-blur-md': isScrolled,
+					'bg-dark-background/80 backdrop-blur-md h-20': isScrolled,
 				}
 			)}
 		>
-			<div className='container max-w-7xl flex justify-between gap-10 items-center mx-auto'>
+			<div className='container max-w-7xl flex justify-between items-center'>
+				<Link href='/'>
+					<Heading
+						element='h1'
+						className='font-bold text-3xl text-accent-primary'
+						title='LOGO'
+					/>
+				</Link>
 				<MainNav items={headerConfig.mainNav} />
 				{/* <div className='flex w-full justify-end'>
 					<Input />

@@ -41,19 +41,19 @@ export function Dropdown({
 		<Menu as='div' className='relative inline-block text-left'>
 			<Menu.Button
 				onClick={() => setMenuOpen(!menuOpen)}
-				className='inline-flex w-full justify-center items-center text-sm font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'
+				className='inline-flex w-full justify-center items-center text-sm font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'
 			>
 				<Heading
 					element='h2'
-					size='small'
+					size='sm'
 					title={item.section.toUpperCase()}
-					className='group transition hover:text-primaryAccent-default font-normal'
+					className='group transition hover:text-accent-primary'
 				/>
 				<Icon
 					name={menuOpen ? 'ChevronUp' : 'ChevronDown'}
 					aria-hidden='true'
 					size={16}
-					className='ml-1 group group-hover:stroke-primaryAccent-default'
+					className='ml-1 group group-hover:stroke-accent-primary'
 				/>
 			</Menu.Button>
 			<Transition
@@ -67,7 +67,7 @@ export function Dropdown({
 			>
 				<Menu.Items
 					className={cn(
-						'absolute mt-2 p-2 w-56 space-y-1  flex flex-col origin-top-left left-0 rounded-lg shadow-md shadow-black ring-1 ring-black ring-opacity-5 focus:outline-none',
+						'absolute mt-2 p-4  w-56 space-y-1  flex flex-col origin-top-left left-0 rounded-lg shadow-md shadow-black ring-1 ring-black ring-opacity-5 focus:outline-none',
 						menuItemsClassName
 					)}
 				>

@@ -3,6 +3,17 @@ import { HeaderConfig } from '@/types';
 export const headerConfig: HeaderConfig = {
 	mainNav: [
 		{
+			section: 'Home',
+			requiresAuth: false,
+			navItems: [
+				{
+					title: 'Home',
+					href: '/',
+					icon: 'Home',
+				},
+			],
+		},
+		{
 			section: 'Discover',
 			requiresAuth: false,
 			navItems: [
