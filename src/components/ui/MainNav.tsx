@@ -1,24 +1,21 @@
 'use client';
 
 import { cn } from '@/utils/cn';
-import { Button, Heading } from '@/components/ui';
-import { Dropdown } from '@/components/ui/Dropdown';
+import { Heading } from '@/components/ui';
 import { MainNavItem } from '@/types';
 import { usePathname } from 'next/navigation';
+import { HTMLAttributes } from 'react';
+import Link, { LinkProps } from 'next/link';
 
-import Link from 'next/link';
 import useScrollPosition from '@/hooks/useScrollPosition';
 
-const HeaderNavLink = ({
-	href,
-	title,
-	className,
-}: {
-	key: number;
+interface HeaderNavLinkProps extends HTMLAttributes<LinkProps> {
 	href: string;
 	title: string;
 	className?: string;
-}) => {
+}
+
+const HeaderNavLink = ({ href, title, className }: HeaderNavLinkProps) => {
 	const { isScrolled } = useScrollPosition();
 
 	const route = usePathname();
@@ -27,19 +24,18 @@ const HeaderNavLink = ({
 
 	return (
 		<Link href={href}>
-			<Button
-				variant='link'
+			<Heading
+				element='h2'
+				title={title}
 				className={cn(
-					'transition-all font-bold pt-[2px] md:text-sm lg:text-md p-0 rounded-none',
+					'transition-all hover:text-accent-secondary uppercase font-semibold md:text-sm lg:text-md',
 					className,
 					{
 						'md:text-[10px] lg:text-[12px]': isScrolled,
 						'text-accent-primary': isActiveRoute,
 					}
 				)}
-			>
-				{title.toUpperCase()}
-			</Button>
+			/>
 		</Link>
 	);
 };

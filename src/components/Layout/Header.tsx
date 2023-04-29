@@ -36,13 +36,13 @@ export const Header = ({ user }: HeaderProps) => {
 						title='LOGO'
 					/>
 				</Link>
+
 				<MainNav items={headerConfig.mainNav} />
-				{/* <div className='flex w-full justify-end'>
-					<Input />
-				</div> */}
+
 				<div className='hidden md:flex'>
 					{user ? (
 						<UserNav
+							items={headerConfig.mainNav}
 							user={{
 								name: user.name,
 								image: user.image,
