@@ -7,7 +7,7 @@ import {
 	PeopleResponse,
 } from '@/types/tmdb';
 
-export const isMovieResponseItem = (data: any): data is MovieResponse => {
+export const isMovieResponseItem = (data: any): data is MovieDetailResponse => {
 	if (typeof data === 'object' && data !== null && 'backdrop_path' in data) {
 		return true;
 	}

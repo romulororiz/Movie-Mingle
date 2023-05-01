@@ -53,10 +53,11 @@ export default function Home() {
 				<Section
 					icon='ThumbsUp'
 					title='Recommended' // change upon user preferences
-					className='md:-mt-[10rem] z-50'
+					className='md:-mt-[15rem] z-50'
 					container={false}
 					route='/movies/popular'
 					seeMore={false}
+					spotlight={false}
 				>
 					{!popularMovies.isLoading ? (
 						<SwiperComponent
@@ -121,7 +122,7 @@ export default function Home() {
 
 			<Section
 				icon='Star'
-				className='mt-12 md:mt-40 mb-24'
+				className='mt-12 md:mt-40 mb-28'
 				title='Best of the best'
 				route='/movies/top-rated'
 			>

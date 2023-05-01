@@ -17,6 +17,7 @@ interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	container?: boolean;
 	seeMore?: boolean;
 	isActor?: boolean;
+	spotlight?: boolean;
 	route: string;
 }
 
@@ -29,6 +30,7 @@ const Section: FC<SectionProps> = ({
 	seeMore = true,
 	isActor = false,
 	route,
+	spotlight = true,
 }) => {
 	const windowSize = useWindowSize();
 
@@ -41,7 +43,7 @@ const Section: FC<SectionProps> = ({
 
 	return (
 		<section className={cn(sectionVariants({ className }))}>
-			{container && <Overlay className='spotlight' />}
+			{spotlight && <Overlay className='spotlight' />}
 			<div
 				className={cn(
 					'flex justify-between max-w-7xl mx-auto z-[70] mb-5 relative',

@@ -18,7 +18,7 @@ const movieQuerySchema = z.object({
 export type MovieQuery = z.infer<typeof movieQuerySchema>;
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { type } = req.query;
+	const { type, id } = req.query;
 
 	// Check sort later on
 	const fetchData = async (
@@ -63,11 +63,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				break;
 
 			case 'movie_details':
-				const { id } = req.query;
-
 				if (!id) throw new Error('Missing id parameter');
 
 				data = await fetchData(`/movie/${id}`);
+				break;
+
+			case 'recommended':
+				if (!id) throw new Error('missing id paramater');
+
+				data = await fetchData(`/movie/${id}/recommendations`);
 				break;
 
 			case 'movie_query':

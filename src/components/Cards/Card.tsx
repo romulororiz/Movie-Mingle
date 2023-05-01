@@ -16,6 +16,7 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { isMovieResponseItem, isPeopleResponseItem } from '@/utils/typeGuards';
+import useWindowSize from '@/hooks/useWindowSize';
 
 interface CardInfoProps {
 	item: MovieOrActor;
@@ -48,7 +49,7 @@ const CardInfo = ({ item }: CardInfoProps) => {
 				{isMovie(item) ? (
 					<span className='text-sm flex gap-1 items-center justify-start'>
 						<Icon name='Calendar' size={16} />
-						{formatDate(item.release_date.toString(), 'MMM yyyy')}
+						{formatDate(item.release_date.toString())}
 					</span>
 				) : (
 					<span className='flex gap-1 items-center text-sm'>
@@ -118,12 +119,12 @@ const Card: FC<CardProps> = ({
 			>
 				<figure className={cn(cardClasses({ className }))}>
 					<Image
-						src={getImagePath(item)}
+						src={getImagePath(item) || ''}
 						alt={isMovie(item) ? item.title : item.name}
 						width='0'
 						height='0'
-						sizes='100vw'
 						className='w-full h-full'
+						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 150px'
 						priority
 					/>
 				</figure>

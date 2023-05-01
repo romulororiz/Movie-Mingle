@@ -28,7 +28,7 @@ const HeaderNavLink = ({ href, title, className }: HeaderNavLinkProps) => {
 				element='h2'
 				title={title}
 				className={cn(
-					'transition-all hover:text-accent-secondary uppercase font-semibold md:text-sm lg:text-md',
+					'transition-all hover:text-accent-secondary uppercase font-semibold md:text-[12px] lg:text-[14px]',
 					className,
 					{
 						'md:text-[10px] lg:text-[12px]': isScrolled,
@@ -47,7 +47,7 @@ interface MainNavProps {
 export default function MainNav({ items }: MainNavProps) {
 	return (
 		<div className={cn('flex md:justify-center md:items-center')}>
-			<div className='hidden md:flex md:items-center space-x-6'>
+			<div className='hidden md:flex md:items-center space-x-3'>
 				{items?.map(
 					mainNavItem =>
 						!mainNavItem.requiresAuth &&

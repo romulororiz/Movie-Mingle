@@ -1,9 +1,5 @@
 import { MovieData, MovieDetailResponse, PeopleData } from '@/types/tmdb';
-import {
-	isMovieDetailResponse,
-	isMovieResponse,
-	isPeopleResponse,
-} from '@/utils/typeGuards';
+import { isMovieResponse, isPeopleResponse } from '@/utils/typeGuards';
 import axios from 'axios';
 
 export const fetchFromHandler = async (type: string, id?: number) => {

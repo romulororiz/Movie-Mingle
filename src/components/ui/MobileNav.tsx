@@ -82,7 +82,7 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 		if (index < length - 1) {
 			return (
 				<hr
-					className='h-px my-8 bg-gray-200/20 border-0 dark:bg-gray-700'
+					className='h-px my-8 bg-gray-200/10 border-0 dark:bg-gray-700'
 					key={index}
 				/>
 			);
@@ -141,7 +141,7 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 									{user && (
 										<>
 											<UserNavMobile user={user} />
-											<hr className='h-px my-8 bg-gray-200/5 border-0 dark:bg-gray-700' />
+											<hr className='h-px my-8 bg-gray-200/10 border-0 dark:bg-gray-700' />
 										</>
 									)}
 									{items.map((itemSection, itemSectionIndex) => (
@@ -149,7 +149,8 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 											className='grid grid-flow-row auto-rows-max'
 											key={itemSectionIndex}
 										>
-											{itemSection.requiresAuth && !user ? null : (
+											{(itemSection.requiresAuth && !user) ||
+											itemSection.section === 'Home' ? null : (
 												<div className='flex gap-2 items-center'>
 													<Heading
 														element='h2'
@@ -160,7 +161,8 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 												</div>
 											)}
 											<div className='mt-2'>
-												{itemSection.requiresAuth && !user
+												{(itemSection.requiresAuth && !user) ||
+												itemSection.section === 'Home'
 													? null
 													: itemSection.navItems.map(
 															(navItem, navItemIndex) => (
@@ -181,6 +183,7 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 													  )}
 											</div>
 											{user &&
+												itemSection.section !== 'Home' &&
 												generateSeparator(itemSectionIndex, items.length)}
 										</nav>
 									))}

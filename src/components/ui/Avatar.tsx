@@ -5,6 +5,7 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
 import { cn } from '@/lib/utils';
 import { User } from '@prisma/client';
+import useScrollPosition from '@/hooks/useScrollPosition';
 
 const Avatar = React.forwardRef<
 	React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -13,7 +14,7 @@ const Avatar = React.forwardRef<
 	<AvatarPrimitive.Root
 		ref={ref}
 		className={cn(
-			'relative flex h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-accent-primary',
+			'relative flex h-12 w-12 shrink-0 overflow-hidden rounded-full transition-all',
 			className
 		)}
 		{...props}
@@ -53,8 +54,10 @@ interface UserAvatarProps extends AvatarPrimitive.AvatarProps {
 }
 
 export const UserAvatar = ({ user, ...props }: UserAvatarProps) => {
+	const { isScrolled } = useScrollPosition();
+
 	return (
-		<Avatar {...props}>
+		<Avatar {...props} className={cn({ 'h-10 w-10': isScrolled })}>
 			{user.image ? (
 				<AvatarImage alt={`${user.name}'s profile picture`} src={user.image} />
 			) : (

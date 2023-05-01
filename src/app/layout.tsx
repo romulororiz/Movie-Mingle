@@ -5,6 +5,7 @@ import { Providers } from '@/components';
 import { getCurrentUser } from '@/lib/session';
 
 import '@/styles/globals.css';
+import Footer from '@/components/Layout/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,12 +17,7 @@ export default async function RootLayout({
 	const user = await getCurrentUser();
 
 	return (
-		<html
-			lang='en'
-			className={
-				(cn('bg-dark-background h-[-webkit-fill-available]'), inter.className)
-			}
-		>
+		<html lang='en' className={(cn('bg-dark-background'), inter.className)}>
 			<body
 				className={cn(
 					'min-h-screen text-slate-200 bg-dark-background antialiased'
@@ -30,7 +26,8 @@ export default async function RootLayout({
 				<Providers>
 					{/* @ts-expect-error Server Component */}
 					<Header user={user} />
-					<main>{children}</main>
+					<main className='min-h-screen'>{children}</main>
+					{/* <Footer /> */}
 				</Providers>
 			</body>
 		</html>

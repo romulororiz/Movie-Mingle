@@ -6,9 +6,11 @@ import {
 	isPeopleResponseItem,
 } from './typeGuards';
 
-export const formatDate = (date: string, dateFormat: string) => {
+export const formatDate = (date: string, dateFormat: string = 'MMM yyyy') => {
+	if (date === '') return 'N/A';
+
 	const dateObj = new Date(date);
-	return format(dateObj, dateFormat);
+	return format(dateObj, dateFormat).toString();
 };
 
 export const normalizePopularityScore = (score: number) => {
@@ -38,6 +40,6 @@ export const createSlug = (item: MovieOrActor) => {
 		return `/actors/${slugify(item.name, item.id)}`;
 };
 
-export const getIdFromPath = (slug: string) => {
+export const getIdFromSlug = (slug: string) => {
 	return Number(slug.split('-').pop());
 };

@@ -5,5 +5,5 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	return <main className='container pt-16 max-w-7xl mx-auto'>{children}</main>;
+	return <main className='pt-32 md:pt-36 max-w-7xl mx-auto'>{children}</main>;
 }

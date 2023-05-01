@@ -31,7 +31,8 @@
 			"@/lib/*": ["./src/lib/*"],
 			"@/hooks/*": ["./src/hooks/*"],
 			"@/helpers/*": ["./src/helpers/*"],
-			"@/utils/*": ["./src/utils/*"]
+			"@/utils/*": ["./src/utils/*"],
+			"@/types/*": ["./src/types/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

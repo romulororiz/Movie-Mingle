@@ -25,7 +25,7 @@ const HeroBg = ({
 		<div
 			key={imageKey}
 			className={cn(
-				'absolute inset-0 min-h-screen h-[750px] bg-cover bg-no-repeat bg-center md:bg-[center_-200px]',
+				'absolute inset-0 min-h-screen h-[750px] bg-cover bg-no-repeat bg-center md:bg-[center_-120px]',
 				{
 					'transition-opacity duration-700': isSlider,
 					'animate-fadeIn': isSlider && active,
@@ -56,7 +56,7 @@ export const HeroBgSection = ({
 		<section className='hidden md:block h-[750px] relative overflow-hidden'>
 			<Overlay
 				className='md:bg-gradient-to-b md:from-dark-background/50 md:from-35%
-		   md:via-dark-background md:via-85% md:to-dark-background z-[1]
+		   md:via-dark-background md:via-70% md:to-dark-background z-[1]
 		   bg-gradient-to-b from-dark-background/40 from-65%
 		   via-dark-background/90 via-[90%] to-dark-background'
 			/>

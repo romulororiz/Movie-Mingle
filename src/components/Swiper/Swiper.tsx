@@ -131,11 +131,11 @@ const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 			{movies.map(movie => (
 				<SwiperSlide key={`movie-${movie.id}`}>
 					<Image
-						src={getImagePath(movie)}
+						src={getImagePath(movie) as string}
 						alt={movie.title}
 						width='0'
 						height='0'
-						sizes='100vw'
+						sizes='(max-width: 375px) 100vw, 375px'
 						className='w-full h-full'
 						priority
 					/>

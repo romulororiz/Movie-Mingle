@@ -9,7 +9,7 @@ interface MovieInfoHeroProps {
 
 const MovieInfoHero = ({ movie }: MovieInfoHeroProps) => {
 	return (
-		<div className='gap-2 text-slate-200 absolute md:max-w-7xl left-0 right-0 md:container p-6 md:backdrop-blur-0 backdrop-blur-sm bg-dark-background/75 md:bg-transparent bottom-0 md:top-[30%] flex flex-col justify-between h-fit md:h-[260px] w-auto z-50'>
+		<div className='gap-2 text-slate-200 absolute md:max-w-7xl left-0 right-0 md:container p-6 md:backdrop-blur-0 backdrop-blur-sm bg-dark-background/75 md:bg-transparent bottom-0 md:top-[25%] flex flex-col justify-between h-fit md:min-h-min w-auto z-50'>
 			<Heading
 				element='h1'
 				title={movie.title}
@@ -17,8 +17,8 @@ const MovieInfoHero = ({ movie }: MovieInfoHeroProps) => {
 			/>
 			<div className='flex flex-col max-w-lg md:gap-1 font-light'>
 				<Paragraph
-					className='text-justify font-normal line-clamp-3 md:line-clamp-4'
-					size='md'
+					className='text-justify font-normal line-clamp-3'
+					size='sm'
 				>
 					{movie.overview}
 				</Paragraph>
@@ -26,7 +26,7 @@ const MovieInfoHero = ({ movie }: MovieInfoHeroProps) => {
 					<div className='flex gap-3 md:gap-5 items-center'>
 						<span className='flex items-center gap-1 font-normal text-sm md:text-md'>
 							<Icon name='Calendar' size={16} />
-							{formatDate(movie.release_date.toString(), 'MMM yyyy')}
+							{formatDate(movie.release_date.toString())}
 						</span>
 						<Ratings movie={movie} className='flex items-center gap-2' />
 					</div>

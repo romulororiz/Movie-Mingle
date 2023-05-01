@@ -28,6 +28,10 @@ import {
 	Compass,
 	Cog,
 	UserPlus,
+	Clock,
+	Globe,
+	DollarSign,
+	LineChart,
 	X as Close,
 } from 'lucide-react';
 
@@ -57,6 +61,11 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	Compass,
 	Cog,
 	UserPlus,
+	Clock,
+	Globe,
+	DollarSign,
+	LineChart,
+	
 };
 
 import { FC, SVGProps } from 'react';

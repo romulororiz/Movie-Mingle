@@ -1,4 +1,5 @@
 import { fetchFromHandler } from '@/helpers/tmdb';
+import { MovieDetailResponse } from '@/types/tmdb';
 import {
 	isMovieDetailResponse,
 	isMovieResponse,
@@ -6,14 +7,15 @@ import {
 } from '@/utils/typeGuards';
 import { useQuery } from '@tanstack/react-query';
 
-const useTMDB = () => {
+const useTMDB = (movieId?: number, fetchOnlyDetail: boolean = false) => {
 	const {
 		data: topRated,
 		isLoading: isLoadingTopRated,
 		error: errorTopRated,
 	} = useQuery({
-		queryKey: ['topRated'],
+		queryKey: [`TopRated`],
 		queryFn: () => fetchFromHandler('top_rated'),
+		enabled: !fetchOnlyDetail,
 	});
 
 	const {
@@ -21,8 +23,9 @@ const useTMDB = () => {
 		isLoading: isLoadingPopularMovies,
 		error: errorPopularMovies,
 	} = useQuery({
-		queryKey: ['popularMovies'],
+		queryKey: [`PopularMovies`],
 		queryFn: () => fetchFromHandler('popular'),
+		enabled: !fetchOnlyDetail,
 	});
 
 	const {
@@ -30,8 +33,9 @@ const useTMDB = () => {
 		isLoading: isLoadingNowPlaying,
 		error: errorNowPlaying,
 	} = useQuery({
-		queryKey: ['nowPlaying'],
+		queryKey: [`NowPlaying`],
 		queryFn: () => fetchFromHandler('now_playing'),
+		enabled: !fetchOnlyDetail,
 	});
 
 	const {
@@ -39,8 +43,9 @@ const useTMDB = () => {
 		isLoading: isLoadingUpcoming,
 		error: errorUpcoming,
 	} = useQuery({
-		queryKey: ['upcoming'],
+		queryKey: [`Upcoming`],
 		queryFn: () => fetchFromHandler('upcoming'),
+		enabled: !fetchOnlyDetail,
 	});
 
 	const {
@@ -48,8 +53,29 @@ const useTMDB = () => {
 		isLoading: isLoadingPopularActors,
 		error: errorPopularActors,
 	} = useQuery({
-		queryKey: ['popularActors'],
+		queryKey: [`PopularActors`],
 		queryFn: () => fetchFromHandler('popular_actors'),
+		enabled: !fetchOnlyDetail,
+	});
+
+	const {
+		data: movieDetail,
+		isLoading: isLoadingMovieDetail,
+		error: errorMovieDetail,
+	} = useQuery({
+		queryKey: [`MovieDetail`],
+		queryFn: () => fetchFromHandler('movie_details', movieId),
+		enabled: fetchOnlyDetail,
+	});
+
+	const {
+		data: movieRecommendations,
+		isLoading: isLoadingMovieRecommendations,
+		error: errorMovieRecommendations,
+	} = useQuery({
+		queryKey: [`MovieRecommendations`],
+		queryFn: () => fetchFromHandler('recommended', movieId),
+		enabled: fetchOnlyDetail,
 	});
 
 	return {
@@ -77,6 +103,16 @@ const useTMDB = () => {
 			data: isPeopleResponse(popularActors) ? popularActors : [],
 			isLoading: isLoadingPopularActors,
 			error: errorPopularActors,
+		},
+		movieDetail: {
+			data: isMovieDetailResponse(movieDetail) ? movieDetail : null,
+			isLoading: isLoadingMovieDetail,
+			error: errorMovieDetail,
+		},
+		movieRecommendations: {
+			data: isMovieResponse(movieRecommendations) ? movieRecommendations : [],
+			isLoading: isLoadingMovieRecommendations,
+			error: errorMovieRecommendations,
 		},
 	};
 };
