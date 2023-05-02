@@ -23,7 +23,7 @@ interface PageProps {
 
 const MovieDetailInfo = ({ item }: { item: MovieDetailResponse }) => {
 	return (
-		<div className='w-full flex flex-col gap-8 md:gap-6 mt-10 h-full'>
+		<div className='w-full flex flex-col gap-12 md:gap-6 mt-10 h-full'>
 			<Heading
 				element='h1'
 				title={item.title}
@@ -105,7 +105,7 @@ export default function MoviePage({ params }: PageProps) {
 				route={`/movies/${encodeURIComponent(slug)}/recommended`}
 				title='You might also like'
 				icon='ThumbsUp'
-				className='mt-28 mb-28'
+				className='mt-20 mb-28'
 				spotlight={false}
 			>
 				{!recommendedMoviesIsLoading ? (
