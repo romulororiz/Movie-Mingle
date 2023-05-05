@@ -69,10 +69,10 @@ const CastSection = ({ item }: { item: CastResponse[] }) => {
 							/>
 							<Overlay className='rounded-md bg-dark-background bg-opacity-20' />
 							<figcaption className='absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center py-2'>
-								<Paragraph className='text-center text-sm md:text-sm lg:text-sm xl:text-sm'>
+								<Paragraph className='text-center text-sm sm:text-sm md:text-sm lg:text-sm xl:text-sm'>
 									{item.name}
 								</Paragraph>
-								<Paragraph className='text-center text-sm md:text-sm lg:text-sm xl:text-sm'>
+								<Paragraph className='text-center text-sm sm:text-sm md:text-sm lg:text-sm xl:text-sm'>
 									{item.character}
 								</Paragraph>
 							</figcaption>
