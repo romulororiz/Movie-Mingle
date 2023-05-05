@@ -1,12 +1,16 @@
 import {
+	CastResponse,
 	GenreResponse,
+	MovieCreditsResponse,
 	MovieData,
 	MovieDetailResponse,
 	MovieResponse,
 	PeopleData,
+	PeopleDetailResponse,
 	PeopleResponse,
 } from '@/types/tmdb';
 
+// todo remove isMovieResponseItem and isPeopleResponseItem
 export const isMovieResponseItem = (data: any): data is MovieDetailResponse => {
 	if (typeof data === 'object' && data !== null && 'backdrop_path' in data) {
 		return true;
@@ -46,8 +50,22 @@ export const isMovieData = (data: any): data is MovieData[] => {
 	return false;
 };
 
+// todo check this out because known for doesn't exist in the response
 export const isPeopleResponseItem = (data: any): data is PeopleResponse => {
 	if (typeof data === 'object' && data !== null && 'known_for' in data) {
+		return true;
+	}
+	return false;
+};
+
+export const isPeopleDetailResponse = (
+	data: any
+): data is PeopleDetailResponse => {
+	if (
+		typeof data === 'object' &&
+		data !== null &&
+		'known_for_department' in data
+	) {
 		return true;
 	}
 	return false;
@@ -85,6 +103,32 @@ export const isGenreResponse = (data: any): data is GenreResponse[] => {
 				'id' in genre &&
 				'name' in genre
 		);
+	}
+	return false;
+};
+
+export const isMovieCreditsResponse = (
+	data: any
+): data is MovieCreditsResponse => {
+	if (
+		typeof data === 'object' &&
+		data !== null &&
+		'cast' in data &&
+		'crew' in data
+	) {
+		return true;
+	}
+	return false;
+};
+
+export const isCastResponseItem = (data: any): data is CastResponse => {
+	if (
+		typeof data === 'object' &&
+		data !== null &&
+		'cast_id' in data &&
+		'order' in data
+	) {
+		return true;
 	}
 	return false;
 };

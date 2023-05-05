@@ -14,6 +14,8 @@ import useBgChange from '@/hooks/useSliderChange';
 import useWindowSize from '@/hooks/useWindowSize';
 import Card from '@/components/Cards/Card';
 
+export const fetchCache = 'force-cache';
+
 export default function Home() {
 	// Get global state for the current slide index from Swiper
 	//see context/stateContext.tsx
@@ -22,7 +24,7 @@ export default function Home() {
 	const windowSize = useWindowSize();
 
 	const { topRated, popularMovies, nowPlaying, upcoming, popularActors } =
-		useTMDB();
+		useTMDB(null, { fetchGeneral: true });
 
 	if (!popularMovies.data) return null;
 

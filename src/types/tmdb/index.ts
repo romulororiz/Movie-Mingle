@@ -1,3 +1,10 @@
+export interface MovieData {
+	results: MovieResponse[] | null;
+	page: number;
+	total_results: number;
+	total_pages: number;
+}
+
 export interface MovieResponse {
 	poster_path: string;
 	adult: boolean;
@@ -43,6 +50,39 @@ export interface MovieDetailResponse {
 	vote_count: number;
 }
 
+export interface PeopleData {
+	results: PeopleResponse[] | null;
+	page: number;
+	total_results: number;
+	total_pages: number;
+}
+
+export interface PeopleResponse {
+	profile_path: string;
+	adult: boolean;
+	id: number;
+	name: string;
+	popularity: number;
+	known_for: MovieResponse[];
+}
+
+export interface PeopleDetailResponse {
+	adult: boolean;
+	also_known_as: string[];
+	biography: string;
+	birthday: string;
+	deathday: null;
+	gender: number;
+	homepage: null;
+	id: number;
+	imdb_id: string;
+	known_for_department: string;
+	name: string;
+	place_of_birth: string;
+	popularity: number;
+	profile_path: string;
+}
+
 export interface ProductionCompanyResponse {
 	id: number;
 	logo_path: string;
@@ -60,32 +100,28 @@ export interface SpokenLanguageResponse {
 	name: string;
 }
 
-export interface MovieData {
-	results: MovieResponse[] | null;
-	page: number;
-	total_results: number;
-	total_pages: number;
-}
-
 export interface GenreResponse {
 	id: number;
 	name: string;
 }
 
-export interface PeopleResponse {
-	profile_path: string;
+export interface CastResponse {
+	cast_id: number;
+	character: string;
+	credit_id: string;
 	adult: boolean;
-	id: number;
+	gender: number;
+	know_for_department: string;
+	order: number;
+	original_name: string;
+	profile_path: string;
 	name: string;
 	popularity: number;
-	known_for: MovieResponse[];
 }
 
-export interface PeopleData {
-	results: PeopleResponse[] | null;
-	page: number;
-	total_results: number;
-	total_pages: number;
+export interface MovieCreditsResponse {
+	id: number;
+	cast: CastResponse[];
 }
 
 export type MovieOrActor = MovieResponse | PeopleResponse;

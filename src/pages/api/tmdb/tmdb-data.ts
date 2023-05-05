@@ -62,14 +62,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				data = await fetchData('/person/popular');
 				break;
 
+			case 'actor_details':
+				if (!id) throw new Error('Missing id parameter');
+				data = await fetchData(`/person/${id}`);
+				break;
+
 			case 'movie_details':
 				if (!id) throw new Error('Missing id parameter');
 
 				data = await fetchData(`/movie/${id}`);
 				break;
 
+			case 'movie_credits':
+				if (!id) throw new Error('Missing id parameter');
+
+				data = await fetchData(`/movie/${id}/credits`);
+				break;
+
 			case 'recommended':
-				if (!id) throw new Error('missing id paramater');
+				if (!id) throw new Error('missing id parameter');
 
 				data = await fetchData(`/movie/${id}/recommendations`);
 				break;

@@ -3,17 +3,21 @@
 import { Card } from '@/components/Cards';
 import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
 import { Section } from '@/components/Layout';
-import { Heading, HeroBg, Overlay, Paragraph } from '@/components/ui';
+import { Avatar, Heading, HeroBg, Overlay, Paragraph } from '@/components/ui';
+import { AvatarImage } from '@/components/ui/Avatar';
 import MovieStats, { GenreItem } from '@/components/ui/MovieStats';
-import { fetchFromHandler } from '@/helpers/tmdb';
 import useTMDB from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
-import { MovieDetailResponse } from '@/types/tmdb';
+import { CastResponse, MovieDetailResponse } from '@/types/tmdb';
 import { CardPerView } from '@/utils/cardPerView';
-import { getIdFromSlug, slugify } from '@/utils/formaters';
+import { cn } from '@/utils/cn';
+import { getIdFromSlug } from '@/utils/formaters';
 import { getBackgroundImagePath, getImagePath } from '@/utils/getPath';
-import { isMovieDetailResponse, isMovieResponse } from '@/utils/typeGuards';
+import { isMovieDetailResponse } from '@/utils/typeGuards';
 import Image from 'next/image';
+import { Fragment, useState } from 'react';
+
+export const revalidate = 60 * 60 * 60; // 1 hour
 
 interface PageProps {
 	params: {
@@ -42,26 +46,57 @@ const MovieDetailInfo = ({ item }: { item: MovieDetailResponse }) => {
 	);
 };
 
-export async function generateStaticParams() {
-	const movies = await fetchFromHandler('popular');
+const CastSection = ({ item }: { item: CastResponse[] }) => {
+	return (
+		<div className='flex flex-col gap-3 items-center md:items-start'>
+			<Heading
+				element='h1'
+				title='Cast'
+				size='lg'
+				className='text-accent-primary text-center md:text-left'
+			/>
 
-	if (!isMovieResponse(movies)) throw new Error('Invalid response');
-
-	return movies.map(movie => ({
-		params: {
-			slug: slugify(movie.title, movie.id) as string,
-		},
-	}));
-}
+			<div className='flex flex-wrap gap-3 justify-center md:justify-start'>
+				{item
+					.map((item, index) => (
+						<figure key={index} className='relative grow-0 w-44 h-64 group cursor-pointer'>
+							<Image
+								src={getImagePath(item) || ''}
+								alt={item.name}
+								fill
+								sizes='(max-width: 768px) 100vw, 50vw, 33vw'
+								className='rounded-md'
+							/>
+							<Overlay className='rounded-md bg-dark-background bg-opacity-20' />
+							<figcaption className='absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center py-2'>
+								<Paragraph className='text-center text-sm md:text-sm lg:text-sm xl:text-sm'>
+									{item.name}
+								</Paragraph>
+								<Paragraph className='text-center text-sm md:text-sm lg:text-sm xl:text-sm'>
+									{item.character}
+								</Paragraph>
+							</figcaption>
+						</figure>
+					))
+					.slice(0, 6)}
+			</div>
+		</div>
+	);
+};
 
 export default function MoviePage({ params }: PageProps) {
+	const [isImgLoading, setIsImgLoading] = useState(true);
 	const { slug } = params;
 
 	const windowSize = useWindowSize();
 
 	const movieId = getIdFromSlug(slug);
 
-	const { movieDetail, movieRecommendations } = useTMDB(movieId, true);
+	const { movieDetail, movieRecommendations, movieCredits } = useTMDB(movieId, {
+		fetchMovieDetail: true,
+		fetchRecommendations: true,
+		fetchMovieCredits: true,
+	});
 
 	const { isLoading: movieDetailIsLoading, data: movieDetailData } =
 		movieDetail;
@@ -69,12 +104,18 @@ export default function MoviePage({ params }: PageProps) {
 	const { data: recommendedMoviesData, isLoading: recommendedMoviesIsLoading } =
 		movieRecommendations;
 
+	const { data: movieCreditsData, isLoading: movieCreditsIsLoading } =
+		movieCredits;
+
+	console.log(movieCreditsData);
+
+	// todo add loading state
+	if (movieDetailIsLoading) return 'loading';
+
 	if (!isMovieDetailResponse(movieDetailData)) return null;
 
-	// todo add loading skeleton
-
 	return (
-		<div>
+		<div className='min-h-screen'>
 			<section className='absolute top-0 left-0 right-0 mx-auto w-full h-screen'>
 				<HeroBg
 					imageKey={`movie-${movieId}`}
@@ -87,20 +128,38 @@ export default function MoviePage({ params }: PageProps) {
 				via-dark-background via-85% to-dark-background'
 				/>
 			</section>
-			<section className='flex-col md:flex-row flex md:gap-6 items-center relative z-[2] container'>
+			<section className='flex-col md:flex-row flex md:gap-10 items-center relative z-[2] container'>
 				<figure>
-					<Image
-						src={getImagePath(movieDetailData) || ''}
-						alt={movieDetailData.title}
-						className='rounded-md'
-						sizes='(max-width: 768px) 100vw, 50vw, 33vw'
-						width={550}
-						height={500}
-						priority
-					/>
+					<Fragment key={movieDetailData.id}>
+						<Image
+							src={getImagePath(movieDetailData) || ''}
+							alt={movieDetailData.title}
+							className={cn(
+								'rounded-md ease-in-out duration-300'
+								// isImgLoading
+								// 	? 'grayscale blur-2xl scale-110'
+								// 	: 'grayscale-0 blur-0 scale-100'
+							)}
+							sizes='(max-width: 768px) 100vw, 50vw, 33vw'
+							width={460}
+							height={500}
+							priority
+							onLoadingComplete={() => setIsImgLoading(false)}
+						/>
+					</Fragment>
 				</figure>
-				<MovieDetailInfo item={movieDetailData} />
+
+				<div className='flex flex-col gap-4'>
+					<MovieDetailInfo item={movieDetailData} />
+				</div>
 			</section>
+
+			{movieCreditsData && (
+				<section className='container relative z-[2] mt-10'>
+					<CastSection item={movieCreditsData.cast} />
+				</section>
+			)}
+
 			<Section
 				route={`/movies/${encodeURIComponent(slug)}/recommended`}
 				title='You might also like'
@@ -108,6 +167,7 @@ export default function MoviePage({ params }: PageProps) {
 				className='mt-20 mb-28'
 				spotlight={false}
 			>
+				{/* //todo fix !data.length */}
 				{!recommendedMoviesIsLoading ? (
 					recommendedMoviesData
 						.map(movie => (
@@ -130,5 +190,3 @@ export default function MoviePage({ params }: PageProps) {
 		</div>
 	);
 }
-
-export const revalidate = 60 * 60 * 24; // 24 hours

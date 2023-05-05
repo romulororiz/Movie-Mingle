@@ -6,6 +6,11 @@ import {
 	isPeopleResponseItem,
 } from './typeGuards';
 
+/**
+ * @param date
+ * @param dateFormat
+ * @returns  Formatted date string
+ */
 export const formatDate = (date: string, dateFormat: string = 'MMM yyyy') => {
 	if (date === '') return 'N/A';
 
@@ -13,12 +18,23 @@ export const formatDate = (date: string, dateFormat: string = 'MMM yyyy') => {
 	return format(dateObj, dateFormat).toString();
 };
 
+/**
+ * @param score
+ * @returns  Formatted score string
+ */
+
 export const normalizePopularityScore = (score: number) => {
 	const minScore = 0;
 	const maxScore = 100;
 	const minNormalizedScore = (score - minScore) / (maxScore - minScore);
 	return Math.round(minNormalizedScore * 100) / 100;
 };
+
+/**
+ * @param text
+ * @param number
+ * @returns  Slugified string
+ */
 
 export const slugify = (text: string, number?: number) => {
 	const slugifiedText = text
@@ -33,12 +49,23 @@ export const slugify = (text: string, number?: number) => {
 	if (number) return `${slugifiedText}-${number}`;
 };
 
+/**
+ * @param item: MovieOrActor
+ * @returns  Formatted image url
+ * @description  Returns a formatted image for the given item (movie or actor)
+ */
+
 export const createSlug = (item: MovieOrActor) => {
 	if (isMovieResponseItem(item) || isMovieDetailResponse(item))
 		return `/movies/${slugify(item.title, item.id)}`;
 	if (isPeopleResponseItem(item))
 		return `/actors/${slugify(item.name, item.id)}`;
 };
+
+/**
+ * @param slug
+ * @returns  movie id from slug
+ */
 
 export const getIdFromSlug = (slug: string) => {
 	return Number(slug.split('-').pop());

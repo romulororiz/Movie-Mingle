@@ -1,7 +1,14 @@
-import { MovieDetailResponse, MovieOrActor } from '@/types/tmdb';
 import {
+	CastResponse,
+	MovieDetailResponse,
+	MovieOrActor,
+	PeopleDetailResponse,
+} from '@/types/tmdb';
+import {
+	isCastResponseItem,
 	isMovieDetailResponse,
 	isMovieResponseItem,
+	isPeopleDetailResponse,
 	isPeopleResponseItem,
 } from './typeGuards';
 
@@ -16,10 +23,16 @@ const getAbsoluteUrl = (path: string, isImage: boolean) => {
 	}
 };
 
-export const getImagePath = (item: MovieOrActor | MovieDetailResponse) => {
+export const getImagePath = (
+	item: MovieOrActor | MovieDetailResponse | PeopleDetailResponse | CastResponse
+) => {
 	if (isMovieResponseItem(item) || isMovieDetailResponse(item)) {
 		return getAbsoluteUrl(item.poster_path, true);
-	} else if (isPeopleResponseItem(item)) {
+	} else if (
+		isPeopleResponseItem(item) ||
+		isPeopleDetailResponse(item) ||
+		isCastResponseItem(item)
+	) {
 		return getAbsoluteUrl(item.profile_path, true);
 	}
 };

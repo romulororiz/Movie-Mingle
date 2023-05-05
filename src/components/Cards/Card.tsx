@@ -17,6 +17,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { isMovieResponseItem, isPeopleResponseItem } from '@/utils/typeGuards';
 import useWindowSize from '@/hooks/useWindowSize';
+import { getPlaiceholder } from 'plaiceholder';
 
 interface CardInfoProps {
 	item: MovieOrActor;
