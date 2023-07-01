@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { blurData, cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
 import { Icon } from '@/components/Icon';
 import { Heading } from '@/components/ui';
@@ -16,7 +16,6 @@ import {
 	isMovieResponseItem,
 	isPeopleResponseItem,
 } from '@/utils/typeGuards';
-import { blurredPlaceholder } from '@/lib/utils';
 
 interface CardInfoProps {
 	item: MovieOrActor | CastResponse;
@@ -156,9 +155,13 @@ const Card: FC<CardProps> = ({
 						height='0'
 						className={cn(
 							'h-full w-full transition',
-							blurredPlaceholder(isImgLoading)
+							isImgLoading
+								? 'grayscale blur-2xl scale-105 duration-200'
+								: 'grayscale-0 blur-0 scale-100 duration-200'
 						)}
 						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 150px'
+						placeholder='blur'
+						blurDataURL={blurData}
 						onLoadingComplete={() => setIsImgLoading(false)}
 					/>
 				</figure>

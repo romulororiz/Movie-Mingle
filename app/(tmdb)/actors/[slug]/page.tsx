@@ -1,6 +1,6 @@
 'use client';
 
-import { blurredPlaceholder, cn } from '@/lib/utils';
+import { blurData, cn } from '@/lib/utils';
 import { getAbsoluteUrl } from '@/lib/utils';
 import { getIdFromSlug } from '@/lib/utils';
 import { HeroBg, Overlay } from '@/components/ui';
@@ -57,11 +57,15 @@ export default function ActorPage({ params }: PageProps) {
 							alt={data.name}
 							className={cn(
 								'rounded-md transition',
-								blurredPlaceholder(isImgLoading)
+								isImgLoading
+									? 'grayscale blur-2xl scale-105 duration-200'
+									: 'grayscale-0 blur-0 scale-100 duration-200'
 							)}
 							sizes='(max-width: 768px) 100vw, 50vw, 33vw'
 							width={550}
 							height={500}
+							placeholder='blur'
+							blurDataURL={blurData}
 							priority
 							onLoadingComplete={() => setIsImgLoading(false)}
 						/>

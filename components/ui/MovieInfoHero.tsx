@@ -1,6 +1,6 @@
 import { Icon } from '@/components/Icon';
 import { MovieResponse } from '@/types/tmdb';
-import { createSlug, formatDate, slugify } from '@/lib/utils';
+import { createSlug, formatDate } from '@/lib/utils';
 import { Ratings, SeeMore, Heading, Paragraph } from '@/components/ui';
 
 interface MovieInfoHeroProps {

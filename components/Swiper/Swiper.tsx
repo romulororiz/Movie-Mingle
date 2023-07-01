@@ -2,7 +2,7 @@
 
 import { Overlay } from '@/components/ui';
 import { isTablet } from '@/utils/breakpoints';
-import { getAbsoluteUrl } from '@/lib/utils';
+import { blurData, getAbsoluteUrl } from '@/lib/utils';
 import { MovieResponse } from '@/types/tmdb';
 import { PlayBtnSwiper } from '@/components/Swiper';
 import { MovieInfoHero } from '@/components/ui';
@@ -137,6 +137,8 @@ const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 						height='0'
 						sizes='(max-width: 640px) 100vw, 640px'
 						className='w-full h-screen'
+						placeholder='blur'
+						blurDataURL={blurData}
 						style={{
 							objectFit: 'cover',
 						}}

@@ -1,7 +1,4 @@
-import useWindowSize from '@/hooks/useWindowSize';
-import Image from 'next/image';
 import { FC } from 'react';
-import { isMobile } from '@/utils/breakpoints';
 import { MovieResponse } from '@/types/tmdb';
 
 const StarPercentage = ({ percentage }: { percentage: number }) => {

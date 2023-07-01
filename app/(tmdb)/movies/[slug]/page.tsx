@@ -7,10 +7,9 @@ import { Heading, HeroBg, Overlay, Paragraph } from '@/components/ui';
 import MovieStats, { GenreItem } from '@/components/ui/MovieStats';
 import { useMovieDetail } from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
-import { blurredPlaceholder } from '@/lib/utils';
 import { MovieDetailResponse } from '@/types/tmdb';
 import { CardPerView } from '@/utils/cardPerView';
-import { cn } from '@/lib/utils';
+import { blurData, cn } from '@/lib/utils';
 import { getIdFromSlug } from '@/lib/utils';
 import { getAbsoluteUrl } from '@/lib/utils';
 import Image from 'next/image';
@@ -61,12 +60,13 @@ export default function MoviePage({ params }: PageProps) {
 			<section className='absolute top-0 left-0 right-0 mx-auto w-full md:min-h-screen'>
 				<HeroBg
 					imageKey={`movie-${movieId}`}
+					isLocalAsset={true}
 					src={getAbsoluteUrl(
 						'https://image.tmdb.org/t/p/w500',
 						data.backdrop_path
 					)}
 					isSlider={false}
-					className='md:bg-center relative -top-4 blur-sm'
+					className={cn('md:bg-center relative -top-4 blur-sm')}
 				/>
 				<Overlay
 					className='bg-gradient-to-b from-dark-background/80 from-35%
@@ -84,11 +84,15 @@ export default function MoviePage({ params }: PageProps) {
 							alt={data.title}
 							className={cn(
 								'rounded-md transition',
-								blurredPlaceholder(isImgLoading)
+								isImgLoading
+									? 'grayscale blur-2xl scale-105 duration-200'
+									: 'grayscale-0 blur-0 scale-100 duration-200'
 							)}
 							sizes='(max-width: 768px) 100vw, 50vw, 33vw'
 							width={460}
 							height={500}
+							placeholder='blur'
+							blurDataURL={blurData}
 							onLoadingComplete={() => setIsImgLoading(false)}
 						/>
 					</Fragment>

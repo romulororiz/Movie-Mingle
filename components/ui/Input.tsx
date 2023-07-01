@@ -1,8 +1,7 @@
 'use client';
 
-import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
-import { cn } from '@/lib/utils';
 import { Icon } from '@/components/Icon';
+import { cn } from '@/lib/utils';
 import { forwardRef } from 'react';
 
 export interface InputProps
@@ -10,8 +9,6 @@ export interface InputProps
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
 	({ className, ...props }, ref) => {
-		const windowSize: WindowSize = useWindowSize();
-
 		return (
 			<div className='relative'>
 				<Icon

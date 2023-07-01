@@ -1,7 +1,7 @@
-import { GenreResponse, MovieDetailResponse } from '@/types/tmdb';
+import { formatDate } from '@/lib/utils';
+import { MovieDetailResponse } from '@/types/tmdb';
 import { FC } from 'react';
 import { Icon } from '../Icon';
-import { formatDate } from '@/lib/utils';
 import Ratings from './Ratings';
 
 interface Stat {
