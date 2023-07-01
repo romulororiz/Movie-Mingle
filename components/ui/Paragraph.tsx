@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { VariantProps, cva } from 'class-variance-authority';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils';
 
 export const paragraphVariants = cva('text-center max-w-prose leading-3', {
 	variants: {

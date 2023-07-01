@@ -1,7 +1,7 @@
 import { GenreResponse, MovieDetailResponse } from '@/types/tmdb';
 import { FC } from 'react';
 import { Icon } from '../Icon';
-import { formatDate } from '@/utils/formaters';
+import { formatDate } from '@/lib/utils';
 import Ratings from './Ratings';
 
 interface Stat {
@@ -73,12 +73,7 @@ const renderStat = (stat: Stat, item: MovieDetailResponse) => {
 				</>
 			);
 		case 'vote_average':
-			return (
-				<Ratings
-					movie={item}
-					className='flex items-center gap-2'
-				/>
-			);
+			return <Ratings movie={item} className='flex items-center gap-2' />;
 		case 'release_date':
 			return (
 				<>
@@ -130,10 +125,7 @@ const MovieStats: FC<MovieStatsProps> = ({ item }: MovieStatsProps) => {
 	return (
 		<div className='grid place-content-start grid-rows-2 grid-cols-2 md:grid-cols-3 gap-4 max-w-lg mx-auto md:mx-0'>
 			{stats.map(stat => (
-				<div
-					key={stat.name}
-					className='flex items-center gap-2'
-				>
+				<div key={stat.name} className='flex items-center gap-2'>
 					{renderStat(stat, item)}
 				</div>
 			))}

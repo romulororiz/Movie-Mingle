@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
 
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils';
 import { Inter } from 'next/font/google';
 import { Header } from '@/components/Layout';
 import { Providers } from '@/components';
@@ -13,7 +13,6 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-	
 	const user = await getCurrentUser();
 
 	return (

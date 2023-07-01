@@ -2,7 +2,7 @@
 
 import { Overlay } from '@/components/ui';
 import { isTablet } from '@/utils/breakpoints';
-import { getImagePath } from '@/utils/getPath';
+import { getAbsoluteUrl } from '@/lib/utils';
 import { MovieResponse } from '@/types/tmdb';
 import { PlayBtnSwiper } from '@/components/Swiper';
 import { MovieInfoHero } from '@/components/ui';
@@ -128,13 +128,18 @@ const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 			{movies.map(movie => (
 				<SwiperSlide key={`movie-${movie.id}`}>
 					<Image
-						src={getImagePath(movie) as string}
+						src={getAbsoluteUrl(
+							'https://image.tmdb.org/t/p/w780',
+							movie.poster_path
+						)}
 						alt={movie.title}
 						width='0'
 						height='0'
-						sizes='(max-width: 375px) 100vw, 375px'
-						className='w-full h-full'
-						priority
+						sizes='(max-width: 640px) 100vw, 640px'
+						className='w-full h-screen'
+						style={{
+							objectFit: 'cover',
+						}}
 					/>
 					<MovieInfoHero movie={movie} />
 				</SwiperSlide>

@@ -3,7 +3,6 @@ import { MovieDataResponse } from '@/types/tmdb';
 // @route GET
 // @desc Get popular movies
 // @access Public
-
 export async function GET() {
 	try {
 		const movieRes = await fetch(

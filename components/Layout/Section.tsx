@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
 import { Heading } from '@/components/ui';
 import { SeeMore } from '@/components/ui';

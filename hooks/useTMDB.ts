@@ -1,16 +1,25 @@
-import { useQuery } from '@tanstack/react-query';
+import {
+	MovieDetailResponse,
+	MovieResponse,
+	PeopleDetailResponse,
+	PeopleResponse,
+} from '@/types/tmdb';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 
-const fetcher = async (endpoint: string): Promise<any> => {
+const fetcher = async (endpoint: string) => {
 	const res = await fetch(endpoint);
 	return await res.json();
 };
 
 export const usePopularMovies = () => {
 	return useQuery({
-		queryKey: ['PopularMovies'],
+		queryKey: ['Popular'],
 		queryFn: () => fetcher('/api/movies/popular'),
 		refetchOnWindowFocus: false,
-	});
+	}) as {
+		data: MovieResponse[];
+		isLoading: boolean;
+	};
 };
 
 export const useTopRated = () => {
@@ -18,7 +27,10 @@ export const useTopRated = () => {
 		queryKey: ['TopRated'],
 		queryFn: () => fetcher('/api/movies/top_rated'),
 		refetchOnWindowFocus: false,
-	});
+	}) as {
+		data: MovieResponse[];
+		isLoading: boolean;
+	};
 };
 
 export const useNowPlaying = () => {
@@ -26,7 +38,10 @@ export const useNowPlaying = () => {
 		queryKey: ['NowPlaying'],
 		queryFn: () => fetcher('/api/movies/now_playing'),
 		refetchOnWindowFocus: false,
-	});
+	}) as {
+		data: MovieResponse[];
+		isLoading: boolean;
+	};
 };
 
 export const useUpcoming = () => {
@@ -34,7 +49,10 @@ export const useUpcoming = () => {
 		queryKey: ['Upcoming'],
 		queryFn: () => fetcher('/api/movies/upcoming'),
 		refetchOnWindowFocus: false,
-	});
+	}) as {
+		data: MovieResponse[];
+		isLoading: boolean;
+	};
 };
 
 export const usePopularActors = () => {
@@ -42,7 +60,10 @@ export const usePopularActors = () => {
 		queryKey: ['PopularActors'],
 		queryFn: () => fetcher('/api/actors/popular'),
 		refetchOnWindowFocus: false,
-	});
+	}) as {
+		data: PeopleResponse[];
+		isLoading: boolean;
+	};
 };
 
 export const useMovieDetail = (movieId: number) => {
@@ -50,7 +71,10 @@ export const useMovieDetail = (movieId: number) => {
 		queryKey: ['MovieDetail', movieId],
 		queryFn: () => fetcher(`/api/movies/${movieId}`),
 		refetchOnWindowFocus: false,
-	});
+	}) as {
+		data: MovieDetailResponse;
+		isLoading: boolean;
+	};
 };
 
 export const useActorDetail = (actorId: number) => {
@@ -58,7 +82,10 @@ export const useActorDetail = (actorId: number) => {
 		queryKey: ['ActorDetail', actorId],
 		queryFn: () => fetcher(`/api/actors/${actorId}`),
 		refetchOnWindowFocus: false,
-	});
+	}) as UseQueryResult<PeopleDetailResponse> & {
+		data: PeopleDetailResponse;
+		isLoading: boolean;
+	};
 };
 
 const useTMDB = {

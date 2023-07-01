@@ -6,7 +6,7 @@ import { Icon } from '@/components/Icon';
 import { Button } from './Button';
 import { isTablet } from '@/utils/breakpoints';
 import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils';
 
 interface SeeMoreProps {
 	route: string;

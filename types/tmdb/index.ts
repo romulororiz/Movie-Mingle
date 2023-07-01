@@ -60,15 +60,6 @@ export interface PeopleDataResponse {
 	total_pages: number;
 }
 
-export interface PeopleResponse {
-	profile_path: string;
-	adult: boolean;
-	id: number;
-	name: string;
-	popularity: number;
-	known_for: MovieResponse[];
-}
-
 export interface PeopleDetailResponse {
 	adult: boolean;
 	also_known_as: string[];
@@ -128,17 +119,21 @@ export interface ImagesResponse {
 	profiles: Profile[] | null;
 }
 
-export interface SimilarMoviesResponse {
-	page: number;
-	results: MovieResponse[] | null;
-	total_pages: number;
-	total_results: number;
-}
+export interface SimilarMoviesResponse extends MovieDataResponse {}
+
+//
+export type PeopleResponse = Pick<
+	CastResponse,
+	'id' | 'name' | 'profile_path' | 'adult' | 'popularity'
+> & {
+	known_for: MovieResponse[];
+};
 
 export interface CastResponse {
 	cast_id: number;
 	character: string;
 	credit_id: string;
+	id: number;
 	adult: boolean;
 	gender: number;
 	know_for_department: string;

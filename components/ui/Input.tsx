@@ -1,7 +1,7 @@
 'use client';
 
 import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils';
 import { Icon } from '@/components/Icon';
 import { forwardRef } from 'react';
 

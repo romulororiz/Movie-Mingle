@@ -8,7 +8,6 @@ import { CardPerView } from '@/utils/cardPerView';
 import useWindowSize from '@/hooks/useWindowSize';
 import { HeroBgSection } from '@/components/ui/HeroBg';
 import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
-import { isMovieResponse, isPeopleResponse } from '@/utils/typeGuards';
 import { SwiperComponent, SwiperMobileComponent } from '@/components/Swiper';
 
 import {
@@ -23,7 +22,7 @@ export default function Home() {
 	const windowSize = useWindowSize();
 
 	const { data: popularMovies, isLoading: popularMoviesLoading } =
-		usePopularMovies(); 
+		usePopularMovies();
 
 	const { data: popularActors, isLoading: popularActorsLoading } =
 		usePopularActors();
@@ -37,9 +36,7 @@ export default function Home() {
 	return (
 		<div className='min-h-screen'>
 			{!popularMoviesLoading ? (
-				<HeroBgSection
-					popularMovies={isMovieResponse(popularMovies) ? popularMovies : []}
-				/>
+				<HeroBgSection popularMovies={popularMovies} />
 			) : (
 				<SkeletonHero />
 			)}
@@ -48,7 +45,7 @@ export default function Home() {
 				<Section container={false} route='/movies/popular'>
 					{!popularMoviesLoading ? (
 						<SwiperMobileComponent
-							movies={isMovieResponse(popularMovies) ? popularMovies : []}
+							movies={popularMovies}
 							isLoading={popularMoviesLoading}
 						/>
 					) : (
@@ -67,7 +64,7 @@ export default function Home() {
 				>
 					{!popularMoviesLoading ? (
 						<SwiperComponent
-							movies={isMovieResponse(popularMovies) ? popularMovies : []}
+							movies={popularMovies}
 							isLoading={popularMoviesLoading}
 						/>
 					) : (
@@ -84,7 +81,6 @@ export default function Home() {
 				isActor={true}
 			>
 				{!popularActorsLoading ? (
-					isPeopleResponse(popularActors) &&
 					popularActors
 						.map(actor => <Card key={`actor-${actor.id}`} item={actor} />)
 						.slice(
@@ -103,7 +99,6 @@ export default function Home() {
 				route='/movies/trending'
 			>
 				{!nowPlayingLoading ? (
-					isMovieResponse(nowPlaying) &&
 					nowPlaying
 						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 						.slice(0, CardPerView(windowSize))
@@ -119,7 +114,6 @@ export default function Home() {
 				route='/movies/coming-up'
 			>
 				{!upcomingLoading ? (
-					isMovieResponse(upcoming) &&
 					upcoming
 						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 						.slice(0, CardPerView(windowSize))
@@ -135,7 +129,6 @@ export default function Home() {
 				route='/movies/top-rated'
 			>
 				{!topRatedLoading ? (
-					isMovieResponse(topRated) &&
 					topRated
 						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 						.slice(0, CardPerView(windowSize))

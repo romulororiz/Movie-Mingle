@@ -8,7 +8,7 @@ import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { MainNavItem, NavItem } from '@/types';
 import { Icon } from '@/components/Icon';
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface UserNavProps extends React.HTMLAttributes<HTMLDivElement> {

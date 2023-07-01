@@ -1,6 +1,6 @@
 import { Icon } from '@/components/Icon';
 import { MovieResponse } from '@/types/tmdb';
-import { createSlug, formatDate, slugify } from '@/utils/formaters';
+import { createSlug, formatDate, slugify } from '@/lib/utils';
 import { Ratings, SeeMore, Heading, Paragraph } from '@/components/ui';
 
 interface MovieInfoHeroProps {
@@ -16,10 +16,7 @@ const MovieInfoHero = ({ movie }: MovieInfoHeroProps) => {
 				className='text-lg md:text-xl lg:text-3xl font-semibold text-accent-primary'
 			/>
 			<div className='flex flex-col max-w-lg md:gap-1 font-light'>
-				<Paragraph
-					className='text-justify font-normal line-clamp-3'
-					size='sm'
-				>
+				<Paragraph className='text-justify font-normal line-clamp-3' size='sm'>
 					{movie.overview}
 				</Paragraph>
 				<div className='flex justify-between md:justify-start gap-4 md:gap-8 mt-2'>

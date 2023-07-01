@@ -1,35 +1,42 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
 import { Icon } from '@/components/Icon';
 import { Heading } from '@/components/ui';
 import { Ratings } from '@/components/ui';
 import { SkeletonCard } from '@/components/Cards';
-import { getImagePath } from '@/utils/getPath';
-import { MovieOrActor, MovieResponse } from '@/types/tmdb';
-import { FC, HTMLAttributes } from 'react';
-import {
-	createSlug,
-	formatDate,
-	normalizePopularityScore,
-} from '@/utils/formaters';
+import { getAbsoluteUrl } from '@/lib/utils';
+import { CastResponse, MovieOrActor, MovieResponse } from '@/types/tmdb';
+import { FC, HTMLAttributes, useState } from 'react';
+import { createSlug, formatDate, normalizePopularityScore } from '@/lib/utils';
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { isMovieResponseItem, isPeopleResponseItem } from '@/utils/typeGuards';
+import {
+	isCastResponseItem,
+	isMovieResponseItem,
+	isPeopleResponseItem,
+} from '@/utils/typeGuards';
+import { blurredPlaceholder } from '@/lib/utils';
 
 interface CardInfoProps {
-	item: MovieOrActor;
+	item: MovieOrActor | CastResponse;
+	ratings?: boolean;
 	options?: {
 		isMovie?: boolean;
 	};
 }
 
-const isMovie = (item: MovieOrActor): item is MovieResponse => {
+const isMovie = (item: MovieOrActor | CastResponse): item is MovieResponse => {
 	return isMovieResponseItem(item);
 };
 
-const CardInfo = ({ item }: CardInfoProps) => {
-	if (!isMovieResponseItem(item) && !isPeopleResponseItem(item)) return null;
+const CardInfo = ({ item, ratings }: CardInfoProps) => {
+	if (
+		!isMovieResponseItem(item) &&
+		!isPeopleResponseItem(item) &&
+		!isCastResponseItem(item)
+	)
+		return null;
 
 	return (
 		<div className='mt-2 w-full z-10 flex justify-between items-start'>
@@ -45,29 +52,42 @@ const CardInfo = ({ item }: CardInfoProps) => {
 						className='hover:text-accent-primary transition truncate'
 					/>
 				</Link>
-				{isMovie(item) ? (
-					<span className='text-sm flex gap-1 items-center justify-start'>
-						<Icon name='Calendar' size={16} />
-						{formatDate(item.release_date.toString())}
-					</span>
-				) : (
-					<span className='flex gap-1 items-center text-sm'>
-						<Icon name='Star' size={16} fill='#FDBB30' />
-						<span className='text-white'>
-							{normalizePopularityScore(item.popularity)}
+
+				{ratings ? (
+					isMovie(item) ? (
+						<span className='text-sm flex gap-1 items-center justify-start'>
+							<Icon name='Calendar' size={16} />
+							{formatDate(item.release_date.toString())}
 						</span>
-					</span>
-				)}
+					) : (
+						<span className='flex gap-1 items-center text-sm'>
+							<Icon name='Star' size={16} fill='#FDBB30' />
+							<span className='text-white'>
+								{normalizePopularityScore(item.popularity)}
+							</span>
+						</span>
+					)
+				) : null}
 			</div>
-			{isMovie(item) && (
-				<Ratings movie={item} className='flex items-center gap-2' />
-			)}
+
+			{ratings
+				? isMovie(item) && (
+						<Ratings movie={item} className='flex items-center gap-2' />
+				  )
+				: null}
 		</div>
 	);
 };
 
-const generateArialLabel = (item: MovieOrActor): string | undefined => {
-	if (!isMovieResponseItem(item) && !isPeopleResponseItem(item)) return;
+const generateArialLabel = (
+	item: MovieOrActor | CastResponse
+): string | undefined => {
+	if (
+		!isMovieResponseItem(item) &&
+		!isPeopleResponseItem(item) &&
+		!isCastResponseItem(item)
+	)
+		return;
 
 	if (isMovie(item))
 		return `${item.title}, released on ${formatDate(
@@ -80,7 +100,8 @@ const generateArialLabel = (item: MovieOrActor): string | undefined => {
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
 	key?: string;
-	item: MovieOrActor;
+	ratings?: boolean;
+	item: MovieOrActor | CastResponse;
 	isLoading?: boolean;
 	isSlider?: boolean;
 	options?: {
@@ -90,11 +111,19 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 
 const Card: FC<CardProps> = ({
 	item,
+	ratings = true,
 	className,
 	isLoading,
 	isSlider = false,
 }) => {
-	if (!isMovieResponseItem(item) && !isPeopleResponseItem(item)) return null;
+	const [isImgLoading, setIsImgLoading] = useState(true);
+
+	if (
+		!isMovieResponseItem(item) &&
+		!isPeopleResponseItem(item) &&
+		!isCastResponseItem(item)
+	)
+		return null;
 
 	const cardClasses = cva(
 		cn(
@@ -118,17 +147,23 @@ const Card: FC<CardProps> = ({
 			>
 				<figure className={cn(cardClasses({ className }))}>
 					<Image
-						src={getImagePath(item) || ''}
+						src={getAbsoluteUrl(
+							'https://image.tmdb.org/t/p/w780',
+							isMovie(item) ? item.poster_path : item.profile_path
+						)}
 						alt={isMovie(item) ? item.title : item.name}
 						width='0'
 						height='0'
-						className='w-full h-full'
+						className={cn(
+							'h-full w-full transition',
+							blurredPlaceholder(isImgLoading)
+						)}
 						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 150px'
-						priority
+						onLoadingComplete={() => setIsImgLoading(false)}
 					/>
 				</figure>
 			</Link>
-			{!isSlider && <CardInfo item={item} />}
+			{!isSlider && <CardInfo item={item} ratings={ratings} />}
 		</div>
 	);
 };

@@ -10,6 +10,8 @@ import {
 	PeopleResponse,
 } from '@/types/tmdb';
 
+// todo refactor and clean up redundant code
+
 // todo remove isMovieResponseItem and isPeopleResponseItem
 export const isMovieResponseItem = (data: any): data is MovieDetailResponse => {
 	if (typeof data === 'object' && data !== null && 'backdrop_path' in data) {

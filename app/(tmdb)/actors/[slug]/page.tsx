@@ -1,11 +1,10 @@
 'use client';
 
-import { cn } from '@/utils/cn';
-import { getImagePath } from '@/utils/getPath';
-import { getIdFromSlug } from '@/utils/formaters';
+import { blurredPlaceholder, cn } from '@/lib/utils';
+import { getAbsoluteUrl } from '@/lib/utils';
+import { getIdFromSlug } from '@/lib/utils';
 import { HeroBg, Overlay } from '@/components/ui';
-import { Fragment } from 'react';
-import { isPeopleDetailResponse } from '@/utils/typeGuards';
+import { Fragment, useState } from 'react';
 
 import Image from 'next/image';
 import { useActorDetail } from '@/hooks/useTMDB';
@@ -20,25 +19,25 @@ interface PageProps {
 }
 
 export default function ActorPage({ params }: PageProps) {
+	const [isImgLoading, setIsImgLoading] = useState(true);
+
 	const { slug } = params;
 
 	const windowSize = useWindowSize();
 
 	const actorId = getIdFromSlug(slug);
 
-	const { data, isLoading } = useActorDetail(actorId);
+	const { data } = useActorDetail(actorId);
 
-	// todo add loading state
-	if (isLoading) return 'loading';
-
-	if (!isPeopleDetailResponse(data)) return null;
+	if (!data) return null;
 
 	return (
 		<div>
 			<section className='absolute top-0 left-0 right-0 mx-auto w-full h-screen'>
 				<HeroBg
 					imageKey={`movie-${actorId}`}
-					src='url(/assets/showcase.jpg)'
+					isLocalAsset={true}
+					src='/assets/showcase.jpg'
 					isSlider={false}
 					className='md:bg-center h-auto'
 				/>
@@ -51,18 +50,20 @@ export default function ActorPage({ params }: PageProps) {
 				<figure>
 					<Fragment key={data.id}>
 						<Image
-							src={getImagePath(data) || ''}
+							src={getAbsoluteUrl(
+								'https://image.tmdb.org/t/p/w780',
+								data.profile_path
+							)}
 							alt={data.name}
 							className={cn(
-								'rounded-md ease-in-out duration-300'
-								// isImgLoading
-								// 	? 'grayscale blur-2xl scale-110'
-								// 	: 'grayscale-0 blur-0 scale-100'
+								'rounded-md transition',
+								blurredPlaceholder(isImgLoading)
 							)}
 							sizes='(max-width: 768px) 100vw, 50vw, 33vw'
 							width={550}
 							height={500}
 							priority
+							onLoadingComplete={() => setIsImgLoading(false)}
 						/>
 					</Fragment>
 				</figure>

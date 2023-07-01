@@ -1,13 +1,14 @@
 import React from 'react';
-import { cn } from '@/utils/cn';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
 import { Overlay } from '@/components/ui';
 import { MovieResponse } from '@/types/tmdb';
-import { getBackgroundImagePath } from '@/utils/getPath';
 import { MovieInfoHero } from '@/components/ui';
 import useBgChange from '@/hooks/useSliderChange';
 
 interface HeroBgProps {
 	src: string;
+	isLocalAsset?: boolean;
 	imageKey: string;
 	active?: boolean;
 	className?: string;
@@ -16,6 +17,7 @@ interface HeroBgProps {
 
 const HeroBg = ({
 	src,
+	isLocalAsset = false,
 	imageKey,
 	className,
 	active = imageKey.includes('curr'),
@@ -34,8 +36,25 @@ const HeroBg = ({
 				className
 			)}
 			// make bg image responsive and fill the whole image in the container
-			style={{ backgroundImage: src }}
-		></div>
+			style={{
+				backgroundImage: isLocalAsset
+					? `url(${src})`
+					: `url(https://image.tmdb.org/t/p/w1280${src})`,
+			}}
+		>
+			{!isSlider && (
+				<Image
+					src={src}
+					alt={imageKey}
+					quality={100}
+					fill
+					sizes='100vw'
+					style={{
+						objectFit: 'cover',
+					}}
+				/>
+			)}
+		</div>
 	);
 };
 
@@ -59,18 +78,12 @@ export const HeroBgSection = ({ popularMovies }: HeroBgSectionProps) => {
 			{
 				<HeroBg
 					imageKey={`prev-${previousImageIndex}`}
-					src={
-						getBackgroundImagePath(popularMovies[previousImageIndex])
-							?.backgroundImage || ''
-					}
+					src={popularMovies[previousImageIndex].backdrop_path}
 				/>
 			}
 			<HeroBg
 				imageKey={`curr-${currentImageIndex}`}
-				src={
-					getBackgroundImagePath(popularMovies[currentImageIndex])
-						?.backgroundImage || ''
-				}
+				src={popularMovies[currentImageIndex].backdrop_path}
 			/>
 
 			{popularMovies[currentImageIndex] && (

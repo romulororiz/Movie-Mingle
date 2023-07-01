@@ -7,14 +7,14 @@ import { Heading, HeroBg, Overlay, Paragraph } from '@/components/ui';
 import MovieStats, { GenreItem } from '@/components/ui/MovieStats';
 import { useMovieDetail } from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
-import { CastResponse, MovieDetailResponse } from '@/types/tmdb';
+import { blurredPlaceholder } from '@/lib/utils';
+import { MovieDetailResponse } from '@/types/tmdb';
 import { CardPerView } from '@/utils/cardPerView';
-import { cn } from '@/utils/cn';
-import { getIdFromSlug } from '@/utils/formaters';
-import { getBackgroundImagePath, getImagePath } from '@/utils/getPath';
-import { isMovieDetailResponse } from '@/utils/typeGuards';
+import { cn } from '@/lib/utils';
+import { getIdFromSlug } from '@/lib/utils';
+import { getAbsoluteUrl } from '@/lib/utils';
 import Image from 'next/image';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 
 interface PageProps {
 	params: {
@@ -43,48 +43,9 @@ const MovieDetailInfo = ({ item }: { item: MovieDetailResponse }) => {
 	);
 };
 
-const CastSection = ({ item }: { item: CastResponse[] }) => {
-	return (
-		<div className='flex flex-col gap-3 items-center md:items-start'>
-			<Heading
-				element='h1'
-				title='Cast'
-				size='lg'
-				className='text-accent-primary text-center md:text-left'
-			/>
-
-			<div className='flex flex-wrap gap-3 justify-center md:justify-start'>
-				{item
-					.map((item, index) => (
-						<figure
-							key={index}
-							className='relative grow-0 w-44 h-64 group cursor-pointer'
-						>
-							<Image
-								src={getImagePath(item) || ''}
-								alt={item.name}
-								fill
-								sizes='(max-width: 768px) 100vw, 50vw, 33vw'
-								className='rounded-md'
-							/>
-							<Overlay className='rounded-md bg-dark-background bg-opacity-20' />
-							<figcaption className='absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center py-2'>
-								<Paragraph className='text-center text-sm sm:text-sm md:text-sm lg:text-sm xl:text-sm'>
-									{item.name}
-								</Paragraph>
-								<Paragraph className='text-center text-sm sm:text-sm md:text-sm lg:text-sm xl:text-sm'>
-									{item.character}
-								</Paragraph>
-							</figcaption>
-						</figure>
-					))
-					.slice(0, 6)}
-			</div>
-		</div>
-	);
-};
-
 export default function MoviePage({ params }: PageProps) {
+	const [isImgLoading, setIsImgLoading] = useState(true);
+
 	const { slug } = params;
 
 	const windowSize = useWindowSize();
@@ -93,22 +54,22 @@ export default function MoviePage({ params }: PageProps) {
 
 	const { data, isLoading } = useMovieDetail(movieId);
 
-	// todo add loading state
-	if (isLoading) return 'loading';
-
-	if (!isMovieDetailResponse(data)) return null;
+	if (!data) return null;
 
 	return (
 		<div className='min-h-screen'>
-			<section className='absolute top-0 left-0 right-0 mx-auto w-full h-screen'>
+			<section className='absolute top-0 left-0 right-0 mx-auto w-full md:min-h-screen'>
 				<HeroBg
 					imageKey={`movie-${movieId}`}
-					src={getBackgroundImagePath(data)?.backgroundImage || ''}
+					src={getAbsoluteUrl(
+						'https://image.tmdb.org/t/p/w500',
+						data.backdrop_path
+					)}
 					isSlider={false}
-					className='md:bg-center h-auto'
+					className='md:bg-center relative -top-4 blur-sm'
 				/>
 				<Overlay
-					className='bg-gradient-to-b from-dark-background/90 from-35%
+					className='bg-gradient-to-b from-dark-background/80 from-35%
 				via-dark-background via-85% to-dark-background'
 				/>
 			</section>
@@ -116,18 +77,19 @@ export default function MoviePage({ params }: PageProps) {
 				<figure>
 					<Fragment key={data.id}>
 						<Image
-							src={getImagePath(data) || ''}
+							src={getAbsoluteUrl(
+								'https://image.tmdb.org/t/p/w780',
+								data.poster_path
+							)}
 							alt={data.title}
 							className={cn(
-								'rounded-md ease-in-out duration-300'
-								// isImgLoading
-								// 	? 'grayscale blur-2xl scale-110'
-								// 	: 'grayscale-0 blur-0 scale-100'
+								'rounded-md transition',
+								blurredPlaceholder(isImgLoading)
 							)}
 							sizes='(max-width: 768px) 100vw, 50vw, 33vw'
 							width={460}
 							height={500}
-							priority
+							onLoadingComplete={() => setIsImgLoading(false)}
 						/>
 					</Fragment>
 				</figure>
@@ -137,11 +99,21 @@ export default function MoviePage({ params }: PageProps) {
 				</div>
 			</section>
 
-			{data.credits.cast && (
-				<section className='container relative z-[2] mt-10'>
-					<CastSection item={data.credits.cast} />
-				</section>
-			)}
+			<Section
+				route='#'
+				title='Cast'
+				icon='Users'
+				isActor={true}
+				seeMore={false}
+				spotlight={false}
+				className='mt-20'
+			>
+				{data.credits.cast
+					.map(actor => (
+						<Card key={`actor-${actor.id}`} item={actor} ratings={false} />
+					))
+					.slice(0, CardPerView(windowSize, { isActor: true, isMovie: false }))}
+			</Section>
 
 			<Section
 				route={`/movies/${encodeURIComponent(slug)}/similar`}
@@ -153,11 +125,7 @@ export default function MoviePage({ params }: PageProps) {
 				{!isLoading ? (
 					data.similar.results &&
 					data.similar.results
-						.map(movie => (
-							<div key={movie.id}>
-								<Card item={movie} />
-							</div>
-						))
+						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 						.slice(
 							0,
 							CardPerView(windowSize, { isActor: false, isMovie: true })

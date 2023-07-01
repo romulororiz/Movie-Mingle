@@ -1,4 +1,4 @@
-import { cn } from '@/utils/cn';
+import { cn } from '@/lib/utils';
 import { Icon } from '@/components/Icon';
 import { VariantProps, cva } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
