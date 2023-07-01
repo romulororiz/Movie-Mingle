@@ -4,7 +4,7 @@ import { cn } from '@/utils/cn';
 import { getImagePath } from '@/utils/getPath';
 import { getIdFromSlug } from '@/utils/formaters';
 import { HeroBg, Overlay } from '@/components/ui';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { isPeopleDetailResponse } from '@/utils/typeGuards';
 
 import Image from 'next/image';
