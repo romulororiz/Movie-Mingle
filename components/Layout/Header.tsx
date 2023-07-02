@@ -29,7 +29,7 @@ export const Header = ({ user }: HeaderProps) => {
 				}
 			)}
 		>
-			<div className='container max-w-7xl flex justify-between items-center'>
+			<div className='container max-w-7xl flex flex-row-reverse justify-between items-center'>
 				<Link href='/'>
 					<Heading
 						element='h1'

@@ -73,7 +73,7 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 			<SheetTrigger>
 				<Icon name='Menu' size={30} />
 			</SheetTrigger>
-			<SheetContent className='bg-dark-background z-[100] border-l-transparent w-80 p-8 overflow-auto'>
+			<SheetContent side='left' className='bg-dark-background z-[100] border-transparent w-80 p-8 overflow-auto'>
 				<SheetHeader>
 					<SheetTitle className='flex items-center justify-between mb-10'>
 						<Link href='/'>
