@@ -20,7 +20,7 @@ export const usePopularMovies = () => {
 	return useQuery({
 		queryKey: ['Popular'],
 		queryFn: () => fetcher('/api/movies/popular'),
-	}) as {
+	}) as UseQueryResult<MovieResponse[]> &{
 		data: MovieResponse[];
 		isLoading: boolean;
 	};
@@ -30,7 +30,7 @@ export const useTopRated = () => {
 	return useQuery({
 		queryKey: ['TopRated'],
 		queryFn: () => fetcher('/api/movies/top_rated'),
-	}) as {
+	}) as UseQueryResult<MovieResponse[]> &{
 		data: MovieResponse[];
 		isLoading: boolean;
 	};
@@ -40,7 +40,7 @@ export const useNowPlaying = () => {
 	return useQuery({
 		queryKey: ['NowPlaying'],
 		queryFn: () => fetcher('/api/movies/now_playing'),
-	}) as {
+	}) as UseQueryResult<MovieResponse[]> &{
 		data: MovieResponse[];
 		isLoading: boolean;
 	};
@@ -50,7 +50,7 @@ export const useUpcoming = () => {
 	return useQuery({
 		queryKey: ['Upcoming'],
 		queryFn: () => fetcher('/api/movies/upcoming'),
-	}) as {
+	}) as UseQueryResult<MovieResponse[]> & {
 		data: MovieResponse[];
 		isLoading: boolean;
 	};
@@ -60,7 +60,7 @@ export const usePopularActors = () => {
 	return useQuery({
 		queryKey: ['PopularActors'],
 		queryFn: () => fetcher('/api/actors/popular'),
-	}) as {
+	}) as UseQueryResult<PeopleResponse[]> & {
 		data: PeopleResponse[];
 		isLoading: boolean;
 	};
@@ -70,7 +70,7 @@ export const useMoviesByGenre = (genreId: number) => {
 	return useQuery({
 		queryKey: ['MoviesByGenre', genreId],
 		queryFn: () => fetcher(`/api/movies/genres/${genreId}`),
-	}) as {
+	}) as UseQueryResult<MovieDetailResponse> & {
 		data: MovieDataResponse;
 		isLoading: boolean;
 	};
@@ -80,7 +80,7 @@ export const useMovieDetail = (movieId: number) => {
 	return useQuery({
 		queryKey: ['MovieDetail', movieId],
 		queryFn: () => fetcher(`/api/movies/${movieId}`),
-	}) as {
+	}) as UseQueryResult<MovieDetailResponse> & {
 		data: MovieDetailResponse;
 		isLoading: boolean;
 	};

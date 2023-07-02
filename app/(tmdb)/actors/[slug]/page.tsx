@@ -26,7 +26,9 @@ export default function ActorPage({ params }: PageProps) {
 
 	const actorId = getIdFromSlug(slug);
 
-	const { data } = useActorDetail(actorId);
+	const { data, isLoading } = useActorDetail(actorId);
+
+	if (isLoading) return 'loading...';
 
 	if (!data) return notFound();
 

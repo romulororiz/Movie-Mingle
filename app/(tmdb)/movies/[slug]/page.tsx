@@ -54,6 +54,8 @@ export default function MoviePage({ params }: PageProps) {
 
 	const { data, isLoading } = useMovieDetail(movieId);
 
+	if (isLoading) return 'loading...';
+
 	if (!data) return notFound();
 
 	return (

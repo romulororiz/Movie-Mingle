@@ -21,7 +21,5 @@ export default function GenrePage({ params }: PageProps) {
 
 	if (!data.results) return notFound();
 
-	console.log(data)
-
 	return <div>Genre Page</div>;
 }
