@@ -173,7 +173,7 @@ const Card: FC<CardProps> = ({
 								? 'grayscale blur-2xl scale-105 duration-200'
 								: 'grayscale-0 blur-0 scale-100 duration-200'
 						)}
-						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 150px'
+						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 150px, 100px'
 						placeholder='blur'
 						blurDataURL={blurData}
 						onLoadingComplete={() => setIsImgLoading(false)}
