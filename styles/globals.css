@@ -17,11 +17,11 @@ html {
 
 /* Swiper */
 .swiper {
-	@apply w-auto h-auto pb-12 md:pb-16 pt-6 md:pt-16 relative !important;
+	@apply w-auto h-auto pb-7 md:pb-16 pt-6 md:pt-16 relative !important;
 }
 
 .swiper-pagination {
-	@apply top-10 md:top-16 relative !important;
+	@apply top-6 md:top-16 relative !important;
 }
 
 .swiper .swiper-pagination-bullet {

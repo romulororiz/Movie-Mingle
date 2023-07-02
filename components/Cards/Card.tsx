@@ -19,6 +19,7 @@ import {
 
 interface CardInfoProps {
 	item: MovieOrActor | CastResponse;
+	className?: string;
 	ratings?: boolean;
 	options?: {
 		isMovie?: boolean;
@@ -29,7 +30,7 @@ const isMovie = (item: MovieOrActor | CastResponse): item is MovieResponse => {
 	return isMovieResponseItem(item);
 };
 
-const CardInfo = ({ item, ratings }: CardInfoProps) => {
+const CardInfo = ({ item, ratings, className }: CardInfoProps) => {
 	if (
 		!isMovieResponseItem(item) &&
 		!isPeopleResponseItem(item) &&
@@ -38,8 +39,13 @@ const CardInfo = ({ item, ratings }: CardInfoProps) => {
 		return null;
 
 	return (
-		<div className='mt-3 w-full z-10 flex justify-between items-start max-[380px]:text-[14px] '>
-			<div className='flex-col truncate gap-1'>
+		<div
+			className={cn(
+				'mt-3 w-full z-10 flex justify-between items-start max-[380px]:text-[14px]',
+				className
+			)}
+		>
+			<div className='flex flex-col truncate gap-1'>
 				<Link href={createSlug(item) || '/'}>
 					<Heading
 						element='h2'
@@ -104,6 +110,7 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 	item: MovieOrActor | CastResponse;
 	isLoading?: boolean;
 	isSlider?: boolean;
+	isCurrSlide?: boolean;
 	options?: {
 		isMovie?: boolean;
 	};
@@ -115,6 +122,7 @@ const Card: FC<CardProps> = ({
 	className,
 	isLoading,
 	isSlider = false,
+	isCurrSlide = false,
 }) => {
 	const [isImgLoading, setIsImgLoading] = useState(true);
 
@@ -173,6 +181,15 @@ const Card: FC<CardProps> = ({
 				</figure>
 			</Link>
 			{!isSlider && <CardInfo item={item} ratings={ratings} />}
+			{isCurrSlide && (
+				<div className='flex md:hidden'>
+					<CardInfo
+						item={item}
+						ratings={ratings}
+						className='mt-6 animate-in fade-in duration-1000'
+					/>
+				</div>
+			)}
 		</div>
 	);
 };
