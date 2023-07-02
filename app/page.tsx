@@ -43,7 +43,7 @@ export default function Home() {
 			<Section
 				icon='ThumbsUp'
 				title='Popular' // change upon user preferences
-				className='mt-[8rem] md:-mt-[22rem] z-50'
+				className='mt-[6rem] md:-mt-[22rem] z-50'
 				container={false}
 				route='/movies/popular'
 				seeMore={false}

@@ -1,6 +1,8 @@
-import { CastResponse, MovieOrActor } from '@/types/tmdb';
+import { CastResponse, GenreResponse, MovieOrActor } from '@/types/tmdb';
 import {
 	isCastResponseItem,
+	isGenreResponse,
+	isGenreResponseItem,
 	isMovieDetailResponse,
 	isMovieResponseItem,
 	isPeopleResponseItem,
@@ -48,11 +50,15 @@ export const slugify = (text: string, number?: number) => {
 	if (number) return `${slugifiedText}-${number}`;
 };
 
-export const createSlug = (item: MovieOrActor | CastResponse) => {
+export const createSlug = (
+	item: MovieOrActor | CastResponse | GenreResponse
+) => {
 	if (isMovieResponseItem(item) || isMovieDetailResponse(item))
 		return `/movies/${slugify(item.title, item.id)}`;
 	if (isPeopleResponseItem(item) || isCastResponseItem(item))
 		return `/actors/${slugify(item.name, item.id)}`;
+	if (isGenreResponseItem(item))
+		return `/movies/genres/${slugify(item.name, item.id)}`;
 };
 
 export const getIdFromSlug = (slug: string) => {

@@ -9,8 +9,7 @@ import { Fragment, useState } from 'react';
 import Image from 'next/image';
 import { useActorDetail } from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
-
-export const revalidate = 10; // 24 hours
+import { notFound } from 'next/navigation';
 
 interface PageProps {
 	params: {
@@ -29,7 +28,7 @@ export default function ActorPage({ params }: PageProps) {
 
 	const { data } = useActorDetail(actorId);
 
-	if (!data) return null;
+	if (!data) return notFound();
 
 	return (
 		<div>

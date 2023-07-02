@@ -8,6 +8,8 @@ export async function GET(req: Request) {
 
 	const movieId = url.pathname.split('/')[3];
 
+	console.log(url.pathname.split('/'))
+
 	try {
 		const movieRes = await fetch(
 			`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&append_to_response=images,videos,credits,similar`

@@ -165,8 +165,7 @@ const Card: FC<CardProps> = ({
 							isMovie(item) ? item.poster_path : item.profile_path
 						)}
 						alt={isMovie(item) ? item.title : item.name}
-						width='0'
-						height='0'
+						fill
 						className={cn(
 							'h-full w-full transition ',
 							isImgLoading

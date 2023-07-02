@@ -111,6 +111,13 @@ export const isGenreResponse = (data: any): data is GenreResponse[] => {
 	return false;
 };
 
+export const isGenreResponseItem = (data: any): data is GenreResponse => {
+	if (typeof data === 'object' && data !== null && 'id' in data) {
+		return true;
+	}
+	return false;
+};
+
 export const isMovieCreditsResponse = (
 	data: any
 ): data is MovieCreditsResponse => {

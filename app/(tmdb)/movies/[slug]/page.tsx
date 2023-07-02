@@ -4,15 +4,15 @@ import { Card } from '@/components/Cards';
 import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
 import { Section } from '@/components/Layout';
 import { Heading, HeroBg, Overlay, Paragraph } from '@/components/ui';
-import MovieStats, { GenreItem } from '@/components/ui/MovieStats';
+import MovieStats, { GenreItem, stats } from '@/components/ui/MovieStats';
 import { useMovieDetail } from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
+import { blurData, cn, getAbsoluteUrl, getIdFromSlug } from '@/lib/utils';
 import { MovieDetailResponse } from '@/types/tmdb';
+import { isTablet } from '@/utils/breakpoints';
 import { CardPerView } from '@/utils/cardPerView';
-import { blurData, cn } from '@/lib/utils';
-import { getIdFromSlug } from '@/lib/utils';
-import { getAbsoluteUrl } from '@/lib/utils';
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { Fragment, useState } from 'react';
 
 interface PageProps {
@@ -23,14 +23,15 @@ interface PageProps {
 
 const MovieDetailInfo = ({ item }: { item: MovieDetailResponse }) => {
 	return (
-		<div className='w-full flex flex-col gap-12 md:gap-6 mt-10 h-full'>
+		<div className='w-full flex flex-col gap-7 md:gap-6 mt-4 h-full'>
 			<Heading
 				element='h1'
 				title={item.title}
-				size='lg'
-				className='text-accent-primary flex justify-center md:justify-start w-full text-center md:text-left'
+				className='text-accent-primary flex text-md md:text-2xl justify-center md:justify-start w-full text-center md:text-left uppercase'
 			/>
+
 			<GenreItem item={item} />
+
 			<MovieStats item={item} />
 
 			<div className='w-full'>
@@ -53,7 +54,7 @@ export default function MoviePage({ params }: PageProps) {
 
 	const { data, isLoading } = useMovieDetail(movieId);
 
-	if (!data) return null;
+	if (!data) return notFound();
 
 	return (
 		<div className='min-h-screen'>
@@ -78,7 +79,7 @@ export default function MoviePage({ params }: PageProps) {
 					<Fragment key={data.id}>
 						<Image
 							src={getAbsoluteUrl(
-								'https://image.tmdb.org/t/p/w780',
+								'https://image.tmdb.org/t/p/w500',
 								data.poster_path
 							)}
 							alt={data.title}
@@ -88,9 +89,9 @@ export default function MoviePage({ params }: PageProps) {
 									? 'grayscale blur-2xl scale-105 duration-200'
 									: 'grayscale-0 blur-0 scale-100 duration-200'
 							)}
-							sizes='(max-width: 768px) 100vw, 50vw, 33vw'
-							width={460}
-							height={500}
+							sizes='(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw'
+							width={isTablet(windowSize) ? 240 : 400}
+							height={100}
 							placeholder='blur'
 							blurDataURL={blurData}
 							onLoadingComplete={() => setIsImgLoading(false)}
