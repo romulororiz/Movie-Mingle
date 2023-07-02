@@ -137,7 +137,7 @@ const Card: FC<CardProps> = ({
 		<div
 			className={cn(
 				'flex flex-col justify-between',
-				isSlider ? 'xs:w-[220px] md:h-full md:w-full' : 'h-full w-full'
+				isSlider ? 'sm:w-[220px] md:h-full md:w-full' : 'h-full w-full'
 			)}
 		>
 			<Link

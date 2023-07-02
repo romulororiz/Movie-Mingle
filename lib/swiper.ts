@@ -20,7 +20,7 @@ export const getSwiperOptions = (windowSize?: WindowSize) => {
 			slidesPerView = 2;
 			break;
 		case windowSize.width! < 640:
-			slidesPerView = 3;
+			slidesPerView = 2;
 			break;
 		case windowSize.width! < 768:
 			slidesPerView = 3;

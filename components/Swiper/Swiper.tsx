@@ -117,46 +117,46 @@ export { MemoizedSwiperComponent as SwiperComponent };
 // ----------------------------------------------
 
 // Full Bg Slide Mobile
-type SwiperMobileComponentProps = {
-	movies: MovieResponse[];
-	isLoading: boolean;
-};
+// type SwiperMobileComponentProps = {
+// 	movies: MovieResponse[];
+// 	isLoading: boolean;
+// };
 
-const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
-	const [isImgLoading, setIsImgLoading] = useState(true);
+// const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
+// 	const [isImgLoading, setIsImgLoading] = useState(true);
 
-	return (
-		<Swiper {...getSwiperOptions()}>
-			{movies.map(movie => (
-				<SwiperSlide key={`movie-${movie.id}`}>
-					<Image
-						src={getAbsoluteUrl(
-							'https://image.tmdb.org/t/p/w780',
-							movie.poster_path
-						)}
-						alt={movie.title}
-						width='0'
-						height='0'
-						sizes='(max-width: 640px) 100vw, 640px'
-						className={cn(
-							'w-full h-screen',
-							isImgLoading
-								? 'grayscale blur-2xl scale-100 duration-200'
-								: 'grayscale-0 blur-0 scale-100 duration-200'
-						)}
-						placeholder='blur'
-						blurDataURL={blurData}
-						onLoadingComplete={() => setIsImgLoading(false)}
-						style={{
-							objectFit: 'cover',
-						}}
-					/>
-					<MovieInfoHero movie={movie} />
-				</SwiperSlide>
-			))}
-		</Swiper>
-	);
-};
+// 	return (
+// 		<Swiper {...getSwiperOptions()}>
+// 			{movies.map(movie => (
+// 				<SwiperSlide key={`movie-${movie.id}`}>
+// 					<Image
+// 						src={getAbsoluteUrl(
+// 							'https://image.tmdb.org/t/p/w780',
+// 							movie.poster_path
+// 						)}
+// 						alt={movie.title}
+// 						width='0'
+// 						height='0'
+// 						sizes='(max-width: 640px) 100vw, 640px'
+// 						className={cn(
+// 							'w-full h-screen',
+// 							isImgLoading
+// 								? 'grayscale blur-2xl scale-100 duration-200'
+// 								: 'grayscale-0 blur-0 scale-100 duration-200'
+// 						)}
+// 						placeholder='blur'
+// 						blurDataURL={blurData}
+// 						onLoadingComplete={() => setIsImgLoading(false)}
+// 						style={{
+// 							objectFit: 'cover',
+// 						}}
+// 					/>
+// 					<MovieInfoHero movie={movie} />
+// 				</SwiperSlide>
+// 			))}
+// 		</Swiper>
+// 	);
+// };
 
-const MemoizedSwiperMobileComponent = React.memo(SwiperMobileComponent);
-export { MemoizedSwiperMobileComponent as SwiperMobileComponent };
+// const MemoizedSwiperMobileComponent = React.memo(SwiperMobileComponent);
+// export { MemoizedSwiperMobileComponent as SwiperMobileComponent };

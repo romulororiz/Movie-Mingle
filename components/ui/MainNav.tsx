@@ -46,7 +46,7 @@ interface MainNavProps {
 45;
 export default function MainNav({ items }: MainNavProps) {
 	return (
-		<div className={cn('flex md:justify-center md:items-center')}>
+		<div className={cn('hidden md:flex md:justify-center md:items-center')}>
 			<div className='hidden md:flex md:items-center space-x-3'>
 				{items?.map(
 					mainNavItem =>
