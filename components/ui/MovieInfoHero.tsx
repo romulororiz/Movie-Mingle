@@ -9,7 +9,7 @@ interface MovieInfoHeroProps {
 
 const MovieInfoHero = ({ movie }: MovieInfoHeroProps) => {
 	return (
-		<div className='gap-2 text-slate-200 absolute md:max-w-7xl left-0 right-0 md:container p-6 md:backdrop-blur-0 backdrop-blur-sm bg-dark-background/75 md:bg-transparent bottom-0 md:top-[25%] flex flex-col justify-between h-fit md:min-h-min w-auto z-50'>
+		<div className='gap-2 text-slate-200 absolute md:max-w-7xl inset-x-0 md:container md:top-[22%] flex flex-col justify-between h-fit md:min-h-min w-auto z-50'>
 			<Heading
 				element='h1'
 				title={movie.title}
@@ -19,9 +19,9 @@ const MovieInfoHero = ({ movie }: MovieInfoHeroProps) => {
 				<Paragraph className='text-justify font-normal line-clamp-3' size='sm'>
 					{movie.overview}
 				</Paragraph>
-				<div className='flex justify-between md:justify-start gap-4 md:gap-8 mt-2'>
-					<div className='flex gap-3 md:gap-5 items-center'>
-						<span className='flex items-center gap-1 font-normal text-sm md:text-md'>
+				<div className='flex mt-2'>
+					<div className='flex md:gap-1 items-center w-[200px]'>
+						<span className='flex items-center gap-1 font-normal text-sm md:text-md w-[100px]'>
 							<Icon name='Calendar' size={16} />
 							{formatDate(movie.release_date.toString())}
 						</span>

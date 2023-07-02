@@ -35,40 +35,10 @@ export default function Home() {
 
 	return (
 		<div className='min-h-screen'>
-			
-			{!popularMoviesLoading && <HeroBgSection popularMovies={popularMovies} />}
-
-			{/* {isTablet(windowSize) ? (
-				<Section container={false} route='/movies/popular'>
-					{!popularMoviesLoading ? (
-						<SwiperMobileComponent
-							movies={popularMovies}
-							isLoading={popularMoviesLoading}
-						/>
-					) : (
-						<RenderSkeletonCards isMovie={true} isCardSlider={true} />
-					)}
-				</Section>
-			) : (
-				<Section
-					icon='ThumbsUp'
-					title='Popular' // change upon user preferences
-					className='md:-mt-[15rem] z-50'
-					container={false}
-					route='/movies/popular'
-					seeMore={false}
-					spotlight={false}
-				>
-					{!popularMoviesLoading ? (
-						<SwiperComponent
-							movies={popularMovies}
-							isLoading={popularMoviesLoading}
-						/>
-					) : (
-						<RenderSkeletonCards isMovie={true} isCardSlider={true} />
-					)}
-				</Section>
-			)} */}
+			<HeroBgSection
+				isLoading={popularMoviesLoading}
+				popularMovies={popularMovies}
+			/>
 
 			<Section
 				icon='ThumbsUp'
@@ -91,7 +61,7 @@ export default function Home() {
 
 			<Section
 				icon='Users'
-				className='mt-7 md:mt-24'
+				className='mt-14 md:mt-24'
 				title='Popular Actors'
 				route='/actors'
 				isActor={true}
@@ -110,7 +80,7 @@ export default function Home() {
 
 			<Section
 				icon='Flame'
-				className='mt-12 md:mt-40'
+				className='mt-16 md:mt-40'
 				title='Trending this week'
 				route='/movies/trending'
 			>
@@ -125,7 +95,7 @@ export default function Home() {
 
 			<Section
 				icon='Clapperboard'
-				className='mt-12 md:mt-40'
+				className='mt-16 md:mt-40'
 				title='Coming up next'
 				route='/movies/coming-up'
 			>
@@ -140,7 +110,7 @@ export default function Home() {
 
 			<Section
 				icon='Star'
-				className='mt-12 md:mt-40 mb-28'
+				className='mt-16 md:mt-40 mb-28'
 				title='Best of the best'
 				route='/movies/top-rated'
 			>

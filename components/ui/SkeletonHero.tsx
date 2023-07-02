@@ -5,7 +5,7 @@ interface SkeletonHeroProps {}
 
 const SkeletonHero: FC<SkeletonHeroProps> = ({}) => {
 	return (
-		<section className='relative overflow-hidden h-screen md:h-[750px] bg-gray-500 animate-pulse'>
+		<section className='hidden md:block relative overflow-hidden h-screen md:h-[750px] bg-gray-500 animate-pulse'>
 			<Overlay
 				className='md:bg-gradient-to-b md:from-dark-background/40 md:from-35%
 					   md:via-dark-background md:via-65% md:to-dark-background z-[1]

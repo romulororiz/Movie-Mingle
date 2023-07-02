@@ -1,19 +1,21 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import { Heading, Input } from '@/components/ui';
-import { UserNav } from '@/components/ui';
-import { MainNav } from '@/components/ui';
-import { MobileNav } from '@/components/ui';
-import { SignInButton } from '@/components/ui';
+import {
+	Heading,
+	Input,
+	MainNav,
+	MobileNav,
+	SignInButton,
+	UserNav,
+} from '@/components/ui';
 import { headerConfig } from '@/config/header';
+import { cn } from '@/lib/utils';
 
 import useScrollPosition from '@/hooks/useScrollPosition';
-import Link from 'next/link';
 import { User } from 'next-auth';
+import Link from 'next/link';
+import { useState } from 'react';
 import { Icon } from '../Icon';
-import { useRef, useState } from 'react';
-import { useOnClickOutside } from 'usehooks-ts';
 
 interface HeaderProps {
 	// pick the properties you want to use
@@ -26,12 +28,12 @@ export const Header = ({ user }: HeaderProps) => {
 	const { isScrolled } = useScrollPosition();
 
 	return (
-		<div className='animate-out'>
+		<>
 			<header
 				className={cn(
-					'transition-all duration-200 backdrop-blur-md fixed h-20 top-0 left-0 w-full flex z-[100]',
+					'transition-all duration-200 fixed h-20 top-0 left-0 w-full flex z-[100]',
 					isScrolled
-						? 'bg-dark-background/80'
+						? 'bg-dark-background/80 backdrop-blur-md'
 						: 'bg-dark-background/80 md:bg-transparent'
 				)}
 			>
@@ -90,6 +92,6 @@ export const Header = ({ user }: HeaderProps) => {
 					</div>
 				</div>
 			)}
-		</div>
+		</>
 	);
 };

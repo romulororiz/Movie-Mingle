@@ -5,6 +5,8 @@ import { Inter } from 'next/font/google';
 import { Header } from '@/components/Layout';
 import { Providers } from '@/components';
 import { getCurrentUser } from '@/lib/session';
+import { TailwindIndicator } from '@/components/ui/tailwind-indicator';
+import Footer from '@/components/Layout/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,7 +27,8 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 				<Providers>
 					<Header user={user!} />
 					<main className='min-h-screen'>{children}</main>
-					{/* <Footer /> */}
+					<Footer />
+					<TailwindIndicator />
 				</Providers>
 			</body>
 		</html>

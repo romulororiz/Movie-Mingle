@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { Overlay } from '@/components/ui';
+import { Overlay, SkeletonHero } from '@/components/ui';
 import { MovieResponse } from '@/types/tmdb';
 import { MovieInfoHero } from '@/components/ui';
 import useBgChange from '@/hooks/useSliderChange';
@@ -62,19 +62,26 @@ export default React.memo(HeroBg);
 
 interface HeroBgSectionProps {
 	popularMovies: MovieResponse[];
+	isMobile?: boolean;
+	isLoading?: boolean;
 }
 
-export const HeroBgSection = ({ popularMovies }: HeroBgSectionProps) => {
+export const HeroBgSection = ({
+	popularMovies,
+	isLoading = false,
+}: HeroBgSectionProps) => {
 	const { currentImageIndex, previousImageIndex } = useBgChange();
+
+	if (isLoading) return <SkeletonHero />;
 
 	return (
 		<section className='hidden md:block h-[750px] relative overflow-hidden'>
 			<Overlay
 				className='md:bg-gradient-to-b md:from-dark-background/50 
-				md:from-25% md:via-dark-background md:via-65%
-				md:to-dark-background z-[1] bg-gradient-to-b 
-				from-dark-background/40 from-65% 
-				via-dark-background/90 via-[90%] to-dark-background'
+			md:from-25% md:via-dark-background md:via-65%
+			md:to-dark-background z-[1] bg-gradient-to-b 
+			from-dark-background/40 from-65% 
+			via-dark-background/90 via-[90%] to-dark-background'
 			/>
 			{
 				<HeroBg

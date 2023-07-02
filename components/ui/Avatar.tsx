@@ -27,6 +27,7 @@ const AvatarImage = React.forwardRef<
 	React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
 >(({ className, ...props }, ref) => (
 	<AvatarPrimitive.Image
+		referrerPolicy='no-referrer'
 		ref={ref}
 		className={cn('aspect-square h-full w-full', className)}
 		{...props}

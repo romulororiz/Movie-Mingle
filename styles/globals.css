@@ -17,7 +17,7 @@ html {
 
 /* Swiper */
 .swiper {
-	@apply w-auto h-auto pb-12 md:pb-16 pt-6 md:pt-20 relative !important;
+	@apply w-auto h-auto pb-12 md:pb-16 pt-6 md:pt-16 relative !important;
 }
 
 .swiper-pagination {
