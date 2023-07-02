@@ -20,35 +20,8 @@ import {
 	SheetContent,
 	SheetHeader,
 	SheetTitle,
-	SheetTrigger
+	SheetTrigger,
 } from '@/components/ui/Sheet';
-
-interface HamburgerMenuProps {
-	isOpen: boolean;
-	iconName: string;
-	openModal?: () => void;
-	closeModal?: () => void;
-}
-
-// terminal to clean cache  npm cache clean --force
-
-export function HamburgerMenu({
-	isOpen,
-	openModal,
-	closeModal,
-	iconName,
-}: HamburgerMenuProps) {
-	return (
-		<button
-			type='button'
-			className='cursor-pointer flex items-center justify-center'
-			onClick={isOpen ? closeModal : openModal}
-		>
-			<span className='sr-only'>{isOpen ? 'Close menu' : 'Open menu'}</span>
-			<Icon name={iconName} size={30} />
-		</button>
-	);
-}
 
 interface MobileNavProps {
 	user: User;

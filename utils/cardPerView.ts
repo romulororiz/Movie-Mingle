@@ -11,8 +11,8 @@ export const CardPerView = (
 
 	const breakpoints = [
 		{ max: 576, value: 4 },
-		{ max: 768, value: isActor ? 6 : 4 },
-		{ max: 1024, value: 6 },
+		{ max: 768, value: 6 },
+		{ max: 1024, value: 9 },
 		{ max: 1280, value: isActor ? 6 : 8 },
 	];
 

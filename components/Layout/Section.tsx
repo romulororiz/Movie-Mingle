@@ -71,7 +71,7 @@ const Section: FC<SectionProps> = ({
 				className={
 					container
 						? cn('grid gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10', {
-								'grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4':
+								'grid-cols-2 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4':
 									container && !isActor,
 								'grid-cols-2 xs:grid-cols-3 lg:grid-cols-6':
 									container && isActor,

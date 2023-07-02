@@ -26,6 +26,7 @@ interface HeadingProps<T extends HeadingLevels>
 	extends HTMLAttributes<HTMLHeadingElement>,
 		VariantProps<typeof headingVariants> {
 	element: T;
+	truncate?: boolean;
 	title?: string;
 	icon?: string;
 	color?: string;
@@ -38,6 +39,7 @@ const getAriaLevel = (element: HeadingLevels) => {
 const Heading: FC<HeadingProps<any>> = ({
 	element: Element,
 	className,
+	truncate = false,
 	size,
 	title,
 	icon,
@@ -51,7 +53,9 @@ const Heading: FC<HeadingProps<any>> = ({
 			aria-level={getAriaLevel(Element)}
 		>
 			{icon && <Icon name={icon} color={color} className='mr-2' />}
-			{title}
+			<div className={truncate ? 'text-ellipsis overflow-hidden' : ''}>
+				{title}
+			</div>
 		</Element>
 	);
 };

@@ -8,8 +8,8 @@ const StarPercentage = ({ percentage }: { percentage: number }) => {
 		<svg
 			xmlns='http://www.w3.org/2000/svg'
 			viewBox='0 0 24 24'
-			width='24'
-			height='24'
+			width='22'
+			height='22'
 		>
 			<defs>
 				<linearGradient id={id} x1='0%' y1='0%' x2='100%' y2='0%'>

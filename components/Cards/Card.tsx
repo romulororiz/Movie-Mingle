@@ -38,28 +38,29 @@ const CardInfo = ({ item, ratings }: CardInfoProps) => {
 		return null;
 
 	return (
-		<div className='mt-2 w-full z-10 flex justify-between items-start'>
-			<div className='flex flex-col truncate gap-1'>
+		<div className='mt-3 w-full z-10 flex justify-between items-start max-[380px]:text-[14px] '>
+			<div className='flex-col truncate gap-1'>
 				<Link href={createSlug(item) || '/'}>
 					<Heading
 						element='h2'
+						truncate={true}
 						title={isMovie(item) ? item.title : item.name}
 						size='sm'
 						id={
 							isMovie(item) ? `movie-title-${item.id}` : `actor-name-${item.id}`
 						}
-						className='hover:text-accent-primary transition truncate'
+						className='hover:text-accent-primary transition'
 					/>
 				</Link>
 
 				{ratings ? (
 					isMovie(item) ? (
-						<span className='text-sm flex gap-1 items-center justify-start'>
-							<Icon name='Calendar' size={16} />
+						<span className='max-[380px]:text-xs text-sm flex gap-1 items-center justify-start '>
+							<Icon name='Calendar' size={16} className='shrink-0' />
 							{formatDate(item.release_date.toString())}
 						</span>
 					) : (
-						<span className='flex gap-1 items-center text-sm'>
+						<span className='flex gap-1 items-center text-sm '>
 							<Icon name='Star' size={16} fill='#FDBB30' />
 							<span className='text-white'>
 								{normalizePopularityScore(item.popularity)}
@@ -71,7 +72,7 @@ const CardInfo = ({ item, ratings }: CardInfoProps) => {
 
 			{ratings
 				? isMovie(item) && (
-						<Ratings movie={item} className='flex items-center gap-2' />
+						<Ratings movie={item} className='flex items-center gap-[2px]' />
 				  )
 				: null}
 		</div>
