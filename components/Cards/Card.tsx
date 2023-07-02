@@ -136,7 +136,7 @@ const Card: FC<CardProps> = ({
 		<div
 			className={cn(
 				'flex flex-col justify-between',
-				isSlider ? 'w-[200px] md:h-full md:w-full' : 'h-full w-full'
+				isSlider ? 'xs:w-[220px] md:h-full md:w-full' : 'h-full w-full'
 			)}
 		>
 			<Link
@@ -159,7 +159,7 @@ const Card: FC<CardProps> = ({
 						width='0'
 						height='0'
 						className={cn(
-							'h-full w-full transition',
+							'h-full w-full transition ',
 							isImgLoading
 								? 'grayscale blur-2xl scale-105 duration-200'
 								: 'grayscale-0 blur-0 scale-100 duration-200'

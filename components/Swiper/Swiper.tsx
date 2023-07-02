@@ -44,7 +44,7 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 
 	const getMovieCardClass = (index: number) => {
 		if (index === activeIndex)
-			return 'border-2 border-accent-primary after:bg-transparent z-50 md:scale-125';
+			return 'border-2 border-accent-primary after:bg-transparent z-50 scale-[1.10] md:scale-125';
 		return 'border border-dark-background';
 	};
 
@@ -60,27 +60,27 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 		}
 	};
 
-	// stop autoplay on mobile
-	if (isTablet(windowSize)) {
-		if (swiperRef.current) {
-			if (swiperRef.current.swiper.autoplay.running.valueOf() === true) {
-				swiperRef.current.swiper.autoplay.stop();
-				setIsPlaying(false);
-			}
-		}
-	}
+	// // stop autoplay on mobile
+	// if (isTablet(windowSize)) {
+	// 	if (swiperRef.current) {
+	// 		if (swiperRef.current.swiper.autoplay.running.valueOf() === true) {
+	// 			swiperRef.current.swiper.autoplay.stop();
+	// 			setIsPlaying(false);
+	// 		}
+	// 	}
+	// }
 
 	return (
 		<>
 			<Overlay
-				className='after:sm:block after:absolute 
+				className='after:hidden after:sm:block after:absolute 
 					  after:top-0 md:after:top-20 after:bottom-0 after:left-0 after:w-20 
 					  after:bg-gradient-to-r after:from-dark-background 
 					  after:from-0% after:via-dark-background 
 					  after:via-20% after:z-[2]'
 			/>
 			<Overlay
-				className='before:sm:block before:absolute 
+				className='before:hidden before:sm:block before:absolute 
 					  before:top-0 md:before:top-20 before:bottom-0 before:right-0 before:w-20 
 					  before:bg-gradient-to-l before:from-dark-background 
 					  before:from-0% before:via-dark-background 

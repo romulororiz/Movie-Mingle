@@ -16,20 +16,20 @@ export const getSwiperOptions = (windowSize?: WindowSize) => {
 		};
 
 	switch (true) {
-		// case windowSize.width! < 320:
-		// 	slidesPerView = 1;
-		// 	break;
-		// case windowSize.width! < 480:
-		// 	slidesPerView = 3;
-		// 	break;
-		// case windowSize.width! < 640:
-		// 	slidesPerView = 3;
-		// 	break;
-		// case windowSize.width! < 768:
-		// 	slidesPerView = 4;
-		// 	break;
-		case windowSize.width! < 1024:
+		case windowSize.width! < 480:
+			slidesPerView = 2;
+			break;
+		case windowSize.width! < 640:
+			slidesPerView = 3;
+			break;
+		case windowSize.width! < 768:
+			slidesPerView = 3;
+			break;
+		case windowSize.width! < 960:
 			slidesPerView = 4;
+			break;
+		case windowSize.width! < 1024:
+			slidesPerView = 5;
 			break;
 		case windowSize.width! < 1280:
 			slidesPerView = 5;

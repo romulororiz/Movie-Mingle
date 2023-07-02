@@ -48,7 +48,7 @@ const Section: FC<SectionProps> = ({
 				className={cn(
 					'flex justify-between max-w-7xl mx-auto z-[70] mb-5 relative',
 					{
-						'px-[2rem] mx-auto top-0 md:top-8 mb-4': !container,
+						'px-[2rem] mx-auto top-0 md:top-8 mb-2': !container,
 					}
 				)}
 			>
