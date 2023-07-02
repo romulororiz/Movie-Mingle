@@ -8,7 +8,7 @@ import { CardPerView } from '@/utils/cardPerView';
 import useWindowSize from '@/hooks/useWindowSize';
 import { HeroBgSection } from '@/components/ui/HeroBg';
 import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
-import { SwiperComponent, SwiperMobileComponent } from '@/components/Swiper';
+import { SwiperComponent } from '@/components/Swiper';
 
 import {
 	useNowPlaying,
@@ -35,11 +35,8 @@ export default function Home() {
 
 	return (
 		<div className='min-h-screen'>
-			{!popularMoviesLoading ? (
-				<HeroBgSection popularMovies={popularMovies} />
-			) : (
-				<SkeletonHero />
-			)}
+			
+			{!popularMoviesLoading && <HeroBgSection popularMovies={popularMovies} />}
 
 			{/* {isTablet(windowSize) ? (
 				<Section container={false} route='/movies/popular'>
