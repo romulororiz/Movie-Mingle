@@ -3,17 +3,25 @@
 import useWindowSize from '@/hooks/useWindowSize';
 import Link from 'next/link';
 
-import { cn } from '@/lib/utils';
 import { Icon } from '@/components/Icon';
 import { Heading } from '@/components/ui';
-import { signOut } from 'next-auth/react';
-import { isTablet } from '@/utils/breakpoints';
-import { useRouter } from 'next/navigation';
-import { UserNavMobile } from './UserAccountNav';
-import { Dialog, Transition } from '@headlessui/react';
+import { cn } from '@/lib/utils';
 import { MainNavItem, NavItem } from '@/types';
-import { Fragment, useEffect, useState } from 'react';
+import { isTablet } from '@/utils/breakpoints';
 import { User } from 'next-auth';
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { UserNavMobile } from './UserAccountNav';
+
+import { Separator } from '@/components/ui/Separator';
+import {
+	Sheet,
+	SheetContent,
+	SheetHeader,
+	SheetTitle,
+	SheetTrigger
+} from '@/components/ui/Sheet';
 
 interface HamburgerMenuProps {
 	isOpen: boolean;
@@ -64,10 +72,6 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 		setIsOpen(false);
 	}
 
-	function openModal() {
-		setIsOpen(true);
-	}
-
 	const handleLogout = (navItem: NavItem) => {
 		closeModal();
 
@@ -83,118 +87,82 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 	const generateSeparator = (index: number, length: number) => {
 		if (index < length - 1) {
 			return (
-				<hr
-					className='h-px my-8 bg-gray-200/10 border-0 dark:bg-gray-700'
+				<Separator
 					key={index}
+					className='my-8 bg-gray-200/10 dark:bg-gray-700'
 				/>
 			);
 		}
 	};
 
-	const animateOverlay = {
-		as: Fragment,
-		enter: 'ease-out duration-200',
-		enterFrom: 'opacity-0',
-		enterTo: 'opacity-100',
-		leave: 'ease-in  duration-200',
-		leaveFrom: 'opacity-100',
-		leaveTo: 'opacity-0',
-	};
-
-	const animateSidePanel = {
-		as: Fragment,
-		enter: 'ease-out duration-200',
-		enterFrom: 'opacity-0 translate-x-[80%]',
-		enterTo: 'opacity-100',
-		leave: 'ease-in duration-200',
-		leaveFrom: 'opacity-100',
-		leaveTo: 'opacity-0 translate-x-full',
-	};
-
 	return (
-		<>
-			<HamburgerMenu isOpen={isOpen} openModal={openModal} iconName='Menu' />
+		<Sheet>
+			<SheetTrigger>
+				<Icon name='Menu' size={30} />
+			</SheetTrigger>
+			<SheetContent className='bg-dark-background z-[100] border-l-transparent w-80 p-8 overflow-auto'>
+				<SheetHeader>
+					<SheetTitle className='flex items-center justify-between mb-10'>
+						<Link href='/'>
+							<Heading
+								element='h1'
+								title='LOGO'
+								size='lg'
+								className='text-accent-primary'
+							/>
+						</Link>
+					</SheetTitle>
 
-			<Transition appear show={isOpen} as={Fragment}>
-				<Dialog as='div' className='relative z-[100]' onClose={closeModal}>
-					<Transition.Child {...animateOverlay}>
-						<div className='fixed inset-0 bg-dark-background/90' />
-					</Transition.Child>
-
-					<div className='fixed inset-0 overflow-y-auto'>
-						<div className='flex min-h-full items-center justify-end text-center'>
-							<Transition.Child {...animateSidePanel}>
-								<Dialog.Panel className='w-80 p-8 max-w-md min-h-screen bg-dark-background text-left align-middle shadow-lg shadow-black transform transition-all'>
-									<Dialog.Title className='flex items-center justify-between mb-10'>
-										<Link href='/'>
-											<Heading
-												element='h1'
-												title='LOGO'
-												size='lg'
-												className='text-accent-primary'
-											/>
-										</Link>
-										<HamburgerMenu
-											isOpen={isOpen}
-											closeModal={closeModal}
-											iconName='Close'
-										/>
-									</Dialog.Title>
-									{user && (
-										<>
-											<UserNavMobile user={user} />
-											<hr className='h-px my-8 bg-gray-200/10 border-0 dark:bg-gray-700' />
-										</>
-									)}
-									{items.map((itemSection, itemSectionIndex) => (
-										<nav
-											className='grid grid-flow-row auto-rows-max'
-											key={itemSectionIndex}
-										>
-											{(itemSection.requiresAuth && !user) ||
-											itemSection.section === 'Home' ? null : (
-												<div className='flex gap-2 items-center'>
-													<Heading
-														element='h2'
-														title={itemSection.section}
-														size='md'
-														className='text-accent-primary'
-													/>
-												</div>
-											)}
-											<div className='mt-2'>
-												{(itemSection.requiresAuth && !user) ||
-												itemSection.section === 'Home'
-													? null
-													: itemSection.navItems.map(
-															(navItem, navItemIndex) => (
-																<Link
-																	key={navItemIndex}
-																	href={navItem.href}
-																	onClick={() => handleLogout(navItem)}
-																	className={cn(
-																		'flex w-full items-center py-2 px-4 text-md font-medium transition hover:text-accent-primary'
-																	)}
-																>
-																	<div className='flex gap-2 items-center'>
-																		<Icon name={navItem.icon} size={16} />
-																		{navItem.title}
-																	</div>
-																</Link>
-															)
-													  )}
-											</div>
-											{user &&
-												itemSection.section !== 'Home' &&
-												generateSeparator(itemSectionIndex, items.length)}
-										</nav>
-									))}
-								</Dialog.Panel>
-							</Transition.Child>
+					{user && (
+						<div className='text-left'>
+							<UserNavMobile user={user} />
+							<Separator className='mt-10 mb-3 bg-gray-200/10 dark:bg-gray-700' />
 						</div>
-					</div>
-				</Dialog>
-			</Transition>
-		</>
+					)}
+
+					{items.map((itemSection, itemSectionIndex) => (
+						<nav
+							className='grid grid-flow-row auto-rows-max'
+							key={itemSectionIndex}
+						>
+							{(itemSection.requiresAuth && !user) ||
+							itemSection.section === 'Home' ? null : (
+								<div className='flex gap-2 items-center'>
+									<Heading
+										element='h2'
+										title={itemSection.section}
+										size='md'
+										className='text-accent-primary'
+									/>
+								</div>
+							)}
+							<div className='mt-2'>
+								{(itemSection.requiresAuth && !user) ||
+								itemSection.section === 'Home'
+									? null
+									: itemSection.navItems.map((navItem, navItemIndex) => (
+											<Link
+												key={navItemIndex}
+												href={navItem.href}
+												onClick={() => handleLogout(navItem)}
+												className={cn(
+													'flex w-full items-center py-2 px-4 text-md font-medium transition hover:text-accent-primary'
+												)}
+											>
+												<div className='flex gap-2 items-center'>
+													<Icon name={navItem.icon} size={16} />
+													{navItem.title}
+												</div>
+											</Link>
+									  ))}
+							</div>
+							{user &&
+								itemSection.section !== 'Home' &&
+								generateSeparator(itemSectionIndex, items.length)}
+						</nav>
+					))}
+				</SheetHeader>
+			</SheetContent>
+		</Sheet>
 	);
 }

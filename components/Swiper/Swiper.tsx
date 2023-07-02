@@ -2,7 +2,7 @@
 
 import { Overlay } from '@/components/ui';
 import { isTablet } from '@/utils/breakpoints';
-import { blurData, getAbsoluteUrl } from '@/lib/utils';
+import { blurData, cn, getAbsoluteUrl } from '@/lib/utils';
 import { MovieResponse } from '@/types/tmdb';
 import { PlayBtnSwiper } from '@/components/Swiper';
 import { MovieInfoHero } from '@/components/ui';
@@ -123,6 +123,8 @@ type SwiperMobileComponentProps = {
 };
 
 const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
+	const [isImgLoading, setIsImgLoading] = useState(true);
+
 	return (
 		<Swiper {...getSwiperOptions()}>
 			{movies.map(movie => (
@@ -136,9 +138,15 @@ const SwiperMobileComponent = ({ movies }: SwiperMobileComponentProps) => {
 						width='0'
 						height='0'
 						sizes='(max-width: 640px) 100vw, 640px'
-						className='w-full h-screen'
+						className={cn(
+							'w-full h-screen',
+							isImgLoading
+								? 'grayscale blur-2xl scale-100 duration-200'
+								: 'grayscale-0 blur-0 scale-100 duration-200'
+						)}
 						placeholder='blur'
 						blurDataURL={blurData}
+						onLoadingComplete={() => setIsImgLoading(false)}
 						style={{
 							objectFit: 'cover',
 						}}

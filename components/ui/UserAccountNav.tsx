@@ -22,9 +22,9 @@ export const UserNavMobile = ({ user }: UserNavProps) => {
 			<UserAvatar
 				user={{ name: user.name || null, image: user.image || null }}
 			/>
-			<div className='flex flex-col'>
+			<div className='flex flex-col truncate'>
 				<div className='text-md font-semibold'>{user.name}</div>
-				<div className='text-sm font-light text-slate-300'>{user.email}</div>
+				<div className='text-sm font-light text-slate-300 text-ellipsis overflow-hidden'>{user.email}</div>
 			</div>
 		</div>
 	);
