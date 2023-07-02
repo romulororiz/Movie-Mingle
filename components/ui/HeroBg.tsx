@@ -70,10 +70,11 @@ export const HeroBgSection = ({ popularMovies }: HeroBgSectionProps) => {
 	return (
 		<section className='hidden md:block h-[750px] relative overflow-hidden'>
 			<Overlay
-				className='md:bg-gradient-to-b md:from-dark-background/50 md:from-35%
-		   md:via-dark-background md:via-70% md:to-dark-background z-[1]
-		   bg-gradient-to-b from-dark-background/40 from-65%
-		   via-dark-background/90 via-[90%] to-dark-background'
+				className='md:bg-gradient-to-b md:from-dark-background/50 
+				md:from-25% md:via-dark-background md:via-65%
+				md:to-dark-background z-[1] bg-gradient-to-b 
+				from-dark-background/40 from-65% 
+				via-dark-background/90 via-[90%] to-dark-background'
 			/>
 			{
 				<HeroBg

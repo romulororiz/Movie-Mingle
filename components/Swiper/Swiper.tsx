@@ -73,15 +73,15 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 	return (
 		<>
 			<Overlay
-				className='after:hidden after:sm:block after:absolute 
-					  after:top-0 md:after:top-14 after:bottom-0 after:left-0 after:w-20 
+				className='after:sm:block after:absolute 
+					  after:top-0 md:after:top-20 after:bottom-0 after:left-0 after:w-20 
 					  after:bg-gradient-to-r after:from-dark-background 
 					  after:from-0% after:via-dark-background 
 					  after:via-20% after:z-[2]'
 			/>
 			<Overlay
-				className='before:hidden before:sm:block before:absolute 
-					  before:top-0 md:before:top-14 before:bottom-0 before:right-0 before:w-20 
+				className='before:sm:block before:absolute 
+					  before:top-0 md:before:top-20 before:bottom-0 before:right-0 before:w-20 
 					  before:bg-gradient-to-l before:from-dark-background 
 					  before:from-0% before:via-dark-background 
 					  before:via-20% before:z-[2]'

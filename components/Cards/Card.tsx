@@ -133,7 +133,12 @@ const Card: FC<CardProps> = ({
 	if (isLoading) return <SkeletonCard />;
 
 	return (
-		<div className='h-full w-full flex flex-col justify-between'>
+		<div
+			className={cn(
+				'flex flex-col justify-between',
+				isSlider ? 'w-[200px] md:h-full md:w-full' : 'h-full w-full'
+			)}
+		>
 			<Link
 				href={createSlug(item) || '/'}
 				onClick={e => {

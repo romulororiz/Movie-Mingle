@@ -41,7 +41,7 @@ export default function Home() {
 				<SkeletonHero />
 			)}
 
-			{isTablet(windowSize) ? (
+			{/* {isTablet(windowSize) ? (
 				<Section container={false} route='/movies/popular'>
 					{!popularMoviesLoading ? (
 						<SwiperMobileComponent
@@ -71,7 +71,26 @@ export default function Home() {
 						<RenderSkeletonCards isMovie={true} isCardSlider={true} />
 					)}
 				</Section>
-			)}
+			)} */}
+
+			<Section
+				icon='ThumbsUp'
+				title='Popular' // change upon user preferences
+				className='mt-[8rem] md:-mt-[22rem] z-50'
+				container={false}
+				route='/movies/popular'
+				seeMore={false}
+				spotlight={false}
+			>
+				{!popularMoviesLoading ? (
+					<SwiperComponent
+						movies={popularMovies}
+						isLoading={popularMoviesLoading}
+					/>
+				) : (
+					<RenderSkeletonCards isMovie={true} isCardSlider={true} />
+				)}
+			</Section>
 
 			<Section
 				icon='Users'
