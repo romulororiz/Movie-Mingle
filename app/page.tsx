@@ -42,8 +42,8 @@ export default function Home() {
 
 			<Section
 				icon='ThumbsUp'
-				title='Popular' // change upon user preferences
-				className='mt-[6rem] md:-mt-[22rem] z-50'
+				title='Popular Now' // change upon user preferences
+				className='mt-[7rem] md:-mt-[22rem] z-50 text-center'
 				container={false}
 				route='/movies/popular'
 				seeMore={false}
@@ -62,7 +62,7 @@ export default function Home() {
 			<Section
 				icon='Users'
 				className='mt-14 md:mt-24'
-				title='Popular Actors'
+				title='Trending Actors'
 				route='/actors'
 				isActor={true}
 			>
@@ -81,7 +81,7 @@ export default function Home() {
 			<Section
 				icon='Flame'
 				className='mt-16 md:mt-40'
-				title='Trending this week'
+				title='Hottest this week'
 				route='/movies/trending'
 			>
 				{!nowPlayingLoading ? (

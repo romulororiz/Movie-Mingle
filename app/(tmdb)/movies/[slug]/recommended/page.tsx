@@ -2,6 +2,7 @@
 
 import { Card } from '@/components/Cards';
 import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
+import { Icon } from '@/components/Icon';
 import { Section } from '@/components/Layout';
 import { useMovieDetail } from '@/hooks/useTMDB';
 import { getIdFromSlug } from '@/lib/utils';
@@ -13,7 +14,7 @@ interface PageProps {
 	};
 }
 
-export default function SimilarMoviesPage({ params }: PageProps) {
+export default function RecommendedMoviesPage({ params }: PageProps) {
 	const { slug } = params;
 
 	const movieId = getIdFromSlug(slug);
@@ -26,8 +27,8 @@ export default function SimilarMoviesPage({ params }: PageProps) {
 
 	return (
 		<Section
-			route={`/movies/${encodeURIComponent(slug)}/similar`}
-			title={`Similar to '${data.title}' (${data.similar.results.length})`}
+			route={`/movies/${encodeURIComponent(slug)}/recommended`}
+			title={`Because you saw  '${data.title}' (${data.similar.results.length})`}
 			spotlight={false}
 			seeMore={false}
 			className='relative'

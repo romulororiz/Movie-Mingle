@@ -1,21 +1,16 @@
 'use client';
 
+import React, { useRef } from 'react';
 import { Overlay } from '@/components/ui';
-import { isTablet } from '@/utils/breakpoints';
-import { blurData, cn, getAbsoluteUrl } from '@/lib/utils';
-import { MovieResponse } from '@/types/tmdb';
-import { PlayBtnSwiper } from '@/components/Swiper';
-import { MovieInfoHero } from '@/components/ui';
-import { getSwiperOptions } from '@/lib/swiper';
-import { Swiper as SwiperClass } from 'swiper';
-import React, { useRef, useState } from 'react';
 import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
+import { getSwiperOptions } from '@/lib/swiper';
+import { MovieResponse } from '@/types/tmdb';
+import { Swiper as SwiperClass } from 'swiper';
 import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 
-import Image from 'next/image';
 import Card from '@/components/Cards/Card';
-import 'swiper/swiper-bundle.css';
 import { useAppState } from '@/context/stateContext';
+import 'swiper/swiper-bundle.css';
 
 // Card Slider Desktop
 type SwiperComponentProps = {
@@ -24,8 +19,6 @@ type SwiperComponentProps = {
 };
 
 const SwiperComponent = ({ movies }: SwiperComponentProps) => {
-	const [isPlaying, setIsPlaying] = useState(true);
-
 	const { activeIndex, setActiveIndex } = useAppState();
 
 	const swiperRef = useRef<SwiperRef>(null);
@@ -52,18 +45,6 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 		return 'border border-dark-background';
 	};
 
-	const stopPlayAutoplay = () => {
-		if (swiperRef.current) {
-			if (swiperRef.current.swiper.autoplay.running.valueOf() === true) {
-				swiperRef.current.swiper.autoplay.stop();
-				setIsPlaying(false);
-			} else {
-				swiperRef.current.swiper.autoplay.start();
-				setIsPlaying(true);
-			}
-		}
-	};
-
 	return (
 		<>
 			<Overlay
@@ -84,6 +65,11 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 				{...getSwiperOptions(windowSize)}
 				onSlideChange={handleSlideChange}
 				ref={swiperRef}
+				a11y={{
+					enabled: true,
+					prevSlideMessage: 'Previous slide',
+					nextSlideMessage: 'Next slide',
+				}}
 			>
 				{movies.map((movie, index) => (
 					<SwiperSlide
@@ -98,9 +84,6 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 						/>
 					</SwiperSlide>
 				))}
-				<div className='absolute bottom-0 md:bottom-8 right-0 max-w-7xl mx-auto px-[5rem] left-0 flex -z-[1] w-full justify-end'>
-					<PlayBtnSwiper isPlaying={isPlaying} onClick={stopPlayAutoplay} />
-				</div>
 			</Swiper>
 		</>
 	);

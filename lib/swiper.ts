@@ -50,7 +50,7 @@ export const getSwiperOptions = (windowSize?: WindowSize) => {
 			dynamicBullets: true,
 		},
 		loop: true,
-		speed: 1500,
+		speed: 1800,
 		autoplay: {
 			delay: 3000,
 			disableOnInteraction: true,

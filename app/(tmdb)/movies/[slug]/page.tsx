@@ -7,7 +7,7 @@ import { Heading, HeroBg, Overlay, Paragraph } from '@/components/ui';
 import MovieStats, { GenreItem, stats } from '@/components/ui/MovieStats';
 import { useMovieDetail } from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
-import { blurData, cn, getAbsoluteUrl, getIdFromSlug } from '@/lib/utils';
+import { cn, getAbsoluteUrl, getIdFromSlug } from '@/lib/utils';
 import { MovieDetailResponse } from '@/types/tmdb';
 import { isTablet } from '@/utils/breakpoints';
 import { CardPerView } from '@/utils/cardPerView';
@@ -93,9 +93,8 @@ export default function MoviePage({ params }: PageProps) {
 							)}
 							sizes='(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw'
 							width={isTablet(windowSize) ? 240 : 400}
-							height={100}
-							placeholder='blur'
-							blurDataURL={blurData}
+							height={isTablet(windowSize) ? 360 : 600}
+							priority
 							onLoadingComplete={() => setIsImgLoading(false)}
 						/>
 					</Fragment>
@@ -106,45 +105,76 @@ export default function MoviePage({ params }: PageProps) {
 				</div>
 			</section>
 
-			<Section
-				route='#'
-				title='Cast'
-				icon='Users'
-				isActor={true}
-				seeMore={false}
-				spotlight={false}
-				className='mt-20'
-			>
-				{data.credits.cast
-					.map(actor => (
-						<Card key={`actor-${actor.id}`} item={actor} ratings={false} />
-					))
-					.slice(0, CardPerView(windowSize, { isActor: true, isMovie: false }))}
-			</Section>
-
-			<Section
-				route={`/movies/${encodeURIComponent(slug)}/similar`}
-				title='You might also like'
-				icon='ThumbsUp'
-				className='mt-20 mb-28'
-				spotlight={false}
-			>
-				{!isLoading ? (
-					data.similar.results &&
-					data.similar.results
-						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
+			{data?.credits?.cast.length! > 0 && (
+				<Section
+					route='#'
+					title='Cast'
+					icon='Users'
+					isActor={true}
+					seeMore={false}
+					spotlight={false}
+					className='mt-20'
+				>
+					{data.credits.cast
+						.map(actor => (
+							<Card key={`actor-${actor.id}`} item={actor} ratings={false} />
+						))
 						.slice(
 							0,
-							CardPerView(windowSize, { isActor: false, isMovie: true })
-						)
-				) : (
-					<RenderSkeletonCards
-						isActor={false}
-						isMovie={true}
-						isCardSlider={false}
-					/>
-				)}
-			</Section>
+							CardPerView(windowSize, { isActor: true, isMovie: false })
+						)}
+				</Section>
+			)}
+
+			{data.similar.results.length! > 0 && (
+				<Section
+					route={`/movies/${encodeURIComponent(slug)}/similar`}
+					title='More like this'
+					icon='GalleryVertical'
+					className='mt-20 mb-28'
+					spotlight={false}
+				>
+					{!isLoading ? (
+						data?.similar?.results
+							.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
+							.slice(
+								0,
+								CardPerView(windowSize, { isActor: false, isMovie: true })
+							)
+					) : (
+						<RenderSkeletonCards
+							isActor={false}
+							isMovie={true}
+							isCardSlider={false}
+						/>
+					)}
+				</Section>
+			)}
+
+			{data?.recommendations?.results.length! > 0 && (
+				<Section
+					route={`/movies/${encodeURIComponent(slug)}/recommended`}
+					title='You might also like'
+					icon='ThumbsUp'
+					className='mt-20 mb-28'
+					spotlight={false}
+				>
+					{!isLoading ? (
+						data?.similar?.results
+							.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
+							.slice(
+								0,
+								CardPerView(windowSize, { isActor: false, isMovie: true })
+							)
+					) : (
+						<RenderSkeletonCards
+							isActor={false}
+							isMovie={true}
+							isCardSlider={false}
+						/>
+					)}
+				</Section>
+			)}
 		</div>
 	);
 }

@@ -10,7 +10,7 @@ export async function GET(req: Request) {
 
 	try {
 		const movieRes = await fetch(
-			`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&append_to_response=images,videos,credits,similar`
+			`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&append_to_response=images,videos,credits,similar,recommendations`
 		);
 
 		const movieResData = (await movieRes.json()) as MovieDetailResponse;

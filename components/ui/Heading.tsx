@@ -52,7 +52,7 @@ const Heading: FC<HeadingProps<any>> = ({
 			{...props}
 			aria-level={getAriaLevel(Element)}
 		>
-			{icon && <Icon name={icon} color={color} className='mr-2' />}
+			{icon && <Icon name={icon} color={color} className='mr-2 shrink-0' />}
 			<div className={truncate ? 'text-ellipsis overflow-hidden' : ''}>
 				{title}
 			</div>

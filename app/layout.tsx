@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 				<Providers>
 					<Header user={user!} />
 					<main className='min-h-screen'>{children}</main>
-					<Footer />
+					{/* <Footer /> */}
 					<TailwindIndicator />
 				</Providers>
 			</body>

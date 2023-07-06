@@ -3,7 +3,7 @@
 import { Card } from '@/components/Cards';
 import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
 import { Section } from '@/components/Layout';
-import { useMovieDetail } from '@/hooks/useTMDB';
+import { useActorDetail } from '@/hooks/useTMDB';
 import { getIdFromSlug } from '@/lib/utils';
 import { notFound } from 'next/navigation';
 
@@ -13,12 +13,12 @@ interface PageProps {
 	};
 }
 
-export default function SimilarMoviesPage({ params }: PageProps) {
+export default function ActorMoviesPage({ params }: PageProps) {
 	const { slug } = params;
 
-	const movieId = getIdFromSlug(slug);
+	const actorId = getIdFromSlug(slug);
 
-	const { data, isLoading } = useMovieDetail(movieId);
+	const { data, isLoading } = useActorDetail(actorId);
 
 	if (isLoading) return 'loading...';
 
@@ -26,14 +26,13 @@ export default function SimilarMoviesPage({ params }: PageProps) {
 
 	return (
 		<Section
-			route={`/movies/${encodeURIComponent(slug)}/similar`}
-			title={`Similar to '${data.title}' (${data.similar.results.length})`}
+			route={`/actors/${encodeURIComponent(slug)}/movies`}
+			title={`${data.name}'s Filmography (${data.movie_credits.cast.length})`}
 			spotlight={false}
 			seeMore={false}
-			className='relative'
 		>
 			{!isLoading ? (
-				data.similar.results.map(movie => (
+				data.movie_credits.cast.map(movie => (
 					<Card key={`movie-${movie.id}`} item={movie} />
 				))
 			) : (

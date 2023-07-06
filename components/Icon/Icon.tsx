@@ -32,6 +32,7 @@ import {
 	Globe,
 	DollarSign,
 	LineChart,
+	Film,
 	X as Close,
 } from 'lucide-react';
 
@@ -65,6 +66,7 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	Globe,
 	DollarSign,
 	LineChart,
+	Film,
 };
 
 import { FC, SVGProps } from 'react';

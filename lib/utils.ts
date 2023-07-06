@@ -39,13 +39,10 @@ export const normalizePopularityScore = (score: number) => {
 
 export const slugify = (text: string, number?: number) => {
 	const slugifiedText = text
-		.toString() // Convert to string
-		.normalize('NFD') // Split an accented letter in the base letter and the accent
-		.replace(/[\u0300-\u036f]/g, '') // Remove accents
-		.toLowerCase() // Convert to lowercase
-		.trim() // Remove whitespace
-		.replace(/[^\w\s\/]|_/g, '') // Allow trailing slash
-		.replace(/\s+/g, '-'); // Replace spaces with hyphens
+		.toLowerCase()
+		.replace(/\s+/g, '-') // Replace spaces with dashes
+		.replace(/[&#,+()$~%'.":!*?<>{}]/g, '')
+		.replace(/\//g, '-');
 
 	if (number) return `${slugifiedText}-${number}`;
 };

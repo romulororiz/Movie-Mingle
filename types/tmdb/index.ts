@@ -42,7 +42,8 @@ export interface MovieDetailResponse {
 	production_countries: ProductionCountryResponse[];
 	release_date: string;
 	revenue: number;
-	similar: SimilarMoviesResponse;
+	similar: { results: MovieResponse[] };
+	recommendations: { results: MovieResponse[] };
 	runtime: number;
 	spoken_languages: SpokenLanguageResponse[];
 	status: string;
@@ -78,6 +79,8 @@ export interface PeopleDetailResponse {
 	place_of_birth: string;
 	popularity: number;
 	profile_path: string;
+	movie_credits: { cast: MovieResponse[] };
+	// tv_credits: { cast: SeriesResult[] };
 }
 
 export interface ProductionCompanyResponse {

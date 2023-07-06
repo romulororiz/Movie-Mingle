@@ -34,19 +34,18 @@ const Section: FC<SectionProps> = ({
 }) => {
 	const windowSize = useWindowSize();
 
-	const sectionVariants = cva(
-		cn('mx-auto max-w-[85rem] w-full relative z-[2]', {
-			'md:max-w-[95rem]': !container,
-			container: container,
-		})
-	);
-
 	return (
-		<section className={cn(sectionVariants({ className }))}>
+		<section
+			className={cn(
+				'mx-auto max-w-[85rem] w-full relative z-[2]',
+				!container ? 'md:max-w-[95rem]' : 'container',
+				className
+			)}
+		>
 			{spotlight && <Overlay className='spotlight' />}
 			<div
 				className={cn(
-					'flex justify-between max-w-7xl mx-auto z-[70] mb-5 relative',
+					'flex justify-center md:justify-between max-w-7xl mx-auto z-[70] mb-5 relative ',
 					{
 						'px-[2rem] mx-auto top-0 md:top-8 mb-2': !container,
 					}

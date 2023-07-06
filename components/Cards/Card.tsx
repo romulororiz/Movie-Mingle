@@ -16,9 +16,12 @@ import {
 	isMovieResponseItem,
 	isPeopleResponseItem,
 } from '@/utils/typeGuards';
+import { useWindowSize } from 'usehooks-ts';
 
 interface CardInfoProps {
 	item: MovieOrActor | CastResponse;
+	isCurrSlide?: boolean;
+	isSlider?: boolean;
 	className?: string;
 	ratings?: boolean;
 	options?: {
@@ -30,7 +33,13 @@ const isMovie = (item: MovieOrActor | CastResponse): item is MovieResponse => {
 	return isMovieResponseItem(item);
 };
 
-const CardInfo = ({ item, ratings, className }: CardInfoProps) => {
+const CardInfo = ({
+	item,
+	ratings,
+	className,
+	isCurrSlide,
+	isSlider,
+}: CardInfoProps) => {
 	if (
 		!isMovieResponseItem(item) &&
 		!isPeopleResponseItem(item) &&
@@ -40,8 +49,11 @@ const CardInfo = ({ item, ratings, className }: CardInfoProps) => {
 
 	return (
 		<div
+			data-state={isCurrSlide ? 'open' : 'closed'}
 			className={cn(
 				'mt-3 w-full z-10 flex justify-between items-start max-[380px]:text-[14px]',
+				isCurrSlide && 'mt-6 animate-in fade-in duration-1000 md:hidden',
+				isSlider && !isCurrSlide && 'hidden',
 				className
 			)}
 		>
@@ -116,6 +128,14 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 	};
 }
 
+const handleMobileImg = (width: number) => {
+	if (width! <= 768) {
+		return 'w300';
+	} else {
+		return 'w780';
+	}
+};
+
 const Card: FC<CardProps> = ({
 	item,
 	ratings = true,
@@ -125,6 +145,8 @@ const Card: FC<CardProps> = ({
 	isCurrSlide = false,
 }) => {
 	const [isImgLoading, setIsImgLoading] = useState(true);
+
+	const { width } = useWindowSize();
 
 	if (
 		!isMovieResponseItem(item) &&
@@ -142,12 +164,7 @@ const Card: FC<CardProps> = ({
 	if (isLoading) return <SkeletonCard />;
 
 	return (
-		<div
-			className={cn(
-				'flex flex-col justify-between',
-				isSlider ? 'sm:w-[220px] md:h-full md:w-full' : 'h-full w-full'
-			)}
-		>
+		<div className={cn('flex flex-col justify-between h-full w-full')}>
 			<Link
 				href={createSlug(item) || '/'}
 				onClick={e => {
@@ -161,34 +178,25 @@ const Card: FC<CardProps> = ({
 				<figure className={cn(cardClasses({ className }))}>
 					<Image
 						src={getAbsoluteUrl(
-							'https://image.tmdb.org/t/p/w780',
+							`https://image.tmdb.org/t/p/${handleMobileImg(width)}`,
 							isMovie(item) ? item.poster_path : item.profile_path
 						)}
 						alt={isMovie(item) ? item.title : item.name}
 						fill
-						className={cn(
-							'h-full w-full transition ',
-							isImgLoading
-								? 'grayscale blur-2xl scale-105 duration-200'
-								: 'grayscale-0 blur-0 scale-100 duration-200'
-						)}
-						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 150px, 100px'
-						placeholder='blur'
+						className={cn('h-full w-full transition')}
 						blurDataURL={blurData}
+						placeholder='blur'
+						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 150px, 100px'
 						onLoadingComplete={() => setIsImgLoading(false)}
 					/>
 				</figure>
 			</Link>
-			{!isSlider && <CardInfo item={item} ratings={ratings} />}
-			{isCurrSlide && (
-				<div className='flex md:hidden'>
-					<CardInfo
-						item={item}
-						ratings={ratings}
-						className='mt-6 animate-in fade-in duration-1000'
-					/>
-				</div>
-			)}
+			<CardInfo
+				item={item}
+				ratings={ratings}
+				isSlider={isSlider}
+				isCurrSlide={isCurrSlide}
+			/>
 		</div>
 	);
 };
