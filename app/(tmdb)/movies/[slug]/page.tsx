@@ -100,7 +100,7 @@ export default function MoviePage({ params }: PageProps) {
 					</Fragment>
 				</figure>
 
-				<div className='flex flex-col gap-4'>
+				<div className='flex flex-col gap-y-6'>
 					<MovieDetailInfo item={data} />
 				</div>
 			</section>
@@ -112,8 +112,7 @@ export default function MoviePage({ params }: PageProps) {
 					icon='Users'
 					isActor={true}
 					seeMore={false}
-					spotlight={false}
-					className='mt-20'
+					className='mt-14 mb-28'
 				>
 					{data.credits.cast
 						.map(actor => (
@@ -126,16 +125,15 @@ export default function MoviePage({ params }: PageProps) {
 				</Section>
 			)}
 
-			{data.similar.results.length! > 0 && (
+			{data?.similar?.results?.length! > 0 && (
 				<Section
 					route={`/movies/${encodeURIComponent(slug)}/similar`}
 					title='More like this'
-					icon='GalleryVertical'
-					className='mt-20 mb-28'
-					spotlight={false}
+					icon='ThumbsUp'
+					className='mb-28'
 				>
 					{!isLoading ? (
-						data?.similar?.results
+						data?.similar?.results!
 							.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 							.slice(
 								0,
@@ -151,16 +149,15 @@ export default function MoviePage({ params }: PageProps) {
 				</Section>
 			)}
 
-			{data?.recommendations?.results.length! > 0 && (
+			{data?.recommendations?.results?.length! > 0 && (
 				<Section
 					route={`/movies/${encodeURIComponent(slug)}/recommended`}
 					title='You might also like'
 					icon='ThumbsUp'
-					className='mt-20 mb-28'
-					spotlight={false}
+					className='mb-28'
 				>
 					{!isLoading ? (
-						data?.similar?.results
+						data?.recommendations?.results!
 							.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 							.slice(
 								0,

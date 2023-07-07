@@ -5,7 +5,12 @@ import {
 	PeopleDetailResponse,
 	PeopleResponse,
 } from '@/types/tmdb';
-import { UseQueryResult, useQuery } from '@tanstack/react-query';
+import {
+	UseInfiniteQueryResult,
+	UseQueryResult,
+	useInfiniteQuery,
+	useQuery,
+} from '@tanstack/react-query';
 
 const fetcher = async (endpoint: string, revalidateTime?: number) => {
 	const res = await fetch(endpoint, {
@@ -20,7 +25,7 @@ export const usePopularMovies = () => {
 	return useQuery({
 		queryKey: ['Popular'],
 		queryFn: () => fetcher('/api/movies/popular'),
-	}) as UseQueryResult<MovieResponse[]> &{
+	}) as UseQueryResult<MovieResponse[]> & {
 		data: MovieResponse[];
 		isLoading: boolean;
 	};
@@ -30,7 +35,7 @@ export const useTopRated = () => {
 	return useQuery({
 		queryKey: ['TopRated'],
 		queryFn: () => fetcher('/api/movies/top_rated'),
-	}) as UseQueryResult<MovieResponse[]> &{
+	}) as UseQueryResult<MovieResponse[]> & {
 		data: MovieResponse[];
 		isLoading: boolean;
 	};
@@ -40,7 +45,7 @@ export const useNowPlaying = () => {
 	return useQuery({
 		queryKey: ['NowPlaying'],
 		queryFn: () => fetcher('/api/movies/now_playing'),
-	}) as UseQueryResult<MovieResponse[]> &{
+	}) as UseQueryResult<MovieResponse[]> & {
 		data: MovieResponse[];
 		isLoading: boolean;
 	};
@@ -67,13 +72,25 @@ export const usePopularActors = () => {
 };
 
 export const useMoviesByGenre = (genreId: number) => {
-	return useQuery({
+	return useInfiniteQuery({
 		queryKey: ['MoviesByGenre', genreId],
-		queryFn: () => fetcher(`/api/movies/genres/${genreId}`),
-	}) as UseQueryResult<MovieDetailResponse> & {
-		data: MovieDataResponse;
-		isLoading: boolean;
-	};
+		queryFn: ({ pageParam = 1 }) =>
+			fetcher(`/api/movies/genres/${genreId}?page=${pageParam}`),
+		getNextPageParam: ({ page, total_pages }) => {
+			return page < total_pages ? page + 1 : undefined;
+		},
+		select: data => {
+			return data;
+		},
+	}) as UseInfiniteQueryResult<MovieDataResponse>;
+
+	// return useQuery({
+	// 	queryKey: ['MoviesByGenre', genreId],
+	// 	queryFn: () => fetcher(`/api/movies/genres/${genreId}`),
+	// }) as UseQueryResult<MovieDataResponse> & {
+	// 	data: MovieDataResponse;
+	// 	isLoading: boolean;
+	// };
 };
 
 export const useMovieDetail = (movieId: number) => {
@@ -81,7 +98,7 @@ export const useMovieDetail = (movieId: number) => {
 		queryKey: ['MovieDetail', movieId],
 		queryFn: () => fetcher(`/api/movies/${movieId}`),
 	}) as UseQueryResult<MovieDetailResponse> & {
-		data: MovieDetailResponse;
+		data: MovieDetailResponse | MovieDataResponse;
 		isLoading: boolean;
 	};
 };

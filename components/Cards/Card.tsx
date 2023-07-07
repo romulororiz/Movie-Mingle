@@ -144,8 +144,6 @@ const Card: FC<CardProps> = ({
 	isSlider = false,
 	isCurrSlide = false,
 }) => {
-	const [isImgLoading, setIsImgLoading] = useState(true);
-
 	const { width } = useWindowSize();
 
 	if (
@@ -164,7 +162,12 @@ const Card: FC<CardProps> = ({
 	if (isLoading) return <SkeletonCard />;
 
 	return (
-		<div className={cn('flex flex-col justify-between h-full w-full')}>
+		<div
+			className={cn(
+				'flex flex-col justify-between h-full w-full',
+				!isSlider && 'hover:scale-[1.025] duration-300'
+			)}
+		>
 			<Link
 				href={createSlug(item) || '/'}
 				onClick={e => {
@@ -187,7 +190,6 @@ const Card: FC<CardProps> = ({
 						blurDataURL={blurData}
 						placeholder='blur'
 						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 150px, 100px'
-						onLoadingComplete={() => setIsImgLoading(false)}
 					/>
 				</figure>
 			</Link>

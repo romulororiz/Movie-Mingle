@@ -1,5 +1,5 @@
 import { WindowSize } from '@/hooks/useWindowSize';
-import { EffectFade, Navigation, Pagination, Autoplay } from 'swiper';
+import { EffectFade, Navigation, Pagination, Autoplay, FreeMode } from 'swiper';
 
 export const getSwiperOptions = (windowSize?: WindowSize) => {
 	let slidesPerView;
@@ -45,7 +45,7 @@ export const getSwiperOptions = (windowSize?: WindowSize) => {
 		slidesPerView,
 		spaceBetween,
 		centeredSlides: true,
-		modules: [Autoplay, Pagination],
+		modules: [Autoplay, Pagination, FreeMode],
 		pagination: {
 			dynamicBullets: true,
 		},

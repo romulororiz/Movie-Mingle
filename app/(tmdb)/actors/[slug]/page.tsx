@@ -8,7 +8,7 @@ import { Heading, HeroBg, Overlay, Paragraph } from '@/components/ui';
 import { useActorDetail } from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
 import { cn, getAbsoluteUrl, getIdFromSlug } from '@/lib/utils';
-import { isMobile } from '@/utils/breakpoints';
+import { isMobile, isTablet } from '@/utils/breakpoints';
 import { CardPerView } from '@/utils/cardPerView';
 import { Collapse } from '@mui/material';
 import Image from 'next/image';
@@ -41,9 +41,9 @@ export default function ActorPage({ params }: PageProps) {
 		<div>
 			<section className='absolute inset-0 mx-auto w-full h-screen'>
 				<HeroBg
-					imageKey={`movie-${actorId}`}
+					imageKey={`actor-${actorId}`}
 					isLocalAsset={true}
-					src='/assets/showcase.jpg'
+					src={getAbsoluteUrl('', '', true)}
 					isSlider={false}
 					className='md:bg-center h-auto'
 				/>
@@ -67,8 +67,8 @@ export default function ActorPage({ params }: PageProps) {
 								: 'grayscale-0 blur-0 scale-100 duration-200'
 						)}
 						sizes='(max-width: 768px) 100vw, 50vw, 33vw'
-						width={isMobile(windowSize) ? 300 : 500}
-						height={500}
+						width={isTablet(windowSize) ? 240 : 400}
+						height={isTablet(windowSize) ? 360 : 600}
 						priority
 						onLoadingComplete={() => setIsImgLoading(false)}
 					/>
@@ -108,10 +108,9 @@ export default function ActorPage({ params }: PageProps) {
 			<br />
 			<Section
 				route={`/actors/${encodeURIComponent(slug)}/movies`}
-				title={`Movies ${data.gender === 1 ? 'she' : 'he'}'s been in`}
+				title={`Filmography`}
 				icon='Film'
 				className='mt-20 mb-28'
-				spotlight={false}
 			>
 				{!isLoading ? (
 					data?.movie_credits?.cast

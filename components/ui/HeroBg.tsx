@@ -35,26 +35,12 @@ const HeroBg = ({
 				},
 				className
 			)}
-			// make bg image responsive and fill the whole image in the container
 			style={{
 				backgroundImage: isLocalAsset
 					? `url(${src})`
 					: `url(https://image.tmdb.org/t/p/w1280${src})`,
 			}}
-		>
-			{!isSlider && (
-				<Image
-					src={src}
-					alt={imageKey}
-					quality={100}
-					fill
-					sizes='100vw'
-					style={{
-						objectFit: 'cover',
-					}}
-				/>
-			)}
-		</div>
+		/>
 	);
 };
 

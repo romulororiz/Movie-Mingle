@@ -17,7 +17,6 @@ interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	container?: boolean;
 	seeMore?: boolean;
 	isActor?: boolean;
-	spotlight?: boolean;
 	route: string;
 }
 
@@ -30,7 +29,6 @@ const Section: FC<SectionProps> = ({
 	seeMore = true,
 	isActor = false,
 	route,
-	spotlight = true,
 }) => {
 	const windowSize = useWindowSize();
 
@@ -42,7 +40,6 @@ const Section: FC<SectionProps> = ({
 				className
 			)}
 		>
-			{spotlight && <Overlay className='spotlight' />}
 			<div
 				className={cn(
 					'flex justify-center md:justify-between max-w-7xl mx-auto z-[70] mb-5 relative ',

@@ -7,14 +7,6 @@ html {
 	scroll-behavior: smooth;
 }
 
-/* custom */
-.spotlight {
-	@apply bg-gradient-to-r from-transparent via-slate-100/50 to-transparent rounded-full absolute -z-[1] blur-[120px];
-	@apply w-full h-40;
-	@apply left-0 right-0 top-16 mx-auto;
-	@apply pointer-events-none;
-}
-
 /* Swiper */
 .swiper {
 	@apply w-auto h-auto pb-6 md:pb-16 pt-6 md:pt-16 relative !important;

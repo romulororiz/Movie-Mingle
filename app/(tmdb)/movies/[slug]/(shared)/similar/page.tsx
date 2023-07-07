@@ -26,14 +26,13 @@ export default function SimilarMoviesPage({ params }: PageProps) {
 
 	return (
 		<Section
-			route={`/movies/${encodeURIComponent(slug)}/similar`}
-			title={`Similar to '${data.title}' (${data.similar.results.length})`}
-			spotlight={false}
+			route='#'
+			title={`Similar to '${data.title}' (${data?.similar?.results?.length})`}
 			seeMore={false}
 			className='relative'
 		>
 			{!isLoading ? (
-				data.similar.results.map(movie => (
+				data?.similar?.results?.map(movie => (
 					<Card key={`movie-${movie.id}`} item={movie} />
 				))
 			) : (

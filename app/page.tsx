@@ -47,7 +47,6 @@ export default function Home() {
 				container={false}
 				route='/movies/popular'
 				seeMore={false}
-				spotlight={isTablet(windowSize)}
 			>
 				{!popularMoviesLoading ? (
 					<SwiperComponent

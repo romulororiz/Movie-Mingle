@@ -26,9 +26,8 @@ export default function ActorMoviesPage({ params }: PageProps) {
 
 	return (
 		<Section
-			route={`/actors/${encodeURIComponent(slug)}/movies`}
+			route='#'
 			title={`${data.name}'s Filmography (${data.movie_credits.cast.length})`}
-			spotlight={false}
 			seeMore={false}
 		>
 			{!isLoading ? (

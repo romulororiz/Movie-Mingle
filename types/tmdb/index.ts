@@ -42,8 +42,8 @@ export interface MovieDetailResponse {
 	production_countries: ProductionCountryResponse[];
 	release_date: string;
 	revenue: number;
-	similar: { results: MovieResponse[] };
-	recommendations: { results: MovieResponse[] };
+	similar: MovieDataResponse;
+	recommendations: MovieDataResponse;
 	runtime: number;
 	spoken_languages: SpokenLanguageResponse[];
 	status: string;

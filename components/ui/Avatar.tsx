@@ -63,7 +63,11 @@ export const UserAvatar = ({ user, ...props }: UserAvatarProps) => {
 				<AvatarImage alt={`${user.name}'s profile picture`} src={user.image} />
 			) : (
 				<AvatarFallback>
-					<span className='sr-only'>{user.name}</span>
+					{user
+						.name!.split(' ')
+						.map(name => name[0])
+						.join(' ')
+						.toUpperCase()}
 					{user.name}
 				</AvatarFallback>
 			)}

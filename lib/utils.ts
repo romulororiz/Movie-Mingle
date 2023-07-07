@@ -18,8 +18,15 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
-export const getAbsoluteUrl = (url: string, path?: string): string => {
+export const getAbsoluteUrl = (
+	url?: string,
+	path?: string,
+	showCase?: boolean
+): string => {
 	const noImgPath = '/assets/no-image.jpg';
+
+	if (showCase) return '/assets/showcase.jpg';
+
 	return path !== null ? `${url}${path}` : noImgPath;
 };
 
