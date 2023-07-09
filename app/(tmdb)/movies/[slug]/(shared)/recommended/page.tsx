@@ -27,9 +27,10 @@ export default function RecommendedMoviesPage({ params }: PageProps) {
 	return (
 		<Section
 			route='#'
-			title={`Because you saw '${data.title}' (${data?.recommendations?.results?.length})`}
+			title='You might also like'
 			seeMore={false}
 			className='relative'
+			icon='ThumbsUp'
 		>
 			{!isLoading ? (
 				data?.recommendations?.results?.map(movie => (

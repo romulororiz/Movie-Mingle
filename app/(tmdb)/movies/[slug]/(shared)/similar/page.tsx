@@ -27,9 +27,10 @@ export default function SimilarMoviesPage({ params }: PageProps) {
 	return (
 		<Section
 			route='#'
-			title={`Similar to '${data.title}' (${data?.similar?.results?.length})`}
+			title={`More like '${data.title}' - (${data?.similar?.results?.length})`}
 			seeMore={false}
 			className='relative'
+			icon='ThumbsUp'
 		>
 			{!isLoading ? (
 				data?.similar?.results?.map(movie => (

@@ -1,14 +1,12 @@
 'use client';
 
 import Card from '@/components/Cards/Card';
-import { Section } from '@/components/Layout';
-import { SkeletonHero } from '@/components/ui';
-import { isTablet } from '@/utils/breakpoints';
-import { CardPerView } from '@/utils/cardPerView';
-import useWindowSize from '@/hooks/useWindowSize';
-import { HeroBgSection } from '@/components/ui/HeroBg';
 import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
+import { Section } from '@/components/Layout';
 import { SwiperComponent } from '@/components/Swiper';
+import { HeroBgSection } from '@/components/ui/HeroBg';
+import useWindowSize from '@/hooks/useWindowSize';
+import { CardPerView } from '@/utils/cardPerView';
 
 import {
 	useNowPlaying,
@@ -34,23 +32,23 @@ export default function Home() {
 	const { data: upcoming, isLoading: upcomingLoading } = useUpcoming();
 
 	return (
-		<div className='min-h-screen'>
+		<>
 			<HeroBgSection
-				isLoading={popularMoviesLoading}
-				popularMovies={popularMovies}
+				isLoading={nowPlayingLoading}
+				popularMovies={nowPlaying?.results!}
 			/>
 
 			<Section
-				icon='ThumbsUp'
-				title='Popular Now' // change upon user preferences
+				icon='Flame'
+				title='Hottest Right Now' // change upon user preferences
 				className='mt-[7rem] md:-mt-[22rem] z-50 text-center'
 				container={false}
-				route='/movies/popular'
+				route='/movies/trending'
 				seeMore={false}
 			>
-				{!popularMoviesLoading ? (
+				{!nowPlayingLoading ? (
 					<SwiperComponent
-						movies={popularMovies}
+						movies={nowPlaying?.results!}
 						isLoading={popularMoviesLoading}
 					/>
 				) : (
@@ -62,12 +60,14 @@ export default function Home() {
 				icon='Users'
 				className='mt-14 md:mt-24'
 				title='Trending Actors'
-				route='/actors'
+				route='/actors/popular'
 				isActor={true}
 			>
 				{!popularActorsLoading ? (
 					popularActors
-						.map(actor => <Card key={`actor-${actor.id}`} item={actor} />)
+						?.results!.map(actor => (
+							<Card key={`actor-${actor.id}`} item={actor} />
+						))
 						.slice(
 							0,
 							CardPerView(windowSize, { isActor: true, isMovie: false })
@@ -78,14 +78,16 @@ export default function Home() {
 			</Section>
 
 			<Section
-				icon='Flame'
+				icon='ThumbsUp'
 				className='mt-16 md:mt-40'
-				title='Hottest this week'
-				route='/movies/trending'
+				title='Popular'
+				route='/movies/popular'
 			>
-				{!nowPlayingLoading ? (
-					nowPlaying
-						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
+				{!popularMoviesLoading ? (
+					popularMovies
+						?.results!.map(movie => (
+							<Card key={`movie-${movie.id}`} item={movie} />
+						))
 						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards />
@@ -100,7 +102,9 @@ export default function Home() {
 			>
 				{!upcomingLoading ? (
 					upcoming
-						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
+						?.results!.map(movie => (
+							<Card key={`movie-${movie.id}`} item={movie} />
+						))
 						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards isMovie={true} />
@@ -109,18 +113,20 @@ export default function Home() {
 
 			<Section
 				icon='Star'
-				className='mt-16 md:mt-40 mb-28'
-				title='Best of the best'
+				className='mt-16 md:mt-40 mb-16'
+				title='All Time Best'
 				route='/movies/top-rated'
 			>
 				{!topRatedLoading ? (
 					topRated
-						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
+						?.results!.map(movie => (
+							<Card key={`movie-${movie.id}`} item={movie} />
+						))
 						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards isMovie={true} />
 				)}
 			</Section>
-		</div>
+		</>
 	);
 }

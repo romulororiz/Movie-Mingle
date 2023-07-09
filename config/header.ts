@@ -3,24 +3,13 @@ import { HeaderConfig } from '@/types';
 export const headerConfig: HeaderConfig = {
 	mainNav: [
 		{
-			section: 'Home',
-			requiresAuth: false,
+			section: 'Movies',
+			icon: 'Film',
 			navItems: [
 				{
-					title: 'Home',
-					href: '/',
-					icon: 'Home',
-				},
-			],
-		},
-		{
-			section: 'Discover',
-			requiresAuth: false,
-			navItems: [
-				{
-					title: 'Popular Movies',
+					title: 'Popular',
 					href: '/movies/popular',
-					icon: 'Star',
+					icon: 'ThumbsUp',
 					description: 'Find the most popular movies out there',
 				},
 				// {
@@ -30,32 +19,69 @@ export const headerConfig: HeaderConfig = {
 				//     requireAuth: true,
 				// },
 				{
-					title: 'Popular Actors',
-					href: '/actors/popular',
-					icon: 'Users',
-					description: 'A collection of the most popular actors',
-				},
-				{
 					title: 'Trending',
 					href: '/movies/trending',
 					icon: 'Flame',
-					description: 'Find the hottest movies right now',
+					description: 'The hottest movies right now',
 				},
 				{
 					title: 'Coming Up',
 					href: '/movies/coming-up',
 					icon: 'Clapperboard',
-					description:
-						'Find upcoming movies that are about to hit the theaters',
+					description: 'Coming up next in the cinemas',
 				},
 				{
-					title: 'Best of the best',
+					title: 'Top Rated',
 					href: '/movies/top-rated',
-					icon: 'Award',
-					description: 'A collection of the best of all time',
+					icon: 'Star',
+					description: 'A collection of the all time best movies',
 				},
 			],
 		},
+		{
+			section: 'Tv Shows',
+			icon: 'Tv',
+			navItems: [
+				{
+					title: 'Airing Today',
+					href: '/movies/popular',
+					icon: 'Play',
+					description: 'Find the currently airing tv shows',
+				},
+				// {
+				//     title: 'For You',
+				//     href: '/movies/for-you',
+				//     icon: 'ThumbsUp',
+				//     requireAuth: true,
+				// },
+				{
+					title: 'Popular',
+					href: '/movies/trending',
+					icon: 'ThumbsUp',
+					description: 'Find the most popular tv shows out there',
+				},
+				{
+					title: 'Top Rated',
+					href: '/movies/top-rated',
+					icon: 'Star',
+					description: 'A collection of the all time best Tv Shows',
+				},
+			],
+		},
+		{
+			section: 'Actors',
+			icon: 'Users',
+			navItems: [
+				{
+					title: 'Popular',
+					href: '/actors/popular',
+					icon: 'Users',
+					description: 'Find the popular actors right now',
+				},
+			],
+		},
+	],
+	userNav: [
 		{
 			section: 'Social',
 			requiresAuth: true,

@@ -23,7 +23,7 @@ interface PageProps {
 
 const MovieDetailInfo = ({ item }: { item: MovieDetailResponse }) => {
 	return (
-		<div className='w-full flex flex-col gap-7 md:gap-6 mt-4 h-full'>
+		<div className='w-full flex flex-col gap-5 md:gap-6 mt-4 h-full'>
 			<Heading
 				element='h1'
 				title={item.title}
@@ -35,7 +35,7 @@ const MovieDetailInfo = ({ item }: { item: MovieDetailResponse }) => {
 			<MovieStats item={item} />
 
 			<div className='w-full'>
-				<Paragraph className='text-center md:text-left max-w-none md:max-w-prose text-sm sm:text-sm md:text-sm lg:text-base'>
+				<Paragraph className='text-center md:text-left max-w-none text-sm md:text-base'>
 					{item.overview}
 				</Paragraph>
 			</div>
@@ -69,15 +69,15 @@ export default function MoviePage({ params }: PageProps) {
 						data.backdrop_path
 					)}
 					isSlider={false}
-					className={cn('md:bg-center relative -top-4 blur-sm')}
+					className='md:bg-center relative -top-4 blur-sm'
 				/>
 				<Overlay
-					className='bg-gradient-to-b from-dark-background/80 from-35%
+					className='bg-gradient-to-b from-dark-background/60 from-35%
 				via-dark-background via-85% to-dark-background'
 				/>
 			</section>
-			<section className='flex-col md:flex-row flex md:gap-10 items-center relative z-[2] container'>
-				<figure>
+			<section className='flex-col md:flex-row flex md:gap-10 space-y-0 items-center md:items-start relative z-[2] container'>
+				<figure className='mb-6 md:mb-0'>
 					<Fragment key={data.id}>
 						<Image
 							src={getAbsoluteUrl(
@@ -100,9 +100,7 @@ export default function MoviePage({ params }: PageProps) {
 					</Fragment>
 				</figure>
 
-				<div className='flex flex-col gap-y-6'>
-					<MovieDetailInfo item={data} />
-				</div>
+				<MovieDetailInfo item={data} />
 			</section>
 
 			{data?.credits?.cast.length! > 0 && (
@@ -133,8 +131,10 @@ export default function MoviePage({ params }: PageProps) {
 					className='mb-28'
 				>
 					{!isLoading ? (
-						data?.similar?.results!
-							.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
+						data?.similar
+							?.results!.map(movie => (
+								<Card key={`movie-${movie.id}`} item={movie} />
+							))
 							.slice(
 								0,
 								CardPerView(windowSize, { isActor: false, isMovie: true })
@@ -157,8 +157,10 @@ export default function MoviePage({ params }: PageProps) {
 					className='mb-28'
 				>
 					{!isLoading ? (
-						data?.recommendations?.results!
-							.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
+						data?.recommendations
+							?.results!.map(movie => (
+								<Card key={`movie-${movie.id}`} item={movie} />
+							))
 							.slice(
 								0,
 								CardPerView(windowSize, { isActor: false, isMovie: true })

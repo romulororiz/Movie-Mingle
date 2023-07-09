@@ -6,14 +6,14 @@ import { signOut } from 'next-auth/react';
 import { UserAvatar } from './Avatar';
 import { Menu, Transition } from '@headlessui/react';
 import { Fragment, useState } from 'react';
-import { MainNavItem, NavItem } from '@/types';
+import { MainNavItem, NavItem, UserNavItem } from '@/types';
 import { Icon } from '@/components/Icon';
 import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface UserNavProps extends React.HTMLAttributes<HTMLDivElement> {
 	user: User;
-	items?: MainNavItem[];
+	items?: UserNavItem[];
 }
 
 export const UserNavMobile = ({ user }: UserNavProps) => {

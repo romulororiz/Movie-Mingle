@@ -1,21 +1,20 @@
 'use client';
 
 import {
-	Heading,
 	Input,
 	MainNav,
 	MobileNav,
 	SignInButton,
 	UserNav,
 } from '@/components/ui';
+import Image from 'next/image';
 import { headerConfig } from '@/config/header';
 import { cn } from '@/lib/utils';
-
 import useScrollPosition from '@/hooks/useScrollPosition';
 import { User } from 'next-auth';
 import Link from 'next/link';
 import { useState } from 'react';
-import { Icon } from '../Icon';
+import { Icon } from '@/components/Icon';
 
 interface HeaderProps {
 	// pick the properties you want to use
@@ -46,21 +45,25 @@ export const Header = ({ user }: HeaderProps) => {
 							onClick={() => setShowSearch(!showSearch)}
 						/>
 					</div>
-
-					<Link href='/'>
-						<Heading
-							element='h1'
-							className='font-bold text-2xl text-accent-primary'
-							title='LOGO'
-						/>
-					</Link>
+					<div className='flex-shrink-0'>
+						<Link href='/'>
+							<Image
+								src='/assets/logo.svg'
+								width={isScrolled ? 130 : 150}
+								height={100}
+								alt='logo'
+								className='transition-all duration-200'
+								priority
+							/>
+						</Link>
+					</div>
 
 					<MainNav items={headerConfig.mainNav} />
 
 					<div className='hidden md:flex'>
 						{user ? (
 							<UserNav
-								items={headerConfig.mainNav}
+								items={headerConfig.userNav}
 								user={{
 									id: user.id,
 									name: user.name,

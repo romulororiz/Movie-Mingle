@@ -87,7 +87,7 @@ export default function ActorPage({ params }: PageProps) {
 							timeout={400}
 							easing='ease-in-out'
 						>
-							<Paragraph className='text-slate-300 text-[15px] sm:text-base prose text-center sm:text-justify max-w-full'>
+							<Paragraph className='text-slate-300 text-[15px] sm:text-base prose text-center sm:text-left max-w-full'>
 								{data.biography}
 							</Paragraph>
 						</Collapse>

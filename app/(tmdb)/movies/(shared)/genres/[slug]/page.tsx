@@ -1,11 +1,12 @@
 'use client';
 
-import { getIdFromSlug } from '@/lib/utils';
-import { useMoviesByGenre } from '@/hooks/useTMDB';
-import { notFound } from 'next/navigation';
-import { Section } from '@/components/Layout';
 import { Card } from '@/components/Cards';
-import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
+import { Icon } from '@/components/Icon';
+import { Section } from '@/components/Layout';
+import LoadMore from '@/components/ui/LoadMore';
+import { useMoviesByGenre } from '@/hooks/useTMDB';
+import { cn, getIdFromSlug } from '@/lib/utils';
+import { notFound } from 'next/navigation';
 
 interface PageProps {
 	params: {
@@ -13,12 +14,12 @@ interface PageProps {
 	};
 }
 
-export default function GenrePage({ params }: PageProps) {
+export default function MoviesByGenrePage({ params }: PageProps) {
 	const { slug } = params;
 
 	const genreId = getIdFromSlug(slug);
 
-	const { data, isLoading, hasNextPage, isFetching, fetchNextPage } =
+	const { data, isLoading, isFetchingNextPage, fetchNextPage } =
 		useMoviesByGenre(genreId);
 
 	if (isLoading) return 'loading...';
@@ -40,16 +41,10 @@ export default function GenrePage({ params }: PageProps) {
 				))
 			)}
 
-			{hasNextPage && (
-				<button
-					onClick={() => {
-						fetchNextPage();
-					}}
-					disabled={!hasNextPage || isFetching}
-				>
-					{isFetching ? 'Loading more...' : 'Load More'}
-				</button>
-			)}
+			<LoadMore
+				fetchNextPage={fetchNextPage}
+				isFetchingNextPage={isFetchingNextPage}
+			/>
 		</Section>
 	);
 }

@@ -16,7 +16,7 @@ export default function ActorsLayout({ children }: TmdbLayoutProps) {
 			/>
 			<main className='pt-28 md:pt-36 max-w-7xl mx-auto'>{children}</main>
 			<Overlay
-				className='bg-gradient-to-b from-dark-background/60 from-35%
+				className='bg-gradient-to-b from-dark-background/5 from-35%
 				via-dark-background via-85% to-dark-background'
 			/>
 		</section>

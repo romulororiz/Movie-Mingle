@@ -11,7 +11,7 @@ export async function GET() {
 
 		const MovieDataResponse = (await movieRes.json()) as MovieDataResponse;
 
-		return new Response(JSON.stringify(MovieDataResponse.results));
+		return new Response(JSON.stringify(MovieDataResponse));
 	} catch (error) {
 		return new Response('Could not fetch movies.', { status: 500 });
 	}

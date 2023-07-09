@@ -1,10 +1,7 @@
 'use client';
 
+import { Heading, SeeMore } from '@/components/ui';
 import { cn } from '@/lib/utils';
-import { cva } from 'class-variance-authority';
-import { Heading } from '@/components/ui';
-import { SeeMore } from '@/components/ui';
-import { Overlay } from '@/components/ui';
 import { isTablet } from '@/utils/breakpoints';
 import { FC, HTMLAttributes } from 'react';
 

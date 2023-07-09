@@ -189,7 +189,7 @@ const Card: FC<CardProps> = ({
 						className={cn('h-full w-full transition')}
 						blurDataURL={blurData}
 						placeholder='blur'
-						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 150px, 100px'
+						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 200px, 200px'
 					/>
 				</figure>
 			</Link>

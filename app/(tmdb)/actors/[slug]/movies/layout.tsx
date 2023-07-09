@@ -4,7 +4,7 @@ interface TmdbLayoutProps {
 	children: React.ReactNode;
 }
 
-export default function SharedLayout({ children }: TmdbLayoutProps) {
+export default function ActorsLayout({ children }: TmdbLayoutProps) {
 	return (
 		<section className='absolute top-0 left-0 right-0 mx-auto w-full h-screen'>
 			<HeroBg

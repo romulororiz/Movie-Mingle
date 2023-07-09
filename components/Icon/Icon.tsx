@@ -33,7 +33,12 @@ import {
 	DollarSign,
 	LineChart,
 	Film,
+	Loader2,
 	X as Close,
+	Twitter,
+	Github,
+	Linkedin,
+	Tv,
 } from 'lucide-react';
 
 export const lucideIcons: Record<string, LucideIcon> = {
@@ -67,6 +72,11 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	DollarSign,
 	LineChart,
 	Film,
+	Loader2,
+	Twitter,
+	Github,
+	Linkedin,
+	Tv,
 };
 
 import { FC, SVGProps } from 'react';

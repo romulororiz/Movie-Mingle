@@ -10,9 +10,9 @@ export async function GET() {
 			`https://api.themoviedb.org/3/trending/person/day?api_key=${process.env.TMDB_API_KEY}`
 		);
 
-		const MovieDataResponse = (await actorsRes.json()) as PeopleDataResponse;
+		const actorDataResponse = (await actorsRes.json()) as PeopleDataResponse;
 
-		return new Response(JSON.stringify(MovieDataResponse.results));
+		return new Response(JSON.stringify(actorDataResponse));
 	} catch (error) {
 		return new Response('Could not fetch movies.', { status: 500 });
 	}
