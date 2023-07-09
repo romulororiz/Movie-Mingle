@@ -18,21 +18,28 @@ export default function PopularMoviesPage() {
 	const moviesData = data?.pages?.flatMap(page => page.results!);
 
 	return (
-		<Section route='#' title='Popular Movies Right Now' seeMore={false} icon='ThumbsUp'>
-			{!isLoading ? (
-				moviesData.map((movie, i) => <Card item={movie} key={`movie-${i}`} />)
-			) : (
-				<RenderSkeletonCards
-					isActor={false}
-					isMovie={true}
-					isCardSlider={false}
-				/>
-			)}
+		<>
+			<Section
+				route='#'
+				title='Popular Movies Right Now'
+				seeMore={false}
+				icon='ThumbsUp'
+			>
+				{!isLoading ? (
+					moviesData.map((movie, i) => <Card item={movie} key={`movie-${i}`} />)
+				) : (
+					<RenderSkeletonCards
+						isActor={false}
+						isMovie={true}
+						isCardSlider={false}
+					/>
+				)}
 
-			<LoadMore
-				fetchNextPage={fetchNextPage}
-				isFetchingNextPage={isFetchingNextPage}
-			/>
-		</Section>
+				<LoadMore
+					fetchNextPage={fetchNextPage}
+					isFetchingNextPage={isFetchingNextPage}
+				/>
+			</Section>
+		</>
 	);
 }

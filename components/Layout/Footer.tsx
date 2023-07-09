@@ -21,7 +21,7 @@ const Footer: FC<FooterProps> = ({}) => {
 				className='h-auto py-16 bg-cover bg-center bg-no-repeat relative z-[100]'
 			>
 				{/* <Overlay className='bg-dark-background/40' /> */}
-				<div className='max-w-[1340px] container'>
+				<div className='max-w-[1340px] container relative'>
 					<div className='gap-8 flex flex-col xs:flex-row items-center justify-between h-full'>
 						<div className='flex-shrink-0'>
 							<Link href='/'>

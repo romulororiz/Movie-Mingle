@@ -3,12 +3,12 @@ import { SocialLink } from '@/types';
 export const socialLinks: SocialLink[] = [
 	{
 		name: 'Github',
-		url: 'http://github.com/romulororiz/movie-mingle',
+		url: 'http://github.com/romulororiz',
 		icon: 'github',
 	},
 	{
 		name: 'Twitter',
-		url: 'https://twitter.com/rorizromulo',
+		url: 'https://twitter.com/roriz_romulo',
 		icon: 'twitter',
 	},
 	{

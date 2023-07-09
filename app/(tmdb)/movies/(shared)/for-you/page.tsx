@@ -10,7 +10,7 @@ import { isMobile } from '@/utils/breakpoints';
 import { notFound } from 'next/navigation';
 import { useWindowSize } from 'usehooks-ts';
 
-export default function ActorsPage() {
+export default function ForYouPage() {
 	const { data, isFetchingNextPage, fetchNextPage, isLoading } =
 		usePopularActorsInfinite();
 
