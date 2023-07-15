@@ -13,7 +13,7 @@ import { CardPerView } from '@/utils/cardPerView';
 import { Collapse } from '@mui/material';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 interface PageProps {
 	params: {
@@ -24,10 +24,19 @@ interface PageProps {
 export default function ActorPage({ params }: PageProps) {
 	const [isImgLoading, setIsImgLoading] = useState(true);
 	const [isCollapseOpen, setIsCollapseOpen] = useState(false);
+	const [maxSize, setMaxSize] = useState<number>(0);
+
+	const paragraphRef = useRef<any>(null);
 
 	const { slug } = params;
 
 	const windowSize = useWindowSize();
+
+	useEffect(() => {
+		if (paragraphRef.current) {
+			setMaxSize(paragraphRef.current.clientHeight);
+		}
+	}, [paragraphRef?.current?.clientHeight]);
 
 	const actorId = getIdFromSlug(slug);
 
@@ -65,20 +74,27 @@ export default function ActorPage({ params }: PageProps) {
 						title={data.name}
 						element='h1'
 						className='text-2xl xs:text-3xl font-bold text-slate-100 justify-center sm:justify-start'
-					></Heading>
+					/>
 
 					<div className='flex w-full relative'>
 						<Collapse
 							in={isCollapseOpen}
-							collapsedSize={350}
+							collapsedSize={maxSize > 200 ? 200 : maxSize}
 							timeout={400}
 							easing='ease-in-out'
 						>
-							<Paragraph className='text-slate-300 text-[15px] sm:text-base prose text-center sm:text-left max-w-full'>
+							<Paragraph
+								className='text-slate-300 text-[15px] sm:text-base prose text-center sm:text-left max-w-full h-full'
+								ref={paragraphRef}
+							>
 								{data.biography}
 							</Paragraph>
 						</Collapse>
-						<LoadMore setIsCollapse={setIsCollapseOpen} isCollapse={isCollapseOpen}/>
+						<LoadMore
+							maxSized={maxSize < 200}
+							setIsCollapse={setIsCollapseOpen}
+							isCollapse={isCollapseOpen}
+						/>
 					</div>
 				</div>
 			</section>

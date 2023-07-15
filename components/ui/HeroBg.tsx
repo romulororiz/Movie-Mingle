@@ -48,13 +48,13 @@ const HeroBg = ({
 export default React.memo(HeroBg);
 
 interface HeroBgSectionProps {
-	popularMovies: MovieResponse[];
+	trendingMovies: MovieResponse[];
 	isMobile?: boolean;
 	isLoading?: boolean;
 }
 
 export const HeroBgSection = ({
-	popularMovies,
+	trendingMovies,
 	isLoading = false,
 	isMobile = false,
 }: HeroBgSectionProps) => {
@@ -63,7 +63,7 @@ export const HeroBgSection = ({
 	if (isLoading) return <SkeletonHero />;
 
 	return (
-		<section className='h-[750px] relative overflow-hidden'>
+		<section className='absolute h-[250px] inset-0 md:h-[750px] md:relative overflow-hidden'>
 			<Overlay
 				className='md:bg-gradient-to-b md:from-dark-background/50 
 			md:from-25% md:via-dark-background md:via-65%
@@ -74,16 +74,16 @@ export const HeroBgSection = ({
 			{
 				<HeroBg
 					imageKey={`prev-${previousImageIndex}`}
-					src={popularMovies[previousImageIndex].backdrop_path}
+					src={trendingMovies[previousImageIndex].backdrop_path}
 				/>
 			}
 			<HeroBg
 				imageKey={`curr-${currentImageIndex}`}
-				src={popularMovies[currentImageIndex].backdrop_path}
+				src={trendingMovies[currentImageIndex].backdrop_path}
 			/>
 
-			{popularMovies[currentImageIndex] && !isMobile ? (
-				<MovieInfoHero movie={popularMovies[currentImageIndex]} />
+			{trendingMovies[currentImageIndex] && !isMobile ? (
+				<MovieInfoHero movie={trendingMovies[currentImageIndex]} />
 			) : null}
 		</section>
 	);

@@ -15,7 +15,7 @@ import {
 	useTopRated,
 	useUpcoming,
 } from '@/hooks/useTMDB';
-import { isMobile } from '@/utils/breakpoints';
+import { isMobile, isTablet } from '@/utils/breakpoints';
 
 export default function Home() {
 	const windowSize = useWindowSize();
@@ -36,14 +36,14 @@ export default function Home() {
 		<>
 			<HeroBgSection
 				isLoading={nowPlayingLoading}
-				popularMovies={nowPlaying?.results!}
-				isMobile={isMobile(windowSize)}
+				trendingMovies={nowPlaying?.results!}
+				isMobile={isTablet(windowSize)}
 			/>
 
 			<Section
 				icon='Flame'
 				title='Hottest Right Now' // change upon user preferences
-				className='-mt-[40rem] md:-mt-[22rem] z-50 text-center'
+				className='mt-[7rem] md:-mt-[22rem] z-50 text-center'
 				container={false}
 				route='/movies/trending'
 				seeMore={false}
@@ -84,10 +84,8 @@ export default function Home() {
 				route='/movies/popular'
 			>
 				{!popularMoviesLoading ? (
-					popularMovies
-						?.results!.map(movie => (
-							<Card key={`movie-${movie.id}`} item={movie} />
-						))
+					popularMovies?.results
+						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards />
@@ -101,10 +99,8 @@ export default function Home() {
 				route='/movies/coming-up'
 			>
 				{!upcomingLoading ? (
-					upcoming
-						?.results!.map(movie => (
-							<Card key={`movie-${movie.id}`} item={movie} />
-						))
+					upcoming?.results
+						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards isMovie={true} />
@@ -118,10 +114,8 @@ export default function Home() {
 				route='/movies/top-rated'
 			>
 				{!topRatedLoading ? (
-					topRated
-						?.results!.map(movie => (
-							<Card key={`movie-${movie.id}`} item={movie} />
-						))
+					topRated?.results
+						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 						.slice(0, CardPerView(windowSize))
 				) : (
 					<RenderSkeletonCards isMovie={true} />

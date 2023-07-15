@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 
 interface LoadMoreProps {
 	hasNextPage?: boolean;
+	maxSized?: boolean;
 	fetchNextPage?: () => void;
 	isFetchingNextPage?: boolean;
 	setIsCollapse?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,12 +13,15 @@ interface LoadMoreProps {
 
 const LoadMore: FC<LoadMoreProps> = ({
 	hasNextPage,
+	maxSized = false,
 	fetchNextPage,
 	setIsCollapse,
 	isCollapse,
 	isFetchingNextPage,
 }) => {
-	if (!hasNextPage) return null;
+	if (!hasNextPage && !setIsCollapse || maxSized) return null;
+
+	
 
 	return (
 		<div
