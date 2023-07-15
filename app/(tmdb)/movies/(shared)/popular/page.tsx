@@ -1,14 +1,13 @@
 'use client';
 
 import { Card } from '@/components/Cards';
-import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
 import { Section } from '@/components/Layout';
 import LoadMore from '@/components/ui/LoadMore';
 import { usePopularMoviesInfinite } from '@/hooks/useTMDB';
 import { notFound } from 'next/navigation';
 
 export default function PopularMoviesPage() {
-	const { data, isFetchingNextPage, fetchNextPage, isLoading } =
+	const { data, isFetchingNextPage, fetchNextPage, isLoading, hasNextPage } =
 		usePopularMoviesInfinite();
 
 	if (isLoading) return 'loading...';
@@ -18,28 +17,22 @@ export default function PopularMoviesPage() {
 	const moviesData = data?.pages?.flatMap(page => page.results!);
 
 	return (
-		<>
-			<Section
-				route='#'
-				title='Popular Movies Right Now'
-				seeMore={false}
-				icon='ThumbsUp'
-			>
-				{!isLoading ? (
-					moviesData.map((movie, i) => <Card item={movie} key={`movie-${i}`} />)
-				) : (
-					<RenderSkeletonCards
-						isActor={false}
-						isMovie={true}
-						isCardSlider={false}
-					/>
-				)}
+		<Section
+			route='#'
+			title='Popular Movies Right Now'
+			seeMore={false}
+			icon='ThumbsUp'
+			className='flex-1 mb-24'
+		>
+			{moviesData.map((movie, i) => (
+				<Card item={movie} key={`movie-${i}`} />
+			))}
 
-				<LoadMore
-					fetchNextPage={fetchNextPage}
-					isFetchingNextPage={isFetchingNextPage}
-				/>
-			</Section>
-		</>
+			<LoadMore
+				fetchNextPage={fetchNextPage}
+				isFetchingNextPage={isFetchingNextPage}
+				hasNextPage={hasNextPage}
+			/>
+		</Section>
 	);
 }

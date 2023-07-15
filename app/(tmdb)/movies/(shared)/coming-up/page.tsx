@@ -8,30 +8,30 @@ import { useUpcomingInfinite } from '@/hooks/useTMDB';
 import { notFound } from 'next/navigation';
 
 export default function ComingUpMoviesPage() {
-	const { data, isFetchingNextPage, fetchNextPage, isLoading } =
+	const { data, isFetchingNextPage, fetchNextPage, isLoading, hasNextPage } =
 		useUpcomingInfinite();
 
 	if (isLoading) return 'loading...';
 
 	if (!data) return notFound();
 
-	const moviesData = data?.pages?.flatMap(page => page.results!);
+	const moviesData = data?.pages?.flatMap(page => page.results);
 
 	return (
-		<Section route='#' title='Coming up next' seeMore={false} icon='Clapperboard'>
-			{!isLoading ? (
-				moviesData.map((movie, i) => <Card item={movie} key={`movie-${i}`} />)
-			) : (
-				<RenderSkeletonCards
-					isActor={false}
-					isMovie={true}
-					isCardSlider={false}
-				/>
-			)}
+		<Section
+			route='#'
+			title='Coming up next'
+			seeMore={false}
+			icon='Clapperboard'
+		>
+			{moviesData.map((movie, i) => (
+				<Card item={movie} key={`movie-${i}`} />
+			))}
 
 			<LoadMore
 				fetchNextPage={fetchNextPage}
 				isFetchingNextPage={isFetchingNextPage}
+				hasNextPage={hasNextPage}
 			/>
 		</Section>
 	);

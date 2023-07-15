@@ -1,21 +1,22 @@
-'use client';
-
-import useWindowSize from '@/hooks/useWindowSize';
 import Image from 'next/image';
 import Link from 'next/link';
+import Social from '@/components/ui/Social';
 
 import { Icon } from '@/components/Icon';
-import { Heading, SignInButton } from '@/components/ui';
+import { Heading } from '@/components/ui';
 import { cn } from '@/lib/utils';
-import { MainNavItem, NavItem } from '@/types';
-import { isTablet } from '@/utils/breakpoints';
+import { MainNavItem } from '@/types';
 import { User } from 'next-auth';
 import { signIn, signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import { UserNavMobile } from './UserAccountNav';
 
-import { Separator } from '@/components/ui/Separator';
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from '@/components/ui/Accordion';
+
 import {
 	Sheet,
 	SheetContent,
@@ -23,13 +24,30 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from '@/components/ui/Sheet';
-import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from '@/components/ui/Accordion';
-import { socialLinks } from '@/config/footer';
+
+import { Separator } from '@/components/ui/Separator';
+import { toast } from 'sonner';
+
+const AuthBtnMobile = ({
+	user,
+	signIn,
+	signOut,
+}: {
+	user: User;
+	signIn: () => void;
+	signOut: () => void;
+}) => {
+	return (
+		<div className='justify-center flex'>
+			<Icon
+				name={user ? 'SignOut' : 'SignIn'}
+				size={32}
+				className='stroke-dark-background bg-accent-primary rounded-full p-2'
+				onClick={user ? signOut : signIn}
+			/>
+		</div>
+	);
+};
 
 interface MobileNavProps {
 	user: User;
@@ -37,21 +55,17 @@ interface MobileNavProps {
 }
 
 export default function MobileNav({ user, items }: MobileNavProps) {
-	const handleSignOut = () => {
-		signOut({
-			callbackUrl: `${window.location.origin}`,
-		});
+	const handleSignOut = async () => {
+		await signOut();
 	};
 
 	const handleSignIn = async () => {
 		try {
-			await signIn('google');
+			await signIn('google', {
+				redirect: false,
+			});
 		} catch (error) {
-			// toast({
-			// 	title: 'Error signing in',
-			// 	message: 'Please try again later.',
-			// 	type: 'error',
-			// });
+			toast.error('Error signing in. Please try again later.');
 		}
 	};
 
@@ -62,7 +76,7 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 			</SheetTrigger>
 			<SheetContent
 				side='left'
-				className='bg-dark-background z-[100] border-transparent w-80 p-8 overflow-auto'
+				className='bg-dark-background z-[100] border-transparent w-80 p-8 overflow-auto flex flex-col'
 			>
 				<SheetHeader>
 					<SheetTitle className='flex items-center justify-between mb-10'>
@@ -126,31 +140,13 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 						))}
 					</Accordion>
 				</SheetHeader>
-				<div className='flex flex-col gap-5 mx-auto justify-center absolute bottom-3 left-[50%] -translate-x-[50%]'>
-					<div className='justify-center flex'>
-						<Icon
-							name={user ? 'LogOut' : 'LogIn'}
-							size={32}
-							className='stroke-dark-background bg-accent-primary rounded-full p-2'
-							onClick={user ? handleSignOut : handleSignIn}
-						/>
-					</div>
-					<div className='flex gap-5 items-center'>
-						{socialLinks.map((link, i) => (
-							<a
-								key={i}
-								href={link.url}
-								target='_blank'
-								rel='noopener noreferrer'
-								className=''
-							>
-								<Icon
-									name={link.name}
-									className='transition-all duration-200 hover:stroke-accent-secondary'
-								/>
-							</a>
-						))}
-					</div>
+				<div className='flex flex-col gap-3 mx-auto justify-center -mb-4'>
+					<AuthBtnMobile
+						user={user}
+						signIn={handleSignIn}
+						signOut={handleSignOut}
+					/>
+					<Social />
 				</div>
 			</SheetContent>
 		</Sheet>

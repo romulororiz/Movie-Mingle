@@ -1,7 +1,7 @@
 import { MovieDetailResponse } from '@/types/tmdb';
 
 // @route GET
-// @desc Get movie by id
+// @desc Get movie's recommended movies by id
 // @access Public
 export async function GET(req: Request) {
 	const url = new URL(req.url);
@@ -12,7 +12,7 @@ export async function GET(req: Request) {
 
 	try {
 		const movieRes = await fetch(
-			`https://api.themoviedb.org/3/movie/${movieId}?api_key=${process.env.TMDB_API_KEY}&append_to_response=images,videos,credits,similar,recommendations&page=${pageNum}`
+			`https://api.themoviedb.org/3/movie/${movieId}/recommendations?api_key=${process.env.TMDB_API_KEY}&page=${pageNum}`
 		);
 
 		const movieResData = (await movieRes.json()) as MovieDetailResponse;

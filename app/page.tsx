@@ -15,6 +15,7 @@ import {
 	useTopRated,
 	useUpcoming,
 } from '@/hooks/useTMDB';
+import { isMobile } from '@/utils/breakpoints';
 
 export default function Home() {
 	const windowSize = useWindowSize();
@@ -36,12 +37,13 @@ export default function Home() {
 			<HeroBgSection
 				isLoading={nowPlayingLoading}
 				popularMovies={nowPlaying?.results!}
+				isMobile={isMobile(windowSize)}
 			/>
 
 			<Section
 				icon='Flame'
 				title='Hottest Right Now' // change upon user preferences
-				className='mt-[7rem] md:-mt-[22rem] z-50 text-center'
+				className='-mt-[40rem] md:-mt-[22rem] z-50 text-center'
 				container={false}
 				route='/movies/trending'
 				seeMore={false}
@@ -64,10 +66,8 @@ export default function Home() {
 				isActor={true}
 			>
 				{!popularActorsLoading ? (
-					popularActors
-						?.results!.map(actor => (
-							<Card key={`actor-${actor.id}`} item={actor} />
-						))
+					popularActors?.results
+						.map(actor => <Card key={`actor-${actor.id}`} item={actor} />)
 						.slice(
 							0,
 							CardPerView(windowSize, { isActor: true, isMovie: false })

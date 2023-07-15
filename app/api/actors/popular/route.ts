@@ -4,10 +4,14 @@ import { PeopleDataResponse } from '@/types/tmdb';
 // @desc Get popular actors
 // @access Public
 
-export async function GET() {
+export async function GET(req: Request) {
+	const url = new URL(req.url);
+
+	const pageNum = url.searchParams.get('page') || 1;
+	
 	try {
 		const actorsRes = await fetch(
-			`https://api.themoviedb.org/3/trending/person/day?api_key=${process.env.TMDB_API_KEY}`
+			`https://api.themoviedb.org/3/trending/person/day?api_key=${process.env.TMDB_API_KEY}&page=${pageNum}`
 		);
 
 		const actorDataResponse = (await actorsRes.json()) as PeopleDataResponse;

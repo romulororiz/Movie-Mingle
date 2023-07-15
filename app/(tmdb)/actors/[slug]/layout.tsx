@@ -4,7 +4,7 @@ interface TmdbLayoutProps {
 	children: React.ReactNode;
 }
 
-export default function ActorsLayout({ children }: TmdbLayoutProps) {
+export default function ActorLayout({ children }: TmdbLayoutProps) {
 	return (
 		<section className='min-h-screen'>
 			<HeroBg

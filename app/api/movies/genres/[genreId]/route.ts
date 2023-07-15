@@ -8,12 +8,15 @@ export async function GET(req: Request) {
 
 	const genreId = url.pathname.split('/')[4];
 
+	const pageNum = url.searchParams.get('page') || 1;
+
 	try {
 		const genreRes = await fetch(
-			`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=${genreId}`
+			`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_API_KEY}&with_genres=${genreId}&page=${pageNum}`
 		);
 
 		const genreResData = (await genreRes.json()) as MovieDataResponse;
+
 		return new Response(JSON.stringify(genreResData));
 	} catch (error) {
 		return new Response('Could not fetch movies.', { status: 500 });

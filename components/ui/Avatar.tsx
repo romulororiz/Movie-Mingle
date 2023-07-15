@@ -4,8 +4,9 @@ import * as React from 'react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
 import { cn } from '@/lib/utils';
-import { User } from '@prisma/client';
+import { User } from 'next-auth';
 import useScrollPosition from '@/hooks/useScrollPosition';
+import { Icon } from '../Icon';
 
 const Avatar = React.forwardRef<
 	React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -42,7 +43,7 @@ const AvatarFallback = React.forwardRef<
 	<AvatarPrimitive.Fallback
 		ref={ref}
 		className={cn(
-			'flex h-full w-full items-center justify-center rounded-full',
+			'flex h-full w-full items-center justify-center rounded-full bg-muted',
 			className
 		)}
 		{...props}
@@ -63,12 +64,8 @@ export const UserAvatar = ({ user, ...props }: UserAvatarProps) => {
 				<AvatarImage alt={`${user.name}'s profile picture`} src={user.image} />
 			) : (
 				<AvatarFallback>
-					{user
-						.name!.split(' ')
-						.map(name => name[0])
-						.join(' ')
-						.toUpperCase()}
-					{user.name}
+					<span className='sr-only'>{user.name}</span>
+					<Icon name='User' />
 				</AvatarFallback>
 			)}
 		</Avatar>

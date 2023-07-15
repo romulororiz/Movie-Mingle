@@ -109,7 +109,7 @@ const generateArialLabel = (
 
 	if (isMovie(item))
 		return `${item.title}, released on ${formatDate(
-			item.release_date.toString(),
+			item .release_date.toString(),
 			'MMMM yyyy'
 		)}, IMDB rating: ${item.vote_average}`;
 

@@ -1,5 +1,21 @@
+export interface SearchData {
+	results: SearchDataItem[];
+	total_pages?: number;
+	page?: number;
+	total_results?: number;
+}
+
+export interface SearchDataItem {
+	media_type: string;
+	id: number;
+	name?: string;
+	title?: string;
+	poster_path?: string;
+	profile_path?: string;
+}
+
 export interface MovieDataResponse {
-	results: MovieResponse[] | null;
+	results: MovieResponse[];
 	page: number;
 	total_results: number;
 	total_pages: number;
@@ -55,7 +71,7 @@ export interface MovieDetailResponse {
 }
 
 export interface PeopleDataResponse {
-	results: PeopleResponse[] | null;
+	results: PeopleResponse[];
 	page: number;
 	total_results: number;
 	total_pages: number;
@@ -147,9 +163,15 @@ export interface CastResponse {
 	popularity: number;
 }
 
+export interface MovieCreditCastResponse extends MovieResponse {
+	character: string;
+	credit_id: string;
+	order: number;
+}
+
 export interface MovieCreditsResponse {
 	id: number;
-	cast: CastResponse[];
+	cast: MovieCreditCastResponse[];
 }
 
 export type MovieOrActor = MovieResponse | PeopleResponse;

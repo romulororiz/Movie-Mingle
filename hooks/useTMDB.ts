@@ -1,11 +1,13 @@
 import {
+	MovieCreditCastResponse,
+	MovieCreditsResponse,
 	MovieDataResponse,
 	MovieDetailResponse,
-	MovieResponse,
 	PeopleDataResponse,
 	PeopleDetailResponse,
-	PeopleResponse,
+	SearchData,
 } from '@/types/tmdb';
+
 import {
 	UseInfiniteQueryResult,
 	UseQueryResult,
@@ -57,6 +59,20 @@ export const usePopularActors = () => {
 	}) as UseQueryResult<PeopleDataResponse>;
 };
 
+export const useMovieCreditsInfinite = (actorId: number) => {
+	return useInfiniteQuery({
+		queryKey: ['MovieCredits', actorId],
+		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+			fetcher(`/api/actors/${actorId}/movie_credits?page=${pageParam}`),
+		getNextPageParam: ({ page, total_pages }) => {
+			return page < total_pages ? page + 1 : undefined;
+		},
+		select: data => {
+			return data;
+		},
+	}) as UseInfiniteQueryResult<MovieCreditsResponse>;
+};
+
 export const useMovieDetail = (movieId: number) => {
 	return useQuery({
 		queryKey: ['MovieDetail', movieId],
@@ -74,7 +90,44 @@ export const useActorDetail = (actorId: number) => {
 export const useMoviesByGenre = (genreId: number) => {
 	return useInfiniteQuery({
 		queryKey: ['MoviesByGenre', genreId],
-		queryFn: () => fetcher(`/api/movies/genres/${genreId}`),
+		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+			fetcher(`/api/movies/genres/${genreId}?page=${pageParam}`),
+		getNextPageParam: ({ page, total_pages }) => {
+			return page < total_pages ? page + 1 : undefined;
+		},
+		select: data => {
+			return data;
+		},
+	}) as UseInfiniteQueryResult<MovieDataResponse>;
+};
+
+export const useSearch = (q: string) => {
+	return useQuery({
+		queryKey: ['Search', q],
+		queryFn: () => fetcher(`/api/search?q=${q}`),
+		enabled: q.length > 0,
+	}) as UseQueryResult<SearchData>;
+};
+
+export const useSimilarMoviesInfinite = (movieId: number) => {
+	return useInfiniteQuery({
+		queryKey: ['SimilarMovies', movieId],
+		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+			fetcher(`/api/movies/${movieId}/similar?page=${pageParam}`),
+		getNextPageParam: ({ page, total_pages }) => {
+			return page < total_pages ? page + 1 : undefined;
+		},
+		select: data => {
+			return data;
+		},
+	}) as UseInfiniteQueryResult<MovieDataResponse>;
+};
+
+export const useRecommendedMoviesInfinite = (movieId: number) => {
+	return useInfiniteQuery({
+		queryKey: ['RecommendedMovies', movieId],
+		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+			fetcher(`/api/movies/${movieId}/recommended?page=${pageParam}`),
 		getNextPageParam: ({ page, total_pages }) => {
 			return page < total_pages ? page + 1 : undefined;
 		},
@@ -87,7 +140,8 @@ export const useMoviesByGenre = (genreId: number) => {
 export const usePopularActorsInfinite = () => {
 	return useInfiniteQuery({
 		queryKey: ['PopularActorsInfinite'],
-		queryFn: () => fetcher(`/api/actors/popular`),
+		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+			fetcher(`/api/actors/popular?page=${pageParam}`),
 		getNextPageParam: ({ page, total_pages }) => {
 			return page < total_pages ? page + 1 : undefined;
 		},
@@ -100,7 +154,8 @@ export const usePopularActorsInfinite = () => {
 export const useUpcomingInfinite = () => {
 	return useInfiniteQuery({
 		queryKey: ['UpcomingInfinite'],
-		queryFn: () => fetcher(`/api/movies/upcoming`),
+		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+			fetcher(`/api/movies/upcoming?page=${pageParam}`),
 		getNextPageParam: ({ page, total_pages }) => {
 			return page < total_pages ? page + 1 : undefined;
 		},
@@ -113,7 +168,8 @@ export const useUpcomingInfinite = () => {
 export const useTopRatedInfinite = () => {
 	return useInfiniteQuery({
 		queryKey: ['TopRatedInfinite'],
-		queryFn: () => fetcher(`/api/movies/top_rated`),
+		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+			fetcher(`/api/movies/top_rated?page=${pageParam}`),
 		getNextPageParam: ({ page, total_pages }) => {
 			return page < total_pages ? page + 1 : undefined;
 		},
@@ -126,7 +182,8 @@ export const useTopRatedInfinite = () => {
 export const useNowPlayingInfinite = () => {
 	return useInfiniteQuery({
 		queryKey: ['NowPlayingInfinite'],
-		queryFn: () => fetcher(`/api/movies/now_playing`),
+		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+			fetcher(`/api/movies/now_playing?page=${pageParam}`),
 		getNextPageParam: ({ page, total_pages }) => {
 			return page < total_pages ? page + 1 : undefined;
 		},
@@ -139,7 +196,8 @@ export const useNowPlayingInfinite = () => {
 export const usePopularMoviesInfinite = () => {
 	return useInfiniteQuery({
 		queryKey: ['PopularMoviesInfinite'],
-		queryFn: () => fetcher(`/api/movies/popular`),
+		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+			fetcher(`/api/movies/popular?page=${pageParam}`),
 		getNextPageParam: ({ page, total_pages }) => {
 			return page < total_pages ? page + 1 : undefined;
 		},
@@ -148,7 +206,6 @@ export const usePopularMoviesInfinite = () => {
 		},
 	}) as UseInfiniteQueryResult<MovieDataResponse>;
 };
-
 
 const useTMDB = {
 	usePopularMovies,
@@ -161,6 +218,11 @@ const useTMDB = {
 	useMoviesByGenre,
 	usePopularActorsInfinite,
 	useUpcomingInfinite,
+	useTopRatedInfinite,
+	useNowPlayingInfinite,
+	usePopularMoviesInfinite,
+	useSimilarMoviesInfinite,
+	useSearch,
 };
 
 export default useTMDB;

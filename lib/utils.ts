@@ -31,7 +31,7 @@ export const getAbsoluteUrl = (
 };
 
 export const formatDate = (date: string, dateFormat: string = 'MMM yyyy') => {
-	if (date === '') return 'N/A';
+	if (date === '' || date === null) return 'N/A';
 
 	const dateObj = new Date(date);
 	return format(dateObj, dateFormat).toString();

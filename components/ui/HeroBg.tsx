@@ -5,6 +5,7 @@ import { Overlay, SkeletonHero } from '@/components/ui';
 import { MovieResponse } from '@/types/tmdb';
 import { MovieInfoHero } from '@/components/ui';
 import useBgChange from '@/hooks/useSliderChange';
+import { isMobile } from '@/utils/breakpoints';
 
 interface HeroBgProps {
 	src: string;
@@ -55,19 +56,20 @@ interface HeroBgSectionProps {
 export const HeroBgSection = ({
 	popularMovies,
 	isLoading = false,
+	isMobile = false,
 }: HeroBgSectionProps) => {
 	const { currentImageIndex, previousImageIndex } = useBgChange();
 
 	if (isLoading) return <SkeletonHero />;
 
 	return (
-		<section className='hidden md:block h-[750px] relative overflow-hidden'>
+		<section className='h-[750px] relative overflow-hidden'>
 			<Overlay
 				className='md:bg-gradient-to-b md:from-dark-background/50 
 			md:from-25% md:via-dark-background md:via-65%
 			md:to-dark-background z-[1] bg-gradient-to-b 
-			from-dark-background/40 from-65% 
-			via-dark-background/90 via-[90%] to-dark-background'
+			from-dark-background/90 from-55% 
+			via-dark-background via-[90%] to-dark-background'
 			/>
 			{
 				<HeroBg
@@ -80,9 +82,9 @@ export const HeroBgSection = ({
 				src={popularMovies[currentImageIndex].backdrop_path}
 			/>
 
-			{popularMovies[currentImageIndex] && (
+			{popularMovies[currentImageIndex] && !isMobile ? (
 				<MovieInfoHero movie={popularMovies[currentImageIndex]} />
-			)}
+			) : null}
 		</section>
 	);
 };

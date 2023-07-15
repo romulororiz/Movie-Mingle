@@ -1,18 +1,19 @@
 'use client';
 
-import Link from 'next/link';
-import { User } from 'next-auth';
-import { signOut } from 'next-auth/react';
-import { UserAvatar } from './Avatar';
-import { Menu, Transition } from '@headlessui/react';
-import { Fragment, useState } from 'react';
-import { MainNavItem, NavItem, UserNavItem } from '@/types';
 import { Icon } from '@/components/Icon';
 import { cn } from '@/lib/utils';
+import { NavItem, UserNavItem } from '@/types';
+import { Menu, Transition } from '@headlessui/react';
+import { User } from 'next-auth';
+import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { Fragment, useState } from 'react';
+import { UserAvatar } from '@/components/ui/Avatar';
+import { ThemeToggle } from '../Layout/ThemeToggle';
 
 interface UserNavProps extends React.HTMLAttributes<HTMLDivElement> {
-	user: User;
+	user: Pick<User, 'name' | 'image' | 'email'>;
 	items?: UserNavItem[];
 }
 
@@ -24,7 +25,9 @@ export const UserNavMobile = ({ user }: UserNavProps) => {
 			/>
 			<div className='flex flex-col truncate'>
 				<div className='text-md font-semibold'>{user.name}</div>
-				<div className='text-sm font-light text-slate-300 text-ellipsis overflow-hidden'>{user.email}</div>
+				<div className='text-sm font-light text-slate-300 text-ellipsis overflow-hidden'>
+					{user.email}
+				</div>
 			</div>
 		</div>
 	);
@@ -48,7 +51,7 @@ export default function UserNav({ user, items }: UserNavProps) {
 	};
 
 	return (
-		<div className=''>
+		<>
 			<Menu as='div' className='relative inline-block text-left'>
 				<Menu.Button
 					onClick={() => setMenuOpen(!menuOpen)}
@@ -107,6 +110,6 @@ export default function UserNav({ user, items }: UserNavProps) {
 					</Menu.Items>
 				</Transition>
 			</Menu>
-		</div>
+		</>
 	);
 }

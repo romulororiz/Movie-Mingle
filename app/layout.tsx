@@ -35,10 +35,10 @@ export const metadata: Metadata = {
 		},
 	],
 	creator: 'romulororiz',
-	// themeColor: [
-	// 	{ media: '(prefers-color-scheme: light)', color: 'white' },
-	// 	{ media: '(prefers-color-scheme: dark)', color: 'black' },
-	// ],
+	themeColor: [
+		{ media: '(prefers-color-scheme: light)', color: 'white' },
+		{ media: '(prefers-color-scheme: dark)', color: 'black' },
+	],
 	openGraph: {
 		type: 'website',
 		locale: 'en_US',
@@ -57,16 +57,16 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 	const user = await getCurrentUser();
 
 	return (
-		<html lang='en' className={(cn('bg-dark-background'), inter.className)}>
+		<html lang='en' className={inter.className}>
 			<body
 				className={cn(
-					'min-h-screen text-slate-200 bg-dark-background antialiased'
+					'min-h-screen dark:text-slate-200 dark:bg-dark-background antialiased'
 				)}
 			>
 				<Providers>
 					<Header user={user!} />
 					<main className='min-h-screen'>{children}</main>
-					{/* <Footer /> */}
+					<Footer />
 					<TailwindIndicator />
 				</Providers>
 			</body>

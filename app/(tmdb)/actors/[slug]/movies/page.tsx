@@ -3,7 +3,8 @@
 import { Card } from '@/components/Cards';
 import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
 import { Section } from '@/components/Layout';
-import { useActorDetail } from '@/hooks/useTMDB';
+import LoadMore from '@/components/ui/LoadMore';
+import { useActorDetail, useMovieCreditsInfinite } from '@/hooks/useTMDB';
 import { getIdFromSlug } from '@/lib/utils';
 import { notFound } from 'next/navigation';
 
@@ -18,29 +19,32 @@ export default function ActorMoviesPage({ params }: PageProps) {
 
 	const actorId = getIdFromSlug(slug);
 
-	const { data, isLoading } = useActorDetail(actorId);
+	const { data, isLoading, isFetching, hasNextPage, fetchNextPage } =
+		useMovieCreditsInfinite(actorId);
+
+	const { data: currActor } = useActorDetail(actorId);
 
 	if (isLoading) return 'loading...';
 
 	if (!data) return notFound();
 
+	const moviesData = data?.pages?.flatMap(page => page.cast);
+
 	return (
 		<Section
 			route='#'
-			title={`${data.name}'s Filmography (${data.movie_credits.cast.length})`}
+			title={`${currActor?.name}'s Filmography (${currActor?.movie_credits?.cast?.length})`}
 			seeMore={false}
 		>
-			{!isLoading ? (
-				data.movie_credits.cast.map(movie => (
-					<Card key={`movie-${movie.id}`} item={movie} />
-				))
-			) : (
-				<RenderSkeletonCards
-					isActor={false}
-					isMovie={true}
-					isCardSlider={false}
-				/>
-			)}
+			{moviesData.map((movie, i) => (
+				<Card key={`movie-${i}`} item={movie} />
+			))}
+
+			<LoadMore
+				fetchNextPage={fetchNextPage}
+				isFetchingNextPage={isFetching}
+				hasNextPage={hasNextPage}
+			/>
 		</Section>
 	);
 }

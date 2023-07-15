@@ -110,7 +110,7 @@ export const headerConfig: HeaderConfig = {
 				{
 					title: 'Logout',
 					href: '#',
-					icon: 'LogOut',
+					icon: 'SignOut',
 					isLogout: true,
 				},
 			],

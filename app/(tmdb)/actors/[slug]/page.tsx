@@ -2,13 +2,13 @@
 
 import { Card } from '@/components/Cards';
 import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
-import { Icon } from '@/components/Icon';
 import { Section } from '@/components/Layout';
-import { Heading, HeroBg, Overlay, Paragraph } from '@/components/ui';
+import { Heading, Paragraph } from '@/components/ui';
+import LoadMore from '@/components/ui/LoadMore';
 import { useActorDetail } from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
 import { cn, getAbsoluteUrl, getIdFromSlug } from '@/lib/utils';
-import { isMobile, isTablet } from '@/utils/breakpoints';
+import { isTablet } from '@/utils/breakpoints';
 import { CardPerView } from '@/utils/cardPerView';
 import { Collapse } from '@mui/material';
 import Image from 'next/image';
@@ -38,20 +38,7 @@ export default function ActorPage({ params }: PageProps) {
 	if (!data) return notFound();
 
 	return (
-		<div>
-			<section className='absolute inset-0 mx-auto w-full h-screen'>
-				<HeroBg
-					imageKey={`actor-${actorId}`}
-					isLocalAsset={true}
-					src={getAbsoluteUrl('', '', true)}
-					isSlider={false}
-					className='md:bg-center h-auto'
-				/>
-				<Overlay
-					className='bg-gradient-to-b from-dark-background/10 from-35%
-				via-dark-background via-85% to-dark-background'
-				/>
-			</section>
+		<>
 			<section className='flex-col sm:flex-row flex gap-x-10 gap-y-5 items-center sm:items-start relative z-[2] container'>
 				<figure>
 					<Image
@@ -91,17 +78,7 @@ export default function ActorPage({ params }: PageProps) {
 								{data.biography}
 							</Paragraph>
 						</Collapse>
-						<div
-							className='w-fit rounded-md bg-accent-primary absolute -bottom-14 inset-x-0 mx-auto cursor-pointer hover:scale-105 duration-300'
-							onClick={() => setIsCollapseOpen(prev => !prev)}
-						>
-							<Icon
-								name='ChevronDown'
-								color='#030e13'
-								className={cn('transition', isCollapseOpen ? 'rotate-180' : '')}
-								size={isMobile(windowSize) ? 25 : 30}
-							/>
-						</div>
+						<LoadMore setIsCollapse={setIsCollapseOpen} isCollapse={isCollapseOpen}/>
 					</div>
 				</div>
 			</section>
@@ -127,6 +104,6 @@ export default function ActorPage({ params }: PageProps) {
 					/>
 				)}
 			</Section>
-		</div>
+		</>
 	);
 }

@@ -1,9 +1,9 @@
 'use client';
 
 import { Card } from '@/components/Cards';
-import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
 import { Section } from '@/components/Layout';
-import { useMovieDetail } from '@/hooks/useTMDB';
+import LoadMore from '@/components/ui/LoadMore';
+import { useMovieDetail, useSimilarMoviesInfinite } from '@/hooks/useTMDB';
 import { getIdFromSlug } from '@/lib/utils';
 import { notFound } from 'next/navigation';
 
@@ -18,31 +18,35 @@ export default function SimilarMoviesPage({ params }: PageProps) {
 
 	const movieId = getIdFromSlug(slug);
 
-	const { data, isLoading } = useMovieDetail(movieId);
+	const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } =
+		useSimilarMoviesInfinite(movieId);
+
+	const { data: currMovie } = useMovieDetail(movieId);
 
 	if (isLoading) return 'loading...';
 
 	if (!data) return notFound();
 
+	const moviesData = data?.pages?.flatMap(page => page.results);
+
 	return (
 		<Section
 			route='#'
-			title={`More like '${data.title}' - (${data?.similar?.results?.length})`}
 			seeMore={false}
 			className='relative'
 			icon='ThumbsUp'
+			title={`
+					Similar movies to "${currMovie?.title}" - (${currMovie?.similar.total_results})`}
 		>
-			{!isLoading ? (
-				data?.similar?.results?.map(movie => (
-					<Card key={`movie-${movie.id}`} item={movie} />
-				))
-			) : (
-				<RenderSkeletonCards
-					isActor={false}
-					isMovie={true}
-					isCardSlider={false}
-				/>
-			)}
+			{moviesData.map((movie, i) => (
+				<Card item={movie} key={`movie-${i}`} />
+			))}
+
+			<LoadMore
+				fetchNextPage={fetchNextPage}
+				isFetchingNextPage={isFetchingNextPage}
+				hasNextPage={hasNextPage}
+			/>
 		</Section>
 	);
 }

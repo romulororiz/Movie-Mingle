@@ -63,7 +63,7 @@ const renderStat = (stat: Stat, item: MovieDetailResponse) => {
 						</Tooltip>
 					</TooltipProvider>
 					<span className='text-sm md:text-md font-normal'>
-						{item.budget.toLocaleString('en-US', {
+						{item?.budget?.toLocaleString('en-US', {
 							style: 'currency',
 							currency: 'USD',
 							notation: 'compact',
@@ -85,7 +85,7 @@ const renderStat = (stat: Stat, item: MovieDetailResponse) => {
 						</Tooltip>
 					</TooltipProvider>
 					<span className='text-sm md:text-md font-normal'>
-						{item.revenue.toLocaleString('en-US', {
+						{item?.revenue?.toLocaleString('en-US', {
 							style: 'currency',
 							currency: 'USD',
 							notation: 'compact',
@@ -139,29 +139,29 @@ const renderStat = (stat: Stat, item: MovieDetailResponse) => {
 						</Tooltip>
 					</TooltipProvider>
 					<span className='text-sm md:text-md font-normal'>
-						{formatDate(item.release_date)}
+						{item?.release_date ? formatDate(item.release_date) : 'N/A'}
 					</span>
 				</>
 			);
 		case 'spoken_languages': {
-			return (
-				item.spoken_languages.length > 0 && (
-					<>
-						<TooltipProvider>
-							<Tooltip>
-								<TooltipTrigger>
-									<Icon name={stat.icon || ''} size={20} />
-								</TooltipTrigger>
-								<TooltipContent className={toolTipProps.className}>
-									languages
-								</TooltipContent>
-							</Tooltip>
-						</TooltipProvider>
-						<span className='text-sm md:text-md font-normal uppercase'>
-							{item.spoken_languages.map(lang => lang.iso_639_1).join(', ')}
-						</span>
-					</>
-				)
+			return item?.spoken_languages?.length > 0 ? (
+				<>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger>
+								<Icon name={stat.icon || ''} size={20} />
+							</TooltipTrigger>
+							<TooltipContent className={toolTipProps.className}>
+								languages
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
+					<span className='text-sm md:text-md font-normal uppercase'>
+						{item.spoken_languages.map(lang => lang.iso_639_1).join(', ')}
+					</span>
+				</>
+			) : (
+				'N/A'
 			);
 		}
 		default:
@@ -172,16 +172,18 @@ const renderStat = (stat: Stat, item: MovieDetailResponse) => {
 export const GenreItem = ({ item }: { item: MovieDetailResponse }) => {
 	return (
 		<div className='flex flex-wrap-reverse gap-2 justify-center md:justify-start'>
-			{item.genres.map(genre => (
-				<Link href={createSlug(genre) || '/'} key={genre.id}>
-					<Badge
-						key={genre.id}
-						className='bg-accent-primary text-dark-background uppercase text-[10px] md:text-[12px] font-semibold'
-					>
-						{genre.name}
-					</Badge>
-				</Link>
-			))}
+			{item?.genres
+				? item?.genres?.map(genre => (
+						<Link href={createSlug(genre) || '/'} key={genre.id}>
+							<Badge
+								key={genre.id}
+								className='bg-accent-primary text-dark-background uppercase text-[10px] md:text-[12px] font-semibold'
+							>
+								{genre.name}
+							</Badge>
+						</Link>
+				  ))
+				: 'N/A'}
 		</div>
 	);
 };

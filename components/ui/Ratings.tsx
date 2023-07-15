@@ -43,8 +43,8 @@ const Ratings: FC<RatingsProps> = ({
 }: RatingsProps) => {
 	return (
 		<div className={className} {...props}>
-			<StarPercentage percentage={(movie.vote_average / 10) * 100} />
-			<span className='text-md'>{movie.vote_average.toFixed(1)} </span>
+			<StarPercentage percentage={(movie?.vote_average / 10) * 100} />
+			<span className='text-md'>{movie?.vote_average?.toFixed(1)} </span>
 		</div>
 	);
 };

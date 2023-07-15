@@ -3,6 +3,10 @@ import { NextAuthOptions } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from '@/lib/db';
 
+if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+	throw new Error('Missing Google OAuth credentials');
+}
+
 export const authOptions: NextAuthOptions = {
 	adapter: PrismaAdapter(prisma),
 	session: {
@@ -12,7 +16,6 @@ export const authOptions: NextAuthOptions = {
 		signIn: '/login',
 	},
 	providers: [
-		// todo google provider
 		GoogleProvider({
 			clientId: process.env.GOOGLE_CLIENT_ID || '',
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
@@ -47,9 +50,6 @@ export const authOptions: NextAuthOptions = {
 				email: dbUser.email,
 				picture: dbUser.image,
 			};
-		},
-		redirect() {
-			return '/';
 		},
 	},
 };

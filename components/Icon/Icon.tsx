@@ -20,10 +20,10 @@ import {
 	Calendar,
 	User,
 	Settings,
-	LogOut,
+	LogOut as SignOut,
+	LogIn as SignIn,
 	Award,
 	Home,
-	LogIn,
 	Menu,
 	Compass,
 	Cog,
@@ -39,6 +39,8 @@ import {
 	Github,
 	Linkedin,
 	Tv,
+	Sun,
+	Moon,
 } from 'lucide-react';
 
 export const lucideIcons: Record<string, LucideIcon> = {
@@ -58,10 +60,10 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	Calendar,
 	User,
 	Settings,
-	LogOut,
 	Award,
 	Home,
-	LogIn,
+	SignIn,
+	SignOut,
 	Menu,
 	Close,
 	Compass,
@@ -77,6 +79,8 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	Github,
 	Linkedin,
 	Tv,
+	Sun,
+	Moon,
 };
 
 import { FC, SVGProps } from 'react';

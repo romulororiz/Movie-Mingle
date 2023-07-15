@@ -19,12 +19,14 @@ export default function MoviesByGenrePage({ params }: PageProps) {
 
 	const genreId = getIdFromSlug(slug);
 
-	const { data, isLoading, isFetchingNextPage, fetchNextPage } =
+	const { data, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } =
 		useMoviesByGenre(genreId);
 
 	if (isLoading) return 'loading...';
 
 	if (!data) return notFound();
+
+	const moviesData = data?.pages?.flatMap(page => page.results);
 
 	return (
 		<Section
@@ -35,15 +37,14 @@ export default function MoviesByGenrePage({ params }: PageProps) {
 			seeMore={false}
 			className='relative'
 		>
-			{data?.pages.map(movie =>
-				movie?.results?.map(movie => (
-					<Card key={`movie-${movie.id}`} item={movie} />
-				))
-			)}
+			{moviesData.map(movie => (
+				<Card key={`movie-${movie.id}`} item={movie} />
+			))}
 
 			<LoadMore
 				fetchNextPage={fetchNextPage}
 				isFetchingNextPage={isFetchingNextPage}
+				hasNextPage={hasNextPage}
 			/>
 		</Section>
 	);
