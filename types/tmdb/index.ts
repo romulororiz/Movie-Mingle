@@ -96,7 +96,37 @@ export interface PeopleDetailResponse {
 	popularity: number;
 	profile_path: string;
 	movie_credits: { cast: MovieResponse[] };
-	// tv_credits: { cast: SeriesResult[] };
+	tv_credits: { cast: TvResponse[] };
+}
+
+export type PeopleResponse = Pick<
+	CastResponse,
+	'id' | 'name' | 'profile_path' | 'adult' | 'popularity'
+> & {
+	known_for: MovieResponse[];
+};
+
+export interface TvResponseData {
+	results: TvResponse[];
+	page: number;
+	total_results: number;
+	total_pages: number;
+}
+
+export interface TvResponse {
+	poster_path: string;
+	popularity: number;
+	id: number;
+	backdrop_path: string;
+	vote_average: number;
+	overview: string;
+	first_air_date: string;
+	origin_country: string[];
+	genre_ids: number[];
+	original_language: string;
+	vote_count: number;
+	name: string;
+	original_name: string;
 }
 
 export interface ProductionCompanyResponse {
@@ -139,14 +169,6 @@ export interface ImagesResponse {
 }
 
 export interface SimilarMoviesResponse extends MovieDataResponse {}
-
-//
-export type PeopleResponse = Pick<
-	CastResponse,
-	'id' | 'name' | 'profile_path' | 'adult' | 'popularity'
-> & {
-	known_for: MovieResponse[];
-};
 
 export interface CastResponse {
 	cast_id: number;

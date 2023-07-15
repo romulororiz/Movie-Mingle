@@ -8,6 +8,7 @@ import {
 	PeopleDataResponse,
 	PeopleDetailResponse,
 	PeopleResponse,
+	TvResponse,
 } from '@/types/tmdb';
 
 // todo refactor and clean up redundant code
@@ -138,6 +139,31 @@ export const isCastResponseItem = (data: any): data is CastResponse => {
 		data !== null &&
 		'cast_id' in data &&
 		'order' in data
+	) {
+		return true;
+	}
+	return false;
+};
+
+export const isTvResponse = (data: any): data is TvResponse[] => {
+	if (Array.isArray(data) && data.length) {
+		return data.every(
+			tv =>
+				typeof tv === 'object' &&
+				tv !== null &&
+				'backdrop_path' in tv &&
+				'first_air_date' in tv
+		);
+	}
+	return false;
+};
+
+export const isTvResponseItem = (data: any): data is TvResponse => {
+	if (
+		typeof data === 'object' &&
+		data !== null &&
+		'backdrop_path' in data &&
+		'first_air_date' in data
 	) {
 		return true;
 	}

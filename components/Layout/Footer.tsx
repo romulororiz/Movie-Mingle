@@ -12,26 +12,10 @@ const Footer: FC<FooterProps> = () => {
 		<>
 			<div
 				style={{ backgroundImage: 'url(/assets/footer-bg.jpg)' }}
-				className='h-auto py-8 md:py-16 bg-cover bg-center bg-no-repeat relative z-[100]'
+				className='h-auto py-16 bg-cover bg-center bg-no-repeat relative z-[100]'
 			>
-				{/* <Overlay className='bg-dark-background/40' /> */}
 				<div className='max-w-[1340px] container relative'>
-					<div className='gap-5 flex flex-col items-center justify-between h-full md:hidden'>
-						{/* <ThemeToggle /> */}
-						<Social />
-						<div className='flex-shrink-0'>
-							<Link href='/'>
-								<Image
-									src='/assets/logo.svg'
-									width={160}
-									height={100}
-									alt='logo'
-								/>
-							</Link>
-						</div>
-					</div>
-					<div className='hidden items-center justify-between h-full md:flex'>
-						{/* <ThemeToggle /> */}
+					<div className='flex flex-col-reverse md:flex-row items-center justify-between h-full gap-y-4 md:gap-0'>
 						<div className='flex-shrink-0'>
 							<Link href='/'>
 								<Image

@@ -1,33 +1,14 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
-import useScrollPosition from '@/hooks/useScrollPosition';
-import { useState } from 'react';
 import { headerConfig } from '@/config/header';
+import useScrollPosition from '@/hooks/useScrollPosition';
 import { cn } from '@/lib/utils';
 import { User } from 'next-auth';
-import { Icon } from '@/components/Icon';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import {
-	Input,
-	MainNav,
-	MobileNav,
-	SignInButton,
-	UserNav,
-} from '@/components/ui';
+import { MainNav, MobileNav, SignInButton, UserNav } from '@/components/ui';
 
-import {
-	Command,
-	CommandDialog,
-	CommandEmpty,
-	CommandGroup,
-	CommandInput,
-	CommandItem,
-	CommandList,
-	CommandSeparator,
-	CommandShortcut,
-} from '@/components/ui/Command';
 import Combobox from '../ui/Combobox';
 interface HeaderProps {
 	// pick the properties you want to use
@@ -35,8 +16,6 @@ interface HeaderProps {
 }
 
 export const Header = ({ user }: HeaderProps) => {
-	const [showSearch, setShowSearch] = useState(false);
-
 	const { isScrolled } = useScrollPosition();
 
 	return (

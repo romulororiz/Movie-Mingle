@@ -78,7 +78,7 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 				side='left'
 				className='bg-dark-background z-[100] border-transparent w-80 p-8 overflow-auto flex flex-col'
 			>
-				<SheetHeader>
+				<SheetHeader className='flex-1'>
 					<SheetTitle className='flex items-center justify-between mb-10'>
 						<div className='flex-shrink-0'>
 							<Link href='/'>
@@ -140,7 +140,7 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 						))}
 					</Accordion>
 				</SheetHeader>
-				<div className='flex flex-col gap-3 mx-auto justify-center -mb-4'>
+				<div className='flex flex-col gap-3 mx-auto justify-center -mb-6'>
 					<AuthBtnMobile
 						user={user}
 						signIn={handleSignIn}

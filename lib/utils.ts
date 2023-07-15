@@ -1,14 +1,20 @@
-import { CastResponse, GenreResponse, MovieOrActor } from '@/types/tmdb';
+import {
+	CastResponse,
+	GenreResponse,
+	MovieOrActor,
+	TvResponse,
+} from '@/types/tmdb';
 import {
 	isCastResponseItem,
-	isGenreResponse,
 	isGenreResponseItem,
 	isMovieDetailResponse,
 	isMovieResponseItem,
 	isPeopleResponseItem,
+	isTvResponseItem,
 } from '@/utils/typeGuards';
 import { ClassValue, clsx } from 'clsx';
 import { format } from 'date-fns';
+import slugify from 'slugify';
 import { twMerge } from 'tailwind-merge';
 
 export const blurData =
@@ -44,25 +50,25 @@ export const normalizePopularityScore = (score: number) => {
 	return Math.round(minNormalizedScore * 100) / 100;
 };
 
-export const slugify = (text: string, number?: number) => {
-	const slugifiedText = text
-		.toLowerCase()
-		.replace(/\s+/g, '-') // Replace spaces with dashes
-		.replace(/[&#,+()$~%'.":!*?<>{}]/g, '')
-		.replace(/\//g, '-');
+export const slugifyStr = (text: string, number?: number) => {
+	const slugifiedText = slugify(text || '');
 
 	if (number) return `${slugifiedText}-${number}`;
+
+	return slugifiedText
 };
 
+
 export const createSlug = (
-	item: MovieOrActor | CastResponse | GenreResponse
+	item: MovieOrActor | CastResponse | GenreResponse | TvResponse
 ) => {
 	if (isMovieResponseItem(item) || isMovieDetailResponse(item))
-		return `/movies/${slugify(item.title, item.id)}`;
+		return `/movies/${slugifyStr(item.title, item.id)}`;
 	if (isPeopleResponseItem(item) || isCastResponseItem(item))
-		return `/actors/${slugify(item.name, item.id)}`;
+		return `/actors/${slugifyStr(item.name, item.id)}`;
 	if (isGenreResponseItem(item))
-		return `/movies/genres/${slugify(item.name, item.id)}`;
+		return `/movies/genres/${slugifyStr(item.name, item.id)}`;
+	if (isTvResponseItem(item)) return `/tv/${slugifyStr(item.name, item.id)}`;
 };
 
 export const getIdFromSlug = (slug: string) => {

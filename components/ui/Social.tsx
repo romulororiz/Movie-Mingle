@@ -3,7 +3,7 @@ import { socialLinks } from '@/config/footer';
 
 const Social = () => {
 	return (
-		<div className='flex gap-5 items-center'>
+		<div className='flex gap-3 md:gap-5 items-center'>
 			{socialLinks.map((link, i) => (
 				<a
 					key={i}

@@ -5,7 +5,7 @@ import { Heading } from '@/components/ui';
 import { Ratings } from '@/components/ui';
 import { SkeletonCard } from '@/components/Cards';
 import { getAbsoluteUrl } from '@/lib/utils';
-import { CastResponse, MovieOrActor, MovieResponse } from '@/types/tmdb';
+import { CastResponse, MovieOrActor, MovieResponse, TvResponse } from '@/types/tmdb';
 import { FC, HTMLAttributes, useState } from 'react';
 import { createSlug, formatDate, normalizePopularityScore } from '@/lib/utils';
 
@@ -19,7 +19,7 @@ import {
 import { useWindowSize } from 'usehooks-ts';
 
 interface CardInfoProps {
-	item: MovieOrActor | CastResponse;
+	item: MovieOrActor | CastResponse | TvResponse;
 	isCurrSlide?: boolean;
 	isSlider?: boolean;
 	className?: string;
@@ -119,7 +119,7 @@ const generateArialLabel = (
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
 	key?: string;
 	ratings?: boolean;
-	item: MovieOrActor | CastResponse;
+	item: MovieOrActor | CastResponse | TvResponse;
 	isLoading?: boolean;
 	isSlider?: boolean;
 	isCurrSlide?: boolean;

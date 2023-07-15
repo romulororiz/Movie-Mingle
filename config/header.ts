@@ -46,14 +46,8 @@ export const headerConfig: HeaderConfig = {
 					title: 'Airing Today',
 					href: '/movies/popular',
 					icon: 'Play',
-					description: 'Find the currently airing tv shows',
+					description: 'Find Tv Shows that are currently airing',
 				},
-				// {
-				//     title: 'For You',
-				//     href: '/movies/for-you',
-				//     icon: 'ThumbsUp',
-				//     requireAuth: true,
-				// },
 				{
 					title: 'Popular',
 					href: '/movies/trending',
@@ -88,7 +82,7 @@ export const headerConfig: HeaderConfig = {
 			navItems: [
 				{
 					title: 'Friends',
-					href: '/friends',
+					href: '/dashboard/friends',
 					icon: 'UserPlus',
 				},
 			],
@@ -99,12 +93,12 @@ export const headerConfig: HeaderConfig = {
 			navItems: [
 				{
 					title: 'Profile',
-					href: '/profile',
+					href: '/dashboard/profile',
 					icon: 'User',
 				},
 				{
 					title: 'Settings',
-					href: '/settings',
+					href: '/dashboard/settings',
 					icon: 'Settings',
 				},
 				{
