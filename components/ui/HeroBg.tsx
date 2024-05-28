@@ -14,6 +14,7 @@ interface HeroBgProps {
 	active?: boolean;
 	className?: string;
 	isSlider?: boolean;
+	isMobile?: boolean;
 }
 
 const HeroBg = ({
@@ -23,6 +24,7 @@ const HeroBg = ({
 	className,
 	active = imageKey.includes('curr'),
 	isSlider = true,
+	isMobile = false,
 }: HeroBgProps) => {
 	return (
 		<div
@@ -39,7 +41,9 @@ const HeroBg = ({
 			style={{
 				backgroundImage: isLocalAsset
 					? `url(${src})`
-					: `url(https://image.tmdb.org/t/p/w1280${src})`,
+					: `url(https://image.tmdb.org/t/p/${
+							isMobile ? 'w500' : 'w1280'
+					  }${src})`,
 			}}
 		/>
 	);
@@ -75,11 +79,13 @@ export const HeroBgSection = ({
 				<HeroBg
 					imageKey={`prev-${previousImageIndex}`}
 					src={trendingMovies[previousImageIndex].backdrop_path}
+					isMobile={isMobile}
 				/>
 			}
 			<HeroBg
 				imageKey={`curr-${currentImageIndex}`}
 				src={trendingMovies[currentImageIndex].backdrop_path}
+				isMobile={isMobile}
 			/>
 
 			{trendingMovies[currentImageIndex] && !isMobile ? (

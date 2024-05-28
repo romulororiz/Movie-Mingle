@@ -4,7 +4,7 @@ import { VariantProps, cva } from 'class-variance-authority';
 import { FC, HTMLAttributes } from 'react';
 
 const headingVariants = cva(
-	'flex items-center text-white font-semibold tracking-tighter',
+	'flex items-start md:items-center text-white font-semibold tracking-tighter',
 	{
 		variants: {
 			size: {
@@ -52,7 +52,7 @@ const Heading: FC<HeadingProps<any>> = ({
 			{...props}
 			aria-level={getAriaLevel(Element)}
 		>
-			{icon && <Icon name={icon} color={color} className='mr-2 shrink-0' />}
+			{icon && <Icon name={icon} color={color} className='mr-2 shrink-0 relative top-1 md:top-0' />}
 			<div className={truncate ? 'text-ellipsis overflow-hidden' : ''}>
 				{title}
 			</div>

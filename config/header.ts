@@ -83,7 +83,7 @@ export const headerConfig: HeaderConfig = {
 				{
 					title: 'Friends',
 					href: '/dashboard/friends',
-					icon: 'UserPlus',
+					icon: 'Users',
 				},
 			],
 		},

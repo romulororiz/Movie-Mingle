@@ -5,7 +5,7 @@ import {
 	PeopleDataResponse,
 	PeopleDetailResponse,
 	SearchData,
-	TvResponseData
+	TvResponseData,
 } from '@/types/tmdb';
 
 import {
@@ -248,12 +248,27 @@ export const useTvAiringTodayInfinite = () => {
 };
 
 // ------------------ Search Hooks ------------------
+
 export const useSearch = (q: string) => {
 	return useQuery({
 		queryKey: ['Search', q],
 		queryFn: () => fetcher(`/api/search?q=${q}`),
 		enabled: q.length > 0,
 	}) as UseQueryResult<SearchData>;
+};
+
+export const useSearchInfinite = (q: string) => {
+	return useInfiniteQuery({
+		queryKey: ['SearchInfinite', q],
+		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+			fetcher(`/api/search?q=${q}&page=${pageParam}`),
+		getNextPageParam: ({ page, total_pages }) => {
+			return page < total_pages ? page + 1 : undefined;
+		},
+		select: data => {
+			return data;
+		},
+	}) as UseInfiniteQueryResult<SearchData>;
 };
 
 const useTMDB = {

@@ -1,17 +1,32 @@
 export interface SearchData {
-	results: SearchDataItem[];
+	results: SearchDataResponse[];
 	total_pages?: number;
 	page?: number;
 	total_results?: number;
 }
 
-export interface SearchDataItem {
-	media_type: string;
-	id: number;
-	name?: string;
-	title?: string;
+export interface SearchDataResponse {
 	poster_path?: string;
+	popularity?: number;
+	id?: number;
+	overview?: string;
+	backdrop_path?: string;
+	vote_average?: number;
+	media_type?: string;
+	first_air_date?: string;
+	origin_country?: string[];
+	genre_ids?: number[];
+	original_language?: string;
+	vote_count?: number;
+	name?: string;
+	original_name?: string;
+	known_for?: MovieResponse[];
 	profile_path?: string;
+	adult?: boolean;
+	original_title?: string;
+	release_date?: string;
+	title?: string;
+	video?: boolean;
 }
 
 export interface MovieDataResponse {

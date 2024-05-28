@@ -99,27 +99,23 @@ export default function ActorPage({ params }: PageProps) {
 				</div>
 			</section>
 			<br />
-			<Section
-				route={`/actors/${encodeURIComponent(slug)}/movies`}
-				title={`Filmography`}
-				icon='Film'
-				className='mt-20 mb-28'
-			>
-				{!isLoading ? (
-					data?.movie_credits?.cast
+
+			{data?.movie_credits?.cast?.length > 0 && (
+				<Section
+					route={`/actors/${encodeURIComponent(slug)}/movies`}
+					title={`Filmography`}
+					icon='Film'
+					className='mt-20 mb-28'
+				>
+					{data?.movie_credits?.cast
 						.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
+						.sort((a, b) => b.props.item.popularity - a.props.item.popularity)
 						.slice(
 							0,
 							CardPerView(windowSize, { isActor: false, isMovie: true })
-						)
-				) : (
-					<RenderSkeletonCards
-						isActor={false}
-						isMovie={true}
-						isCardSlider={false}
-					/>
-				)}
-			</Section>
+						)}
+				</Section>
+			)}
 		</>
 	);
 }

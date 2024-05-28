@@ -28,7 +28,9 @@ export default function ActorMoviesPage({ params }: PageProps) {
 
 	if (!data) return notFound();
 
-	const moviesData = data?.pages?.flatMap(page => page.cast);
+	const moviesData = data?.pages
+		?.flatMap(page => page.cast)
+		.sort((a, b) => b.popularity - a.popularity);
 
 	return (
 		<Section

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { cn, createSlug } from '@/lib/utils';
+import { blurData, cn, createSlug } from '@/lib/utils';
 import { useDebounce } from '@/hooks/use-debounce';
 import { Button } from '@/components/ui/Button';
 
@@ -15,11 +15,13 @@ import {
 } from '@/components/ui/Command';
 import { useCallback, useEffect, useState, useTransition } from 'react';
 import { useSearch } from '@/hooks/useTMDB';
-import { SearchData, SearchDataItem } from '@/types/tmdb';
+import { SearchData, SearchDataResponse } from '@/types/tmdb';
 import { Icon } from '@/components/Icon';
 import { isMovieResponseItem, isPeopleResponseItem } from '@/utils/typeGuards';
 import { Skeleton } from './Skeleton';
 import Image from 'next/image';
+import Link from 'next/link';
+import slugify from 'slugify';
 
 const Combobox = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -47,17 +49,6 @@ const Combobox = () => {
 		}
 	}, [debouncedQuery, queryResult]);
 
-	useEffect(() => {
-		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
-				e.preventDefault();
-				setIsOpen(isOpen => !isOpen);
-			}
-		};
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, []);
-
 	const handleSelect = useCallback((callback: () => unknown) => {
 		setIsOpen(false);
 		callback();
@@ -69,14 +60,19 @@ const Combobox = () => {
 		}
 	}, [isOpen]);
 
-	const itemTypeGuardRouteHandler = (item: SearchDataItem) => {
-		if (isMovieResponseItem(item)) {
-			return `${createSlug(item)}`;
-		} else if (isPeopleResponseItem(item)) {
-			return `${createSlug(item)}`;
-		} else {
-			return '';
+	const routeHandler = (item: SearchDataResponse) => {
+		const { media_type } = item;
+		if (media_type === 'movie') {
+			return `/movies/${slugify(item.title as string)}-${item.id}`;
 		}
+		if (media_type === 'tv') {
+			return `/tv/${slugify(item.name as string)}-${item.id}`;
+		}
+		if (media_type === 'person') {
+			return `/actors/${slugify(item.name as string)}-${item.id}`;
+		}
+
+		return '/';
 	};
 
 	return (
@@ -124,8 +120,10 @@ const Combobox = () => {
 											<Image
 												src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
 												alt={item.title || 'No title available'}
-												width={100}
+												width={85}
 												height={100}
+												placeholder='blur'
+												blurDataURL={blurData}
 												className='rounded'
 											/>
 										</div>
@@ -135,8 +133,10 @@ const Combobox = () => {
 											<Image
 												src={`https://image.tmdb.org/t/p/w500${item.profile_path}`}
 												alt={item.name || 'No name available'}
-												width={100}
+												width={85}
 												height={100}
+												placeholder='blur'
+												blurDataURL={blurData}
 												className='rounded'
 											/>
 										</div>
@@ -145,8 +145,10 @@ const Combobox = () => {
 											<Image
 												src='/assets/no-image.jpg'
 												alt='No image available'
-												width={100}
+												width={85}
 												height={100}
+												placeholder='blur'
+												blurDataURL={blurData}
 												className='rounded'
 											/>
 										</div>
@@ -154,9 +156,7 @@ const Combobox = () => {
 									<CommandItem
 										key={item.id}
 										onSelect={() =>
-											handleSelect(() =>
-												router.push(itemTypeGuardRouteHandler(item))
-											)
+											handleSelect(() => router.push(routeHandler(item)))
 										}
 										className='-mt-3 cursor-pointer hover:text-accent-secondary transition'
 									>
@@ -167,6 +167,13 @@ const Combobox = () => {
 						))
 					)}
 				</CommandList>
+				{data && data?.results?.length > 0 && (
+					<div className='flex justify-center my-4'>
+						<Button variant='link' size='sm' onClick={() => setIsOpen(false)}>
+							<Link href={`/search?q=${query}`}>See all</Link>
+						</Button>
+					</div>
+				)}
 			</CommandDialog>
 		</>
 	);

@@ -1,6 +1,4 @@
-import {
-	MovieCreditCastResponse
-} from '@/types/tmdb';
+import { MovieCreditCastResponse } from '@/types/tmdb';
 
 // @route GET
 // @desc Get actor's movies by id

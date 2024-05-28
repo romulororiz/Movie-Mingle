@@ -14,7 +14,7 @@ export default function SearchLayout({ children }: TmdbLayoutProps) {
 			isSlider={false}
 			className='md:bg-center h-auto'
 		/>
-		<main className='mb-28 max-w-7xl mx-auto'>{children}</main>
+		<main className='pt-28 md:pt-36 mb-28 max-w-7xl mx-auto'>{children}</main>
 		<Overlay
 			className='bg-gradient-to-b from-dark-background/40 from-35%
 			via-dark-background via-85% to-dark-background'

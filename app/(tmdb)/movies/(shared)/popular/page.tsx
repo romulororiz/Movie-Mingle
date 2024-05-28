@@ -4,11 +4,13 @@ import { Card } from '@/components/Cards';
 import { Section } from '@/components/Layout';
 import LoadMore from '@/components/ui/LoadMore';
 import { usePopularMoviesInfinite } from '@/hooks/useTMDB';
-import { notFound } from 'next/navigation';
+import { notFound, useSearchParams } from 'next/navigation';
 
 export default function PopularMoviesPage() {
 	const { data, isFetchingNextPage, fetchNextPage, isLoading, hasNextPage } =
 		usePopularMoviesInfinite();
+
+	const searchParams = useSearchParams();
 
 	if (isLoading) return 'loading...';
 
@@ -17,6 +19,8 @@ export default function PopularMoviesPage() {
 	const moviesData = data?.pages?.flatMap(page => page.results!);
 
 	return (
+		// <div className='flex container'>
+		// <div className='flex px-24 z-[200]'>FILTER</div>
 		<Section
 			route='#'
 			title='Popular Movies Right Now'
@@ -34,5 +38,6 @@ export default function PopularMoviesPage() {
 				hasNextPage={hasNextPage}
 			/>
 		</Section>
+		// </div>
 	);
 }

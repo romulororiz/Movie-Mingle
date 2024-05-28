@@ -1,6 +1,7 @@
 'use client';
 
 import { Icon } from '@/components/Icon';
+import { UserAvatar } from '@/components/ui/Avatar';
 import { cn } from '@/lib/utils';
 import { NavItem, UserNavItem } from '@/types';
 import { Menu, Transition } from '@headlessui/react';
@@ -9,8 +10,6 @@ import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
-import { UserAvatar } from '@/components/ui/Avatar';
-import { ThemeToggle } from '../Layout/ThemeToggle';
 
 interface UserNavProps extends React.HTMLAttributes<HTMLDivElement> {
 	user: Pick<User, 'name' | 'image' | 'email'>;
@@ -52,7 +51,7 @@ export default function UserNav({ user, items }: UserNavProps) {
 
 	return (
 		<>
-			<Menu as='div' className='relative inline-block text-left'>
+			<Menu as='div' className='relative inline-block text-left '>
 				<Menu.Button
 					onClick={() => setMenuOpen(!menuOpen)}
 					className='inline-flex w-full justify-center rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'

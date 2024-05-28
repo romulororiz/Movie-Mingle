@@ -8,6 +8,8 @@ import {
 	PeopleDataResponse,
 	PeopleDetailResponse,
 	PeopleResponse,
+	SearchData,
+	SearchDataItem,
 	TvResponse,
 } from '@/types/tmdb';
 
@@ -145,15 +147,27 @@ export const isCastResponseItem = (data: any): data is CastResponse => {
 	return false;
 };
 
-export const isTvResponse = (data: any): data is TvResponse[] => {
-	if (Array.isArray(data) && data.length) {
-		return data.every(
-			tv =>
-				typeof tv === 'object' &&
-				tv !== null &&
-				'backdrop_path' in tv &&
-				'first_air_date' in tv
-		);
+export const isSearchResponseItem = (data: any): data is SearchDataItem => {
+	if (
+		typeof data === 'object' &&
+		data !== null &&
+		'backdrop_path' in data &&
+		'media_type' in data
+	) {
+		return true;
+	}
+	return false;
+};
+
+export const isSearchDataResponse = (data: any): data is SearchData => {
+	if (
+		'page' in data &&
+		'total_pages' in data &&
+		'total_results' in data &&
+		'results' in data &&
+		isSearchResponseItem(data.results)
+	) {
+		return true;
 	}
 	return false;
 };
