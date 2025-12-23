@@ -9,7 +9,7 @@ import {
 	PeopleDetailResponse,
 	PeopleResponse,
 	SearchData,
-	SearchDataItem,
+	SearchDataResponse,
 	TvResponse,
 } from '@/types/tmdb';
 
@@ -153,7 +153,7 @@ export const isCastResponseItem = (data: any): data is CastResponse => {
 	return false;
 };
 
-export const isSearchResponseItem = (data: any): data is SearchDataItem => {
+export const isSearchResponseItem = (data: any): data is SearchDataResponse => {
 	if (
 		typeof data === 'object' &&
 		data !== null &&
