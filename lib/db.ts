@@ -1,19 +1,28 @@
 import { PrismaClient } from '@prisma/client';
 
-declare global {
-	// eslint-disable-next-line no-var, no-unused-vars
-	var cachedPrisma: PrismaClient;
+const globalForPrisma = globalThis as unknown as {
+	prisma: PrismaClient | undefined;
+};
+
+export const prisma =
+	globalForPrisma.prisma ??
+	new PrismaClient({
+		log: process.env.NODE_ENV === 'development'
+			? ['query', 'error', 'warn']
+			: ['error'],
+		errorFormat: process.env.NODE_ENV === 'development' ? 'pretty' : 'minimal',
+	});
+
+if (process.env.NODE_ENV !== 'production') {
+	globalForPrisma.prisma = prisma;
 }
 
-export let prisma: PrismaClient;
-
-if (typeof window === 'undefined') {
-	if (process.env.NODE_ENV === 'production') {
-		prisma = new PrismaClient();
-	} else {
-		if (!global.cachedPrisma) {
-			global.cachedPrisma = new PrismaClient();
-		}
-		prisma = global.cachedPrisma;
-	}
+// Graceful shutdown
+if (process.env.NODE_ENV === 'production') {
+	const cleanup = async () => {
+		await prisma.$disconnect();
+	};
+	
+	process.on('SIGTERM', cleanup);
+	process.on('SIGINT', cleanup);
 }

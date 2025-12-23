@@ -4,34 +4,35 @@
 
 @layer base {
 	.dark {
-		--background: 240 10% 3.9%;
+		--background: 222 47% 3%;
 		--foreground: 0 0% 98%;
 
-		--muted: 240 3.7% 15.9%;
-		--muted-foreground: 240 5% 64.9%;
+		--muted: 222 30% 12%;
+		--muted-foreground: 215 20% 65%;
 
-		--popover: 240 10% 3.9%;
+		--popover: 222 47% 4%;
 		--popover-foreground: 0 0% 98%;
 
-		--card: 240 10% 3.9%;
+		--card: 222 40% 6%;
 		--card-foreground: 0 0% 98%;
 
-		--border: 240 3.7% 15.9%;
-		--input: 240 3.7% 15.9%;
+		--border: 222 30% 18%;
+		--input: 222 30% 18%;
 
 		--primary: 0 0% 98%;
-		--primary-foreground: 240 5.9% 10%;
+		--primary-foreground: 222 47% 10%;
 
-		--secondary: 240 3.7% 15.9%;
+		--secondary: 222 30% 15%;
 		--secondary-foreground: 0 0% 98%;
 
-		--accentD: 240 3.7% 15.9%;
-		--accent-foreground: ;
+		--accent: 45 93% 58%;
+		--accent-foreground: 222 47% 10%;
 
-		--destructive: 0 62.8% 30.6%;
-		--destructive-foreground: 0 85.7% 97.3%;
+		--destructive: 0 84% 60%;
+		--destructive-foreground: 0 0% 98%;
 
-		--ring: 240 3.7% 15.9%;
+		--ring: 45 93% 58%;
+		--radius: 0.5rem;
 	}
 }
 
@@ -39,16 +40,89 @@
 	* {
 		@apply border-border;
 	}
+	
 	body {
 		@apply bg-background text-foreground;
+		font-feature-settings: 'rlig' 1, 'calt' 1;
 	}
 
 	html {
-		@apply scroll-smooth;
+		@apply scroll-smooth antialiased;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	/* Better scrollbar */
+	::-webkit-scrollbar {
+		@apply w-2;
+	}
+
+	::-webkit-scrollbar-track {
+		@apply bg-zinc-950;
+	}
+
+	::-webkit-scrollbar-thumb {
+		@apply bg-accent-primary/30 rounded-full;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		@apply bg-accent-primary/50;
+	}
+
+	/* Selection */
+	::selection {
+		@apply bg-accent-primary/30 text-white;
+	}
+
+	/* Focus visible */
+	:focus-visible {
+		@apply outline-none ring-2 ring-accent-primary ring-offset-2 ring-offset-background rounded;
 	}
 }
 
-/* Swiper */
+@layer components {
+	/* Cinematic gradient backgrounds */
+	.cinema-gradient {
+		@apply bg-gradient-to-br from-zinc-950 via-zinc-900 to-black;
+	}
+
+	.cinema-gradient-radial {
+		background: radial-gradient(ellipse at center, rgba(253, 187, 48, 0.1) 0%, transparent 70%);
+	}
+
+	/* Glass morphism */
+	.glass {
+		@apply bg-white/5 backdrop-blur-xl border border-white/10;
+	}
+
+	/* Glow effects */
+	.glow-accent {
+		box-shadow: 0 0 30px rgba(253, 187, 48, 0.3);
+	}
+
+	/* Shimmer animation */
+	@keyframes shimmer {
+		0% {
+			background-position: -1000px 0;
+		}
+		100% {
+			background-position: 1000px 0;
+		}
+	}
+
+	.shimmer {
+		animation: shimmer 2s infinite linear;
+		background: linear-gradient(
+			to right,
+			transparent 0%,
+			rgba(255, 255, 255, 0.05) 50%,
+			transparent 100%
+		);
+		background-size: 1000px 100%;
+	}
+}
+
+/* Swiper Customization - More Elegant */
 .swiper {
 	@apply w-auto h-auto pb-6 md:pb-16 pt-6 md:pt-16 relative !important;
 }
@@ -58,10 +132,39 @@
 }
 
 .swiper .swiper-pagination-bullet {
-	@apply w-2 h-2 bg-accent-primary !important;
+	@apply w-2.5 h-2.5 bg-accent-primary/50 transition-all duration-300 !important;
+}
+
+.swiper .swiper-pagination-bullet-active {
+	@apply bg-accent-primary w-8 rounded-full !important;
 }
 
 .swiper-button-prev,
 .swiper-button-next {
-	@apply text-accent-primary -mt-16 !important;
+	@apply text-accent-primary -mt-16 transition-all duration-300 hover:scale-110 !important;
+	filter: drop-shadow(0 0 10px rgba(253, 187, 48, 0.3));
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+	filter: drop-shadow(0 0 20px rgba(253, 187, 48, 0.5));
+}
+
+/* Movie Card Hover Effects */
+@keyframes float {
+	0%, 100% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+}
+
+.card-hover {
+	@apply transition-all duration-300 ease-out;
+}
+
+.card-hover:hover {
+	@apply transform scale-105;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(253, 187, 48, 0.2);
 }

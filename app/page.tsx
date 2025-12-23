@@ -32,8 +32,6 @@ export default function Home() {
 
 	const { data: upcoming, isLoading: upcomingLoading } = useUpcoming();
 
-	console.log(popularActors?.results);
-
 	return (
 		<>
 			<HeroBgSection

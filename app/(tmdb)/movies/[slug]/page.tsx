@@ -4,6 +4,7 @@ import { Card } from '@/components/Cards';
 import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
 import { Section } from '@/components/Layout';
 import { Heading, HeroBg, Overlay, Paragraph } from '@/components/ui';
+import { BookmarkButton } from '@/components/ui/BookmarkButton';
 import MovieStats, { GenreItem, stats } from '@/components/ui/MovieStats';
 import { useMovieDetail } from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
@@ -12,8 +13,9 @@ import { MovieDetailResponse } from '@/types/tmdb';
 import { isTablet } from '@/utils/breakpoints';
 import { CardPerView } from '@/utils/cardPerView';
 import Image from 'next/image';
-import { notFound } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 interface PageProps {
 	params: {
@@ -21,7 +23,13 @@ interface PageProps {
 	};
 }
 
-const MovieDetailInfo = ({ item }: { item: MovieDetailResponse }) => {
+const MovieDetailInfo = ({
+	item,
+	userId,
+}: {
+	item: MovieDetailResponse;
+	userId?: string;
+}) => {
 	return (
 		<div className='w-full flex flex-col gap-5 md:gap-6 mt-4 h-full'>
 			<Heading
@@ -39,12 +47,18 @@ const MovieDetailInfo = ({ item }: { item: MovieDetailResponse }) => {
 					{item.overview}
 				</Paragraph>
 			</div>
+
+			{/* Bookmark Button */}
+			<div className='flex justify-center md:justify-start mt-4'>
+				<BookmarkButton movie={item} userId={userId} />
+			</div>
 		</div>
 	);
 };
 
 export default function MoviePage({ params }: PageProps) {
 	const [isImgLoading, setIsImgLoading] = useState(true);
+	const { data: session } = useSession();
 
 	const { slug } = params;
 
@@ -52,13 +66,29 @@ export default function MoviePage({ params }: PageProps) {
 
 	const movieId = getIdFromSlug(slug);
 
-	const { data, isLoading } = useMovieDetail(movieId);
+	const { data, isLoading, error } = useMovieDetail(movieId);
 
-	if (isLoading) return;
+	// Show loading skeleton
+	if (isLoading) {
+		return (
+			<div className="min-h-screen">
+				<div className="absolute top-0 left-0 right-0 w-full h-[600px] bg-gradient-to-b from-zinc-900/50 to-dark-background animate-pulse" />
+				<div className="relative z-10 container pt-24">
+					<div className="flex flex-col md:flex-row gap-10">
+						<div className="w-full md:w-[400px] h-[600px] bg-zinc-800 animate-pulse rounded-md" />
+						<div className="flex-1 space-y-6">
+							<div className="h-12 bg-zinc-800 animate-pulse rounded w-3/4" />
+							<div className="h-6 bg-zinc-800 animate-pulse rounded w-1/2" />
+							<div className="h-24 bg-zinc-800 animate-pulse rounded" />
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
-	if (!data) return notFound();
-
-	console.log(data);
+	// Handle error or not found
+	if (error || !data) return notFound();
 
 	return (
 		<div className='min-h-screen'>
@@ -102,7 +132,7 @@ export default function MoviePage({ params }: PageProps) {
 					</Fragment>
 				</figure>
 
-				<MovieDetailInfo item={data} />
+				<MovieDetailInfo item={data} userId={session?.user?.id} />
 			</section>
 
 			{(data?.credits?.cast?.length ?? 0) > 0 && (

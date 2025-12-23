@@ -7,23 +7,18 @@ export async function middleware(req: NextRequest) {
 	// Manage route protection
 	const token = await getToken({ req });
 	const isAuth = !!token;
-	const isAuthPage = req.nextUrl.pathname.startsWith('/login');
 
 	const sensitiveRoutes = ['/dashboard'];
 
-	if (isAuthPage) {
-		if (isAuth) {
-			return NextResponse.redirect(new URL('/dashboard', req.url));
-		}
-
-		return null;
-	}
-
+	// Protect sensitive routes
 	if (!isAuth && sensitiveRoutes.some(route => pathname.startsWith(route))) {
-		return NextResponse.redirect(new URL('/login', req.url));
+		// Redirect to NextAuth default signin page
+		const signInUrl = new URL('/api/auth/signin', req.url);
+		signInUrl.searchParams.set('callbackUrl', pathname);
+		return NextResponse.redirect(signInUrl);
 	}
 }
 
 export const config = {
-	matcher: ['/', '/login', '/dashboard/:path*', '/api/:path*'],
+	matcher: ['/dashboard/:path*'],
 };

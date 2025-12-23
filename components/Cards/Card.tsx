@@ -137,7 +137,15 @@ const Card: FC<CardProps> = ({
 
 	const cardClasses = cva(
 		cn(
-			'transition shadow-black shadow-md duration-700 cursor-pointer relative aspect-[2/3] overflow-hidden w-full h-full rounded-md after:rounded-md after:absolute after:inset-0 after:bg-dark-background/30 hover:after:bg-transparent after:transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-primary'
+			'group transition-all duration-500 cursor-pointer relative aspect-[2/3] overflow-hidden w-full h-full rounded-lg',
+			'shadow-xl shadow-black/50',
+			'hover:shadow-2xl hover:shadow-accent-primary/20',
+			'after:absolute after:inset-0 after:rounded-lg',
+			'after:bg-gradient-to-t after:from-black/80 after:via-black/20 after:to-transparent',
+			'after:opacity-60 hover:after:opacity-30 after:transition-opacity after:duration-500',
+			'before:absolute before:inset-0 before:rounded-lg before:ring-1 before:ring-white/10',
+			'hover:before:ring-accent-primary/50 before:transition-all before:duration-500',
+			'focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background'
 		)
 	);
 
@@ -146,8 +154,8 @@ const Card: FC<CardProps> = ({
 	return (
 		<div
 			className={cn(
-				'flex flex-col justify-between h-full w-full',
-				!isSlider && 'hover:scale-[1.025] duration-300'
+				'flex flex-col justify-between h-full w-full group/card',
+				!isSlider && 'hover:scale-[1.05] duration-500 ease-out'
 			)}
 		>
 			<Link
@@ -155,6 +163,7 @@ const Card: FC<CardProps> = ({
 				onClick={e => {
 					isSlider && e.preventDefault();
 				}}
+				className="relative"
 			>
 				<figure className={cn(cardClasses({ className }))}>
 					<Image
@@ -164,11 +173,17 @@ const Card: FC<CardProps> = ({
 						)}
 						alt={isMovie(item) ? item.title : item.name}
 						fill
-						className={cn('h-full w-full transition')}
+						className={cn(
+							'h-full w-full object-cover',
+							'transition-transform duration-700 ease-out',
+							'group-hover/card:scale-110'
+						)}
 						blurDataURL={blurData}
 						placeholder='blur'
 						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 200px, 200px'
 					/>
+					{/* Accent glow effect on hover */}
+					<div className="absolute inset-0 bg-accent-primary/0 group-hover/card:bg-accent-primary/5 transition-colors duration-500 rounded-lg" />
 				</figure>
 			</Link>
 			<CardInfo

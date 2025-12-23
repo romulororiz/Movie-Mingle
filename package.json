@@ -11,10 +11,16 @@
 		"turbo": "next dev --turbo",
 		"start": "next start",
 		"lint": "next lint",
+		"lint:fix": "next lint --fix",
+		"format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,mdx,css,html,yml,yaml,scss}\"",
+		"format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md,mdx,css,html,yml,yaml,scss}\"",
+		"type-check": "tsc --noEmit",
 		"preview": "next build && next start",
 		"postinstall": "prisma generate",
 		"prisma:studio": "dotenv -e .env.local -- npx prisma studio",
-		"prisma:generate": "npx prisma generate"
+		"prisma:generate": "npx prisma generate",
+		"prisma:migrate": "npx prisma migrate dev",
+		"prisma:push": "npx prisma db push"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.11.1",
