@@ -130,13 +130,21 @@ export default function WatchlistPage() {
 			<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
 				{bookmarks.map((bookmark) => {
 					// Transform bookmark to movie response format for Card component
+					// Ensure release_date is always a string
+					const releaseDateStr: string = 
+						typeof bookmark.releaseDate === 'string' 
+							? bookmark.releaseDate 
+							: bookmark.releaseDate instanceof Date
+							? bookmark.releaseDate.toISOString().split('T')[0] ?? ''
+							: '';
+					
 					const movieData = {
 						id: parseInt(bookmark.movieId),
 						title: bookmark.title,
 						poster_path: bookmark.posterPath || '',
 						backdrop_path: bookmark.backdropPath || '',
 						overview: bookmark.overview,
-						release_date: bookmark.releaseDate,
+						release_date: releaseDateStr,
 						vote_average: bookmark.voteAverage,
 						original_title: bookmark.originalTitle,
 						adult: false,
