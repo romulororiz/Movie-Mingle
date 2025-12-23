@@ -257,18 +257,22 @@ export const useSearch = (q: string) => {
 	}) as UseQueryResult<SearchData>;
 };
 
-export const useSearchInfinite = (q: string) => {
-	return useInfiniteQuery({
-		queryKey: ['SearchInfinite', q],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
-			fetcher(`/api/search?q=${q}&page=${pageParam}`),
-		getNextPageParam: ({ page, total_pages }) => {
-			return page < total_pages ? page + 1 : undefined;
-		},
-		select: data => {
-			return data;
-		},
-	}) as UseInfiniteQueryResult<SearchData>;
+export const useSearchInfinite = (q: string, config?: { enabled?: boolean }) => {
+        const trimmedQuery = q.trim();
+
+        return useInfiniteQuery({
+                queryKey: ['SearchInfinite', trimmedQuery],
+                queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+                        fetcher(`/api/search?q=${trimmedQuery}&page=${pageParam}`),
+                getNextPageParam: ({ page, total_pages }) => {
+                        return page < total_pages ? page + 1 : undefined;
+                },
+                select: data => {
+                        return data;
+                },
+                enabled: config?.enabled ?? trimmedQuery.length > 0,
+                staleTime: 1000 * 60 * 5,
+        }) as UseInfiniteQueryResult<SearchData>;
 };
 
 const useTMDB = {
