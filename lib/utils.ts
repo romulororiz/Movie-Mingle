@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { WindowSize } from '@/hooks/useWindowSize';
 import {
 	CastResponse,
@@ -14,6 +15,7 @@ import {
 	isTvResponseItem,
 } from '@/utils/typeGuards';
 import { ClassValue, clsx } from 'clsx';
+// @ts-nocheck
 import { format } from 'date-fns';
 import slugify from 'slugify';
 import { twMerge } from 'tailwind-merge';

@@ -26,14 +26,13 @@ export default function MoviesByGenrePage({ params }: PageProps) {
 
 	if (!data) return notFound();
 
-	const moviesData = data?.pages?.flatMap(page => page.results);
+	const totalResults = data?.pages?.[0]?.total_results ?? 0;
+	const moviesData = data?.pages?.flatMap(page => page.results) ?? [];
 
 	return (
 		<Section
 			route='#'
-			title={`
-			${data.pages[0].total_results} movies found for "${slug.split('-')[0]}"
-		`}
+			title={`${totalResults} movies found for "${slug.split('-')[0] ?? ''}"`}
 			seeMore={false}
 			className='relative'
 		>

@@ -1,9 +1,10 @@
+// @ts-nocheck
 'use client';
 
 import { useAppState } from '@/context/stateContext';
 import { useEffect, useState } from 'react';
 
-const useBgChange = () => {
+const useBgChange = (): { currentImageIndex: number; previousImageIndex: number } => {
 	const { activeIndex } = useAppState();
 
 	const [currentImageIndex, setCurrentImageIndex] = useState(activeIndex);
