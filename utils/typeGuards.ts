@@ -57,7 +57,11 @@ export const isMovieDataResponse = (data: any): data is MovieDataResponse[] => {
 
 // todo check this out because known for doesn't exist in the response
 export const isPeopleResponseItem = (data: any): data is PeopleResponse => {
-	if (typeof data === 'object' && data !== null && 'known_for' in data) {
+	if (
+		typeof data === 'object' &&
+		data !== null &&
+		('known_for' in data || ('profile_path' in data && 'name' in data))
+	) {
 		return true;
 	}
 	return false;
@@ -80,7 +84,9 @@ export const isPeopleResponse = (data: any): data is PeopleResponse[] => {
 	if (Array.isArray(data) && data.length) {
 		return data.every(
 			people =>
-				typeof people === 'object' && people !== null && 'known_for' in people
+				typeof people === 'object' &&
+				people !== null &&
+				('known_for' in people || ('profile_path' in people && 'name' in people))
 		);
 	}
 	return false;

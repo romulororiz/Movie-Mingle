@@ -58,6 +58,8 @@ export default function MoviePage({ params }: PageProps) {
 
 	if (!data) return notFound();
 
+	console.log(data);
+
 	return (
 		<div className='min-h-screen'>
 			<section className='absolute top-0 left-0 right-0 mx-auto w-full md:min-h-screen'>
@@ -103,7 +105,7 @@ export default function MoviePage({ params }: PageProps) {
 				<MovieDetailInfo item={data} />
 			</section>
 
-			{data?.credits?.cast.length! > 0 && (
+			{(data?.credits?.cast?.length ?? 0) > 0 && (
 				<Section
 					route='#'
 					title='Cast'
@@ -112,7 +114,7 @@ export default function MoviePage({ params }: PageProps) {
 					seeMore={false}
 					className='mt-14 mb-28'
 				>
-					{data.credits.cast
+					{(data?.credits?.cast || [])
 						.map(actor => (
 							<Card key={`actor-${actor.id}`} item={actor} ratings={false} />
 						))
@@ -123,7 +125,7 @@ export default function MoviePage({ params }: PageProps) {
 				</Section>
 			)}
 
-			{data?.similar?.results?.length! > 0 && (
+			{(data?.similar?.results?.length ?? 0) > 0 && (
 				<Section
 					route={`/movies/${encodeURIComponent(slug)}/similar`}
 					title='More like this'
@@ -131,10 +133,8 @@ export default function MoviePage({ params }: PageProps) {
 					className='mb-28'
 				>
 					{!isLoading ? (
-						data?.similar
-							?.results!.map(movie => (
-								<Card key={`movie-${movie.id}`} item={movie} />
-							))
+						(data?.similar?.results || [])
+							.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 							.slice(
 								0,
 								CardPerView(windowSize, { isActor: false, isMovie: true })
@@ -149,7 +149,7 @@ export default function MoviePage({ params }: PageProps) {
 				</Section>
 			)}
 
-			{data?.recommendations?.results?.length! > 0 && (
+			{(data?.recommendations?.results?.length ?? 0) > 0 && (
 				<Section
 					route={`/movies/${encodeURIComponent(slug)}/recommended`}
 					title='You might also like'
@@ -157,10 +157,8 @@ export default function MoviePage({ params }: PageProps) {
 					className='mb-28'
 				>
 					{!isLoading ? (
-						data?.recommendations
-							?.results!.map(movie => (
-								<Card key={`movie-${movie.id}`} item={movie} />
-							))
+						(data?.recommendations?.results || [])
+							.map(movie => <Card key={`movie-${movie.id}`} item={movie} />)
 							.slice(
 								0,
 								CardPerView(windowSize, { isActor: false, isMovie: true })

@@ -32,6 +32,8 @@ export default function Home() {
 
 	const { data: upcoming, isLoading: upcomingLoading } = useUpcoming();
 
+	console.log(popularActors?.results);
+
 	return (
 		<>
 			<HeroBgSection
@@ -66,7 +68,7 @@ export default function Home() {
 				isActor={true}
 			>
 				{!popularActorsLoading ? (
-					popularActors?.results
+					(popularActors?.results || [])
 						.map(actor => <Card key={`actor-${actor.id}`} item={actor} />)
 						.slice(
 							0,
