@@ -17,10 +17,10 @@ interface BookmarkData {
 	overview: string;
 	posterPath: string | null;
 	backdropPath: string | null;
-	releaseDate: Date;
+	releaseDate: string | Date;
 	voteAverage: number;
 	originalTitle: string;
-	createdAt: Date;
+	createdAt: string | Date;
 }
 
 export default function WatchlistPage() {
@@ -44,7 +44,7 @@ export default function WatchlistPage() {
 		try {
 			const res = await fetch('/api/bookmarks');
 			if (res.ok) {
-				const data = await res.json();
+				const data = (await res.json()) as BookmarkData[];
 				setBookmarks(data);
 			}
 		} catch (error) {
@@ -133,8 +133,8 @@ export default function WatchlistPage() {
 					const movieData = {
 						id: parseInt(bookmark.movieId),
 						title: bookmark.title,
-						poster_path: bookmark.posterPath,
-						backdrop_path: bookmark.backdropPath,
+						poster_path: bookmark.posterPath || '',
+						backdrop_path: bookmark.backdropPath || '',
 						overview: bookmark.overview,
 						release_date: bookmark.releaseDate,
 						vote_average: bookmark.voteAverage,

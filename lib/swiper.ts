@@ -3,7 +3,7 @@ import { EffectFade, Navigation, Pagination, Autoplay, FreeMode } from 'swiper';
 
 export const getSwiperOptions = (windowSize?: WindowSize) => {
 	let slidesPerView;
-	let spaceBetween = 15;
+	const spaceBetween = 15;
 
 	if (!windowSize)
 		return {
