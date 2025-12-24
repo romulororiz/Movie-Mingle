@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { prisma } from '@/lib/db';
 import { getUser } from '@/lib/supabase/session';
 import { checkRateLimit, getClientIP } from '@/lib/rate-limit';
+import { syncUser } from '@/lib/sync-user';
 
 // Validation schema for creating a bookmark
 const bookmarkSchema = z.object({
@@ -42,6 +43,9 @@ export async function GET(request: Request) {
 		if (!user) {
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 		}
+
+		// Sync user to database if not exists
+		await syncUser(user);
 
 		// Get user's bookmarks
 		const bookmarks = await prisma.bookmark.findMany({
@@ -85,6 +89,9 @@ export async function POST(request: Request) {
 		if (!user) {
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 		}
+
+		// Sync user to database if not exists
+		await syncUser(user);
 
 		// Parse and validate request body
 		const body = await request.json();

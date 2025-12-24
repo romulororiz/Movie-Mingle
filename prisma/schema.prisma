@@ -10,52 +10,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
-
+// Simplified User model for Supabase Auth
+// User ID comes from Supabase auth.users.id (UUID format)
 model User {
-  id                 String               @id @default(cuid())
+  id                 String               @id // Supabase UUID
+  email              String               @unique
   name               String?
-  email              String?              @unique
-  emailVerified      DateTime?
-  image              String?
-  accounts           Account[]
-  sessions           Session[]
+  avatarUrl          String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
   bookmarkedMovies   Bookmark[]
   UserPreference     UserPreference?
   UserPreferredGenre UserPreferredGenre[]
+  friends            Friend[]             @relation("UserFriends")
+  friendOf           Friend[]             @relation("FriendOf")
+}
+
+// Friend relationships
+model Friend {
+  id         String   @id @default(cuid())
+  userId     String
+  friendId   String
+  status     String   @default("pending") // pending, accepted, blocked
+  createdAt  DateTime @default(now())
+  user       User     @relation("UserFriends", fields: [userId], references: [id], onDelete: Cascade)
+  friend     User     @relation("FriendOf", fields: [friendId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, friendId])
 }
 
 // one to one relation to user

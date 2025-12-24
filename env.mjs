@@ -18,6 +18,7 @@ export const env = createEnv({
 		NEXT_PUBLIC_SITE_URL: z.string().url(),
 		NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
 		NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
+		NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY: z.string().min(1),
 	},
 
 	runtimeEnv: {

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { getUser } from '@/lib/supabase/session';
 import { checkRateLimit, getClientIP } from '@/lib/rate-limit';
+import { syncUser } from '@/lib/sync-user';
 
 // @route DELETE
 // @desc Remove a bookmark
@@ -25,6 +26,9 @@ export async function DELETE(
 		if (!user) {
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 		}
+
+		// Sync user to database if not exists
+		await syncUser(user);
 
 		const { movieId } = params;
 
@@ -73,6 +77,9 @@ export async function GET(
 		if (!user) {
 			return NextResponse.json({ isBookmarked: false });
 		}
+
+		// Sync user to database if not exists
+		await syncUser(user);
 
 		const { movieId } = params;
 
