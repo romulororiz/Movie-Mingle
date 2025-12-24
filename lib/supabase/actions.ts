@@ -8,10 +8,24 @@ import { createClient } from '@/lib/supabase/server';
 export async function signInWithGoogle() {
 	const supabase = await createClient();
 	
-	// Get the origin from request headers to build correct callback URL
+	// Build the correct callback URL based on environment
 	const headersList = await headers();
-	const origin = headersList.get('origin') || headersList.get('referer')?.split('/').slice(0, 3).join('/') || process.env.NEXT_PUBLIC_SITE_URL;
+	const host = headersList.get('x-forwarded-host') || headersList.get('host');
+	const protocol = headersList.get('x-forwarded-proto') || 'https';
+	
+	// Construct the origin: use host from headers, fallback to env var
+	let origin: string;
+	if (host) {
+		// In production (Vercel), x-forwarded-host will be movie-mingle.vercel.app
+		origin = `${protocol}://${host}`;
+	} else {
+		// Fallback to environment variable
+		origin = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+	}
+	
 	const redirectTo = `${origin}/auth/callback`;
+	
+	console.log('[Supabase Auth] Redirect URL:', redirectTo); // Debug log
 	
 	const { data, error } = await supabase.auth.signInWithOAuth({
 		provider: 'google',
