@@ -88,10 +88,7 @@ export const authOptions: NextAuthOptions = {
 			// Log sign-in events for security monitoring
 			console.info(`User signed in: ${user.email}`, { isNewUser, provider: account?.provider });
 		},
-		async signInError({ error }) {
-			// Log OAuth errors for debugging
-			console.error('Sign in error:', error);
-		},
 	},
-	debug: false, // Disable debug mode in production
+	// Enable debug in production temporarily to see OAuth errors in Vercel logs
+	debug: true,
 };
