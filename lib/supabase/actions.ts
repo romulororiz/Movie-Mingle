@@ -7,12 +7,12 @@ import { createClient } from '@/lib/supabase/server';
 
 export async function signInWithGoogle() {
 	const supabase = await createClient();
-	
+
 	// Build the correct callback URL based on environment
 	const headersList = await headers();
 	const host = headersList.get('x-forwarded-host') || headersList.get('host');
 	const protocol = headersList.get('x-forwarded-proto') || 'https';
-	
+
 	// Construct the origin: use host from headers, fallback to env var
 	let origin: string;
 	if (host) {
@@ -22,10 +22,8 @@ export async function signInWithGoogle() {
 		// Fallback to environment variable
 		origin = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 	}
-	
+
 	const redirectTo = `${origin}/auth/callback`;
-	
-	console.log('[Supabase Auth] Redirect URL:', redirectTo); // Debug log
 	
 	const { data, error } = await supabase.auth.signInWithOAuth({
 		provider: 'google',
@@ -50,4 +48,3 @@ export async function signOut() {
 	revalidatePath('/', 'layout');
 	redirect('/');
 }
-
