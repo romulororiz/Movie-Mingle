@@ -27,7 +27,7 @@ export async function GET(request: Request) {
 		}
 
 		const url = new URL(request.url);
-		
+
 		// Validate input
 		const result = searchSchema.safeParse({
 			q: url.searchParams.get('q'),
@@ -36,9 +36,9 @@ export async function GET(request: Request) {
 
 		if (!result.success) {
 			return NextResponse.json(
-				{ 
-					error: 'Invalid request parameters', 
-					details: result.error.flatten().fieldErrors 
+				{
+					error: 'Invalid request parameters',
+					details: result.error.flatten().fieldErrors,
 				},
 				{ status: 400 }
 			);
@@ -48,7 +48,9 @@ export async function GET(request: Request) {
 
 		// Fetch from TMDB API
 		const searchRes = await fetch(
-			`https://api.themoviedb.org/3/search/multi?api_key=${env.TMDB_API_KEY}&query=${encodeURIComponent(q)}&include_adult=false&language=en-US&page=${page}`,
+			`https://api.themoviedb.org/3/search/multi?api_key=${
+				env.TMDB_API_KEY
+			}&query=${encodeURIComponent(q)}&include_adult=false&language=en-US&page=${page}`,
 			{
 				next: { revalidate: 3600 }, // Cache for 1 hour
 			}
@@ -74,9 +76,6 @@ export async function GET(request: Request) {
 		return NextResponse.json(searchResData, { headers });
 	} catch (error) {
 		console.error('Search API error:', error);
-		return NextResponse.json(
-			{ error: 'Failed to fetch search results' },
-			{ status: 500 }
-		);
+		return NextResponse.json({ error: 'Failed to fetch search results' }, { status: 500 });
 	}
 }

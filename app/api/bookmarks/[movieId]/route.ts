@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { getCurrentUser } from '@/lib/session';
+import { getUser } from '@/lib/supabase/session';
 import { checkRateLimit, getClientIP } from '@/lib/rate-limit';
 
 // @route DELETE
@@ -20,7 +20,7 @@ export async function DELETE(
 		}
 
 		// Check authentication
-		const user = await getCurrentUser();
+		const user = await getUser();
 
 		if (!user) {
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -68,7 +68,7 @@ export async function GET(
 ) {
 	try {
 		// Check authentication
-		const user = await getCurrentUser();
+		const user = await getUser();
 
 		if (!user) {
 			return NextResponse.json({ isBookmarked: false });

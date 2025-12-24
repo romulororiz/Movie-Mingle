@@ -5,26 +5,27 @@ import { UserAvatar } from '@/components/ui/Avatar';
 import { cn } from '@/lib/utils';
 import { NavItem, UserNavItem } from '@/types';
 import { Menu, Transition } from '@headlessui/react';
-import { User } from 'next-auth';
-import { signOut } from 'next-auth/react';
+import { signOut } from '@/lib/supabase/actions';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
 
 interface UserNavProps extends React.HTMLAttributes<HTMLDivElement> {
-	user: Pick<User, 'name' | 'image' | 'email'>;
+	user: {
+		name: string | null;
+		email: string | null;
+		image: string | null;
+	};
 	items?: UserNavItem[];
 }
 
 export const UserNavMobile = ({ user }: UserNavProps) => {
 	return (
-		<div className='flex items-center gap-4'>
-			<UserAvatar
-				user={{ name: user.name || null, image: user.image || null }}
-			/>
-			<div className='flex flex-col truncate'>
-				<div className='text-md font-semibold'>{user.name}</div>
-				<div className='text-sm font-light text-slate-300 text-ellipsis overflow-hidden'>
+		<div className="flex items-center gap-4">
+			<UserAvatar user={{ name: user.name || null, image: user.image || null }} />
+			<div className="flex flex-col truncate">
+				<div className="text-md font-semibold">{user.name}</div>
+				<div className="text-sm font-light text-slate-300 text-ellipsis overflow-hidden">
 					{user.email}
 				</div>
 			</div>
@@ -39,11 +40,9 @@ export default function UserNav({ user, items }: UserNavProps) {
 
 	const currRoute = usePathname();
 
-	const handleLogout = (navItem: NavItem) => {
+	const handleLogout = async (navItem: NavItem) => {
 		if (navItem.isLogout) {
-			signOut({
-				callbackUrl: `${window.location.origin}`,
-			});
+			await signOut();
 		} else {
 			router.push(navItem.href);
 		}
@@ -51,38 +50,34 @@ export default function UserNav({ user, items }: UserNavProps) {
 
 	return (
 		<>
-			<Menu as='div' className='relative inline-block text-left '>
+			<Menu as="div" className="relative inline-block text-left ">
 				<Menu.Button
 					onClick={() => setMenuOpen(!menuOpen)}
-					className='inline-flex w-full justify-center rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'
+					className="inline-flex w-full justify-center rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
 				>
-					<UserAvatar
-						user={{ name: user.name || null, image: user.image || null }}
-					/>
+					<UserAvatar user={{ name: user.name || null, image: user.image || null }} />
 				</Menu.Button>
 				<Transition
 					as={Fragment}
-					enter='transition ease-out duration-100'
-					enterFrom='transform opacity-0 scale-95'
-					enterTo='transform opacity-100 scale-100'
-					leave='transition ease-in duration-75'
-					leaveFrom='transform opacity-100 scale-100'
-					leaveTo='transform opacity-0 scale-95'
+					enter="transition ease-out duration-100"
+					enterFrom="transform opacity-0 scale-95"
+					enterTo="transform opacity-100 scale-100"
+					leave="transition ease-in duration-75"
+					leaveFrom="transform opacity-100 scale-100"
+					leaveTo="transform opacity-0 scale-95"
 				>
-					<Menu.Items className='w-auto absolute flex flex-col right-0 mt-2 text-sm origin-top-right space-y-4 p-6 py-8 shadow-black shadow-md rounded-md bg-dark-background ring-1 ring-black ring-opacity-5 focus:outline-none'>
-						<div className='flex flex-col gap-1 leading-none'>
-							{user.name && <p className='font-medium'>{user.name}</p>}
+					<Menu.Items className="w-auto absolute flex flex-col right-0 mt-2 text-sm origin-top-right space-y-4 p-6 py-8 shadow-black shadow-md rounded-md bg-dark-background ring-1 ring-black ring-opacity-5 focus:outline-none">
+						<div className="flex flex-col gap-1 leading-none">
+							{user.name && <p className="font-medium">{user.name}</p>}
 							{user.email && (
-								<p className='w-[200px] truncate text-sm text-slate-500'>
-									{user.email}
-								</p>
+								<p className="w-[200px] truncate text-sm text-slate-500">{user.email}</p>
 							)}
 						</div>
 
-						<hr className='h-px my-8 bg-gray-100/20 border-0 dark:bg-gray-700' />
+						<hr className="h-px my-8 bg-gray-100/20 border-0 dark:bg-gray-700" />
 
 						{items?.map(
-							mainNavItem =>
+							(mainNavItem) =>
 								mainNavItem.requiresAuth &&
 								mainNavItem.navItems.map((item, index) => (
 									<Menu.Item
@@ -90,7 +85,7 @@ export default function UserNav({ user, items }: UserNavProps) {
 										key={index}
 										href={item.href}
 										onClick={() => handleLogout(item)}
-										className='w-fit'
+										className="w-fit"
 									>
 										{({ active }) => (
 											<div

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Heading } from '@/components/ui';
 import { Bookmark, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSupabaseUser } from '@/hooks/useSupabaseUser';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -24,7 +24,7 @@ interface BookmarkData {
 }
 
 export default function WatchlistPage() {
-	const { data: session, status } = useSession();
+	const { user, loading: authLoading, isAuthenticated } = useSupabaseUser();
 	const router = useRouter();
 	const [bookmarks, setBookmarks] = useState<BookmarkData[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -54,7 +54,7 @@ export default function WatchlistPage() {
 		}
 	};
 
-	if (status === 'loading' || isLoading) {
+	if (authLoading || isLoading) {
 		return (
 			<div className="container py-12">
 				<Heading

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { prisma } from '@/lib/db';
-import { getCurrentUser } from '@/lib/session';
+import { getUser } from '@/lib/supabase/session';
 import { checkRateLimit, getClientIP } from '@/lib/rate-limit';
 
 // Validation schema for creating a bookmark
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
 		}
 
 		// Check authentication
-		const user = await getCurrentUser();
+		const user = await getUser();
 
 		if (!user) {
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -80,7 +80,7 @@ export async function POST(request: Request) {
 		}
 
 		// Check authentication
-		const user = await getCurrentUser();
+		const user = await getUser();
 
 		if (!user) {
 			return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

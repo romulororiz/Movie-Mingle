@@ -34,6 +34,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# MD files except README.md
+*.md
+!README.md
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

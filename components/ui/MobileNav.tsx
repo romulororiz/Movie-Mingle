@@ -6,8 +6,8 @@ import { Icon } from '@/components/Icon';
 import { Heading } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { MainNavItem } from '@/types';
-import { User } from 'next-auth';
-import { signIn, signOut } from 'next-auth/react';
+import type { User } from '@supabase/supabase-js';
+import { signInWithGoogle, signOut } from '@/lib/supabase/actions';
 import { UserNavMobile } from './UserAccountNav';
 
 import {
@@ -33,7 +33,7 @@ const AuthBtnMobile = ({
 	signIn,
 	signOut,
 }: {
-	user: User;
+	user: User | null;
 	signIn: () => void;
 	signOut: () => void;
 }) => {
@@ -50,7 +50,7 @@ const AuthBtnMobile = ({
 };
 
 interface MobileNavProps {
-	user: User;
+	user: User | null;
 	items: MainNavItem[];
 }
 
@@ -61,9 +61,7 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 
 	const handleSignIn = async () => {
 		try {
-			await signIn('google', {
-				redirect: false,
-			});
+			await signInWithGoogle();
 		} catch (error) {
 			toast.error('Error signing in. Please try again later.');
 		}
@@ -96,7 +94,13 @@ export default function MobileNav({ user, items }: MobileNavProps) {
 
 					{user && (
 						<div className='text-left'>
-							<UserNavMobile user={user} />
+							<UserNavMobile
+								user={{
+									name: user.user_metadata?.full_name || user.email || null,
+									image: user.user_metadata?.avatar_url || null,
+									email: user.email || null,
+								}}
+							/>
 							<Separator className='mt-10 mb-3 bg-gray-200/10 dark:bg-gray-700' />
 						</div>
 					)}

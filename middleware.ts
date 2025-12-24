@@ -1,27 +1,19 @@
-import { getToken } from 'next-auth/jwt';
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest } from 'next/server';
+import { updateSession } from '@/lib/supabase/middleware';
 
-export async function middleware(req: NextRequest) {
-	const pathname = req.nextUrl.pathname; // relative path
-
-	// Manage route protection
-	const token = await getToken({ req });
-	const isAuth = !!token;
-
-	const sensitiveRoutes = ['/dashboard'];
-
-	// Protect sensitive routes
-	if (!isAuth && sensitiveRoutes.some((route) => pathname.startsWith(route))) {
-		// Redirect to NextAuth default signin page
-		const signInUrl = new URL('/api/auth/signin', req.url);
-		signInUrl.searchParams.set('callbackUrl', pathname);
-		return NextResponse.redirect(signInUrl);
-	}
-
-	// Continue processing if route is not protected or user is authenticated
-	return NextResponse.next();
+export async function middleware(request: NextRequest) {
+	return await updateSession(request);
 }
 
 export const config = {
-	matcher: ['/dashboard/:path*'],
+	matcher: [
+		/*
+		 * Match all request paths except for the ones starting with:
+		 * - _next/static (static files)
+		 * - _next/image (image optimization files)
+		 * - favicon.ico (favicon file)
+		 * Feel free to modify this pattern to include more paths.
+		 */
+		'/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+	],
 };

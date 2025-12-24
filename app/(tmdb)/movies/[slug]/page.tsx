@@ -15,7 +15,7 @@ import { CardPerView } from '@/utils/cardPerView';
 import Image from 'next/image';
 import { notFound, useRouter } from 'next/navigation';
 import { Fragment, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useSupabaseUser } from '@/hooks/useSupabaseUser';
 
 interface PageProps {
 	params: {
@@ -58,7 +58,7 @@ const MovieDetailInfo = ({
 
 export default function MoviePage({ params }: PageProps) {
 	const [isImgLoading, setIsImgLoading] = useState(true);
-	const { data: session } = useSession();
+	const { user } = useSupabaseUser();
 
 	const { slug } = params;
 
@@ -132,7 +132,7 @@ export default function MoviePage({ params }: PageProps) {
 					</Fragment>
 				</figure>
 
-				<MovieDetailInfo item={data} userId={session?.user?.id} />
+				<MovieDetailInfo item={data} userId={user?.id} />
 			</section>
 
 			{(data?.credits?.cast?.length ?? 0) > 0 && (

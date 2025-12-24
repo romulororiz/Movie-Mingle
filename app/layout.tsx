@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google';
 import { Header } from '@/components/Layout';
 import { Providers } from '@/components';
 import { Metadata } from 'next';
-import { getCurrentUser } from '@/lib/session';
+import { getUser } from '@/lib/supabase/session';
 import { TailwindIndicator } from '@/components/ui/tailwind-indicator';
 import Footer from '@/components/Layout/Footer';
 import { siteConfig } from '@/config/site';
@@ -54,7 +54,7 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-	const user = await getCurrentUser();
+	const user = await getUser();
 
 	return (
 		<html lang='en' className={inter.className}>
@@ -64,7 +64,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
 				)}
 			>
 				<Providers>
-					<Header user={user!} />
+					<Header user={user} />
 					<main className='min-h-screen'>{children}</main>
 					<Footer />
 					<TailwindIndicator />

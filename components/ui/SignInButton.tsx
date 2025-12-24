@@ -1,9 +1,9 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
+import { signInWithGoogle } from '@/lib/supabase/actions';
 import { FC, useState } from 'react';
 import { Button } from './Button';
-// import { toast } from './toast';
+import { toast } from 'sonner';
 
 /**
  * NextJS does not allow to pass function from server -> client components,
@@ -15,22 +15,19 @@ interface SignInButtonProps {}
 const SignInButton: FC<SignInButtonProps> = ({}) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const signInWithGoogle = async () => {
+	const handleSignIn = async () => {
 		try {
 			setIsLoading(true);
-			await signIn('google');
+			await signInWithGoogle();
 		} catch (error) {
-			// toast({
-			// 	title: 'Error signing in',
-			// 	message: 'Please try again later.',
-			// 	type: 'error',
-			// });
+			setIsLoading(false);
+			toast.error('Error signing in. Please try again later.');
 		}
 	};
 
 	return (
 		<Button
-			onClick={signInWithGoogle}
+			onClick={handleSignIn}
 			isLoading={isLoading}
 			size='md'
 			className='rounded-3xl font-bold w-32'

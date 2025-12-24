@@ -3,16 +3,16 @@
 import { headerConfig } from '@/config/header';
 import useScrollPosition from '@/hooks/useScrollPosition';
 import { cn } from '@/lib/utils';
-import { User } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
+import type { User } from '@supabase/supabase-js';
 
 import { MainNav, MobileNav, SignInButton, UserNav } from '@/components/ui';
 
 import Combobox from '../ui/Combobox';
 interface HeaderProps {
 	// pick the properties you want to use
-	user: User;
+	user: User | null;
 }
 
 export const Header = ({ user }: HeaderProps) => {
@@ -55,9 +55,9 @@ export const Header = ({ user }: HeaderProps) => {
 							<UserNav
 								items={headerConfig.userNav}
 								user={{
-									name: user.name!,
-									image: user.image!,
-									email: user.email!,
+									name: user.user_metadata?.full_name || user.email || null,
+									image: user.user_metadata?.avatar_url || null,
+									email: user.email || null,
 								}}
 							/>
 						) : (
