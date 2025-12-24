@@ -16,9 +16,9 @@ export async function syncUser(supabaseUser: SupabaseUser) {
 			await prisma.user.create({
 				data: {
 					id: supabaseUser.id,
-					email: supabaseUser.email!,
+					email: supabaseUser.email,
 					name: supabaseUser.user_metadata?.full_name || supabaseUser.email?.split('@')[0] || null,
-					avatarUrl: supabaseUser.user_metadata?.avatar_url || null,
+					image: supabaseUser.user_metadata?.avatar_url || null,
 				},
 			});
 		} else {
@@ -26,9 +26,9 @@ export async function syncUser(supabaseUser: SupabaseUser) {
 			await prisma.user.update({
 				where: { id: supabaseUser.id },
 				data: {
-					email: supabaseUser.email!,
+					email: supabaseUser.email,
 					name: supabaseUser.user_metadata?.full_name || existingUser.name,
-					avatarUrl: supabaseUser.user_metadata?.avatar_url || existingUser.avatarUrl,
+					image: supabaseUser.user_metadata?.avatar_url || existingUser.image,
 				},
 			});
 		}

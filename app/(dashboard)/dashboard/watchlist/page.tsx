@@ -81,11 +81,7 @@ export default function WatchlistPage() {
 	if (authLoading || isLoading) {
 		return (
 			<div className="container py-12 min-h-screen">
-				<Heading
-					element="h1"
-					title="My Watchlist"
-					className="text-3xl md:text-4xl mb-12"
-				/>
+				<Heading element="h1" title="My Watchlist" className="text-3xl md:text-4xl mb-12" />
 				<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
 					<RenderSkeletonCards isMovie={true} />
 				</div>
@@ -112,7 +108,11 @@ export default function WatchlistPage() {
 							</p>
 						</div>
 						<Link href="/">
-							<Button variant="default" size="lg" className="gap-2 shadow-lg shadow-accent-primary/20">
+							<Button
+								variant="default"
+								size="lg"
+								className="gap-2 shadow-lg shadow-accent-primary/20"
+							>
 								<Search className="w-5 h-5" />
 								Discover Movies
 							</Button>
@@ -172,7 +172,11 @@ export default function WatchlistPage() {
 						</p>
 						{bookmarks.length === 0 ? (
 							<Link href="/">
-								<Button variant="default" size="lg" className="gap-2 shadow-lg shadow-accent-primary/20">
+								<Button
+									variant="default"
+									size="lg"
+									className="gap-2 shadow-lg shadow-accent-primary/20"
+								>
 									<Film className="w-5 h-5" />
 									Discover Movies
 								</Button>

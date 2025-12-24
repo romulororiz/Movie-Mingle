@@ -10,33 +10,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Simplified User model for Supabase Auth
+// User model - matches existing database schema
 // User ID comes from Supabase auth.users.id (UUID format)
 model User {
   id                 String               @id // Supabase UUID
-  email              String               @unique
+  email              String?              @unique
   name               String?
-  avatarUrl          String?
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
+  emailVerified      DateTime?
+  image              String?
   bookmarkedMovies   Bookmark[]
   UserPreference     UserPreference?
   UserPreferredGenre UserPreferredGenre[]
-  friends            Friend[]             @relation("UserFriends")
-  friendOf           Friend[]             @relation("FriendOf")
-}
-
-// Friend relationships
-model Friend {
-  id         String   @id @default(cuid())
-  userId     String
-  friendId   String
-  status     String   @default("pending") // pending, accepted, blocked
-  createdAt  DateTime @default(now())
-  user       User     @relation("UserFriends", fields: [userId], references: [id], onDelete: Cascade)
-  friend     User     @relation("FriendOf", fields: [friendId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, friendId])
 }
 
 // one to one relation to user
