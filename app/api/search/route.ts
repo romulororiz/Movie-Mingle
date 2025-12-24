@@ -4,6 +4,9 @@ import { z } from 'zod';
 import { env } from '@/env.mjs';
 import { checkRateLimit, getClientIP } from '@/lib/rate-limit';
 
+// Mark route as dynamic to prevent static generation
+export const dynamic = 'force-dynamic';
+
 // Input validation schema
 const searchSchema = z.object({
 	q: z.string().min(1).max(100).trim(),

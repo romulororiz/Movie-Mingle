@@ -62,8 +62,17 @@ export const authOptions: NextAuthOptions = {
 			};
 		},
 		async redirect({ url, baseUrl }) {
-			// If URL is the signin page or contains error, redirect to home
-			if (url.includes('/login') || url.includes('/api/auth/signin') || url.includes('error=')) {
+			// If URL contains an error, redirect to home with error message
+			if (url.includes('error=')) {
+				// Extract error type for better debugging
+				const errorMatch = url.match(/error=([^&]+)/);
+				if (errorMatch) {
+					console.error('OAuth error:', errorMatch[1]);
+				}
+				return baseUrl;
+			}
+			// If URL is the signin page, redirect to home
+			if (url.includes('/login') || url.includes('/api/auth/signin')) {
 				return baseUrl;
 			}
 			// Allows relative callback URLs
