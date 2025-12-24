@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	// App Router is stable in Next.js 13.4+, no need for experimental flag
+	// Enable Server Actions (required for Supabase auth actions)
+	experimental: {
+		serverActions: true,
+	},
 	images: {
 		domains: ['unsplash.it', 'lh3.googleusercontent.com', 'image.tmdb.org'],
 		formats: ['image/avif', 'image/webp'],
