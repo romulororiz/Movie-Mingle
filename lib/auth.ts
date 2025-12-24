@@ -86,10 +86,12 @@ export const authOptions: NextAuthOptions = {
 	events: {
 		async signIn({ user, account, profile, isNewUser }) {
 			// Log sign-in events for security monitoring
-			if (process.env.NODE_ENV === 'development') {
-				console.info(`User signed in: ${user.email}`, { isNewUser });
-			}
+			console.info(`User signed in: ${user.email}`, { isNewUser, provider: account?.provider });
+		},
+		async signInError({ error }) {
+			// Log OAuth errors for debugging
+			console.error('Sign in error:', error);
 		},
 	},
-	debug: process.env.NODE_ENV === 'development',
+	debug: false, // Disable debug mode in production
 };
