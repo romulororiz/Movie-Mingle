@@ -77,9 +77,25 @@ export const headerConfig: HeaderConfig = {
 	],
 	userNav: [
 		{
+			section: 'My Collection',
+			requiresAuth: true,
+			navItems: [
+				{
+					title: 'Watchlist',
+					href: '/dashboard/watchlist',
+					icon: 'Bookmark',
+				},
+			],
+		},
+		{
 			section: 'Social',
 			requiresAuth: true,
 			navItems: [
+				{
+					title: 'Notifications',
+					href: '/dashboard/notifications',
+					icon: 'Bell',
+				},
 				{
 					title: 'Friends',
 					href: '/dashboard/friends',

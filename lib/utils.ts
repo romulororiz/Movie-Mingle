@@ -81,7 +81,8 @@ export const createSlug = (
 	if (isTvResponseItem(item)) return `/tv/${slugifyStr(item.name, item.id)}`;
 };
 
-export const getIdFromSlug = (slug: string) => {
+export const getIdFromSlug = (slug: string | undefined) => {
+	if (!slug) return 0;
 	return Number(slug.split('-').pop());
 };
 

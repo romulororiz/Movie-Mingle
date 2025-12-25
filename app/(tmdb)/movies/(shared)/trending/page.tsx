@@ -1,38 +1,68 @@
 'use client';
 
 import { Card } from '@/components/Cards';
-import { RenderSkeletonCards } from '@/components/Cards/SkeletonCard';
-import { Section } from '@/components/Layout';
+import { Heading } from '@/components/ui';
+import { BrowsePageSkeleton, CardGridSkeleton } from '@/components/ui/PageSkeleton';
 import LoadMore from '@/components/ui/LoadMore';
-import { useNowPlayingInfinite } from '@/hooks/useTMDB';
+import { usePopularMoviesInfinite } from '@/hooks/useTMDB';
+import type { MovieResponse } from '@/types/tmdb';
 import { notFound } from 'next/navigation';
+import { Flame } from 'lucide-react';
 
-export default function NowPlayingMoviesPage() {
+export default function TrendingMoviesPage() {
 	const { data, isFetchingNextPage, fetchNextPage, isLoading, hasNextPage } =
-		useNowPlayingInfinite();
+		usePopularMoviesInfinite();
 
-	if (isLoading) return 'loading...';
+	if (isLoading) {
+		return <BrowsePageSkeleton />;
+	}
 
 	if (!data) return notFound();
 
-	const moviesData = data?.pages?.flatMap(page => page.results);
+	const moviesData = data?.pages?.flatMap((page: any) => page.results ?? []) ?? [];
+	const totalResults = (data?.pages?.[0] as any)?.total_results ?? 0;
 
 	return (
-		<Section
-			route='#'
-			title='Hottest Movies Right Now'
-			seeMore={false}
-			icon='Flame'
-		>
-			{moviesData.map((movie, i) => (
-				<Card item={movie} key={`movie-${i}`} />
-			))}
+		<div className="relative z-10 min-h-screen pt-28 pb-12">
+			<div className="container">
+				{/* Header */}
+				<div className="mb-10">
+					<div className="flex items-center gap-3 mb-3">
+						<div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/20">
+							<Flame className="w-7 h-7 text-orange-500" />
+						</div>
+						<Heading element="h1" title="Trending Now" className="text-4xl md:text-5xl font-bold" />
+					</div>
+					<p className="text-gray-400 text-lg">
+						{totalResults > 0 ? `${totalResults.toLocaleString()}+ movies • ` : ''}
+						The hottest movies everyone is watching
+					</p>
+				</div>
 
-			<LoadMore
-				fetchNextPage={fetchNextPage}
-				isFetchingNextPage={isFetchingNextPage}
-				hasNextPage={hasNextPage}
-			/>
-		</Section>
+				{/* Movies Grid */}
+				<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
+					{moviesData.map((movie: MovieResponse, i: number) => (
+						<Card item={movie} key={`movie-${i}`} />
+					))}
+				</div>
+
+				{/* Load More */}
+				{isFetchingNextPage && (
+					<div className="mt-8">
+						<CardGridSkeleton count={6} />
+					</div>
+				)}
+
+				{hasNextPage && (
+					<div className="mt-12">
+						<LoadMore
+							fetchNextPage={fetchNextPage}
+							isFetchingNextPage={isFetchingNextPage}
+							hasNextPage={hasNextPage}
+						/>
+					</div>
+				)}
+			</div>
+		</div>
 	);
 }

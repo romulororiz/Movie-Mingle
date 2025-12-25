@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
+import { syncUser } from '@/lib/sync-user';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -8,10 +9,19 @@ export async function GET(request: Request) {
 
 	if (code) {
 		const supabase = await createClient();
-		await supabase.auth.exchangeCodeForSession(code);
+		const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+
+		if (error) {
+			console.error('Error exchanging code for session:', error);
+			return NextResponse.redirect(`${origin}/auth/error`);
+		}
+
+		// Sync user to database after successful authentication
+		if (data.user) {
+			await syncUser(data.user);
+		}
 	}
 
 	// URL to redirect to after sign in process completes
 	return NextResponse.redirect(`${origin}/`);
 }
-

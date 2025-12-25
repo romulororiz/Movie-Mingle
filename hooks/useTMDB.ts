@@ -16,12 +16,18 @@ import {
 	useQuery,
 } from '@tanstack/react-query';
 
-const fetcher = async <T>(endpoint: string, revalidateTime?: number): Promise<T> => {
+const fetcher = async <T>(endpoint: string): Promise<T> => {
 	const res = await fetch(endpoint, {
+		cache: 'force-cache',
 		next: {
-			revalidate: revalidateTime || 60,
+			revalidate: 3600, // 1 hour
 		},
 	});
+	
+	if (!res.ok) {
+		throw new Error(`API Error: ${res.status}`);
+	}
+	
 	return await res.json();
 };
 
@@ -29,108 +35,128 @@ const fetcher = async <T>(endpoint: string, revalidateTime?: number): Promise<T>
 
 export const usePopularMovies = () => {
 	return useQuery({
-		queryKey: ['Popular'],
+		queryKey: ['movies', 'popular'],
 		queryFn: () => fetcher<MovieDataResponse>('/api/movies/popular'),
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	}) as UseQueryResult<MovieDataResponse>;
 };
 
 export const useTopRated = () => {
 	return useQuery({
-		queryKey: ['TopRated'],
+		queryKey: ['movies', 'topRated'],
 		queryFn: () => fetcher<MovieDataResponse>('/api/movies/top_rated'),
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	}) as UseQueryResult<MovieDataResponse>;
 };
 
 export const useNowPlaying = () => {
 	return useQuery({
-		queryKey: ['NowPlaying'],
+		queryKey: ['movies', 'nowPlaying'],
 		queryFn: () => fetcher<MovieDataResponse>('/api/movies/now_playing'),
+		staleTime: 5 * 60 * 1000, // 5 minutes
 	}) as UseQueryResult<MovieDataResponse>;
 };
 
 export const useUpcoming = () => {
 	return useQuery({
-		queryKey: ['Upcoming'],
+		queryKey: ['movies', 'upcoming'],
 		queryFn: () => fetcher<MovieDataResponse>('/api/movies/upcoming'),
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	}) as UseQueryResult<MovieDataResponse>;
 };
 
 export const useMovieDetail = (movieId: number) => {
 	return useQuery({
-		queryKey: ['MovieDetail', movieId],
+		queryKey: ['movies', 'detail', movieId],
 		queryFn: () => fetcher<MovieDetailResponse>(`/api/movies/${movieId}`),
+		staleTime: 30 * 60 * 1000, // 30 minutes
+		enabled: !!movieId,
 	}) as UseQueryResult<MovieDetailResponse>;
 };
 
 export const useMoviesByGenre = (genreId: number) => {
 	return useInfiniteQuery<MovieDataResponse>({
-		queryKey: ['MoviesByGenre', genreId],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+		queryKey: ['movies', 'genre', genreId],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
 			fetcher<MovieDataResponse>(`/api/movies/genres/${genreId}?page=${pageParam}`),
-		getNextPageParam: ({ page, total_pages }) =>
-			page < total_pages ? page + 1 : undefined,
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	});
 };
 
 export const useSimilarMoviesInfinite = (movieId: number) => {
 	return useInfiniteQuery<MovieDataResponse>({
-		queryKey: ['SimilarMovies', movieId],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+		queryKey: ['movies', 'similar', movieId],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
 			fetcher<MovieDataResponse>(`/api/movies/${movieId}/similar?page=${pageParam}`),
-		getNextPageParam: ({ page, total_pages }) =>
-			page < total_pages ? page + 1 : undefined,
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 15 * 60 * 1000, // 15 minutes
 	});
 };
 
 export const useRecommendedMoviesInfinite = (movieId: number) => {
 	return useInfiniteQuery<MovieDataResponse>({
-		queryKey: ['RecommendedMovies', movieId],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+		queryKey: ['movies', 'recommended', movieId],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
 			fetcher<MovieDataResponse>(
 				`/api/movies/${movieId}/recommended?page=${pageParam}`
 			),
-		getNextPageParam: ({ page, total_pages }) =>
-			page < total_pages ? page + 1 : undefined,
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 15 * 60 * 1000, // 15 minutes
 	});
 };
 
 export const useUpcomingInfinite = () => {
 	return useInfiniteQuery<MovieDataResponse>({
-		queryKey: ['UpcomingInfinite'],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+		queryKey: ['movies', 'upcoming', 'infinite'],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
 			fetcher<MovieDataResponse>(`/api/movies/upcoming?page=${pageParam}`),
-		getNextPageParam: ({ page, total_pages }) =>
-			page < total_pages ? page + 1 : undefined,
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	});
 };
 
 export const useTopRatedInfinite = () => {
 	return useInfiniteQuery<MovieDataResponse>({
-		queryKey: ['TopRatedInfinite'],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+		queryKey: ['movies', 'topRated', 'infinite'],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
 			fetcher<MovieDataResponse>(`/api/movies/top_rated?page=${pageParam}`),
-		getNextPageParam: ({ page, total_pages }) =>
-			page < total_pages ? page + 1 : undefined,
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	});
 };
 
 export const useNowPlayingInfinite = () => {
 	return useInfiniteQuery<MovieDataResponse>({
-		queryKey: ['NowPlayingInfinite'],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+		queryKey: ['movies', 'nowPlaying', 'infinite'],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
 			fetcher<MovieDataResponse>(`/api/movies/now_playing?page=${pageParam}`),
-		getNextPageParam: ({ page, total_pages }) =>
-			page < total_pages ? page + 1 : undefined,
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 5 * 60 * 1000, // 5 minutes
 	});
 };
 
 export const usePopularMoviesInfinite = () => {
 	return useInfiniteQuery<MovieDataResponse>({
-		queryKey: ['PopularMoviesInfinite'],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+		queryKey: ['movies', 'popular', 'infinite'],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
 			fetcher<MovieDataResponse>(`/api/movies/popular?page=${pageParam}`),
-		getNextPageParam: ({ page, total_pages }) =>
-			page < total_pages ? page + 1 : undefined,
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	});
 };
 
@@ -138,37 +164,44 @@ export const usePopularMoviesInfinite = () => {
 
 export const usePopularActors = () => {
 	return useQuery({
-		queryKey: ['PopularActors'],
+		queryKey: ['actors', 'popular'],
 		queryFn: () => fetcher<PeopleDataResponse>('/api/actors/popular'),
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	}) as UseQueryResult<PeopleDataResponse>;
 };
 
 export const useActorDetail = (actorId: number) => {
 	return useQuery({
-		queryKey: ['ActorDetail', actorId],
+		queryKey: ['actors', 'detail', actorId],
 		queryFn: () => fetcher<PeopleDetailResponse>(`/api/actors/${actorId}`),
+		staleTime: 30 * 60 * 1000, // 30 minutes
+		enabled: !!actorId,
 	}) as UseQueryResult<PeopleDetailResponse>;
 };
 
 export const usePopularActorsInfinite = () => {
 	return useInfiniteQuery<PeopleDataResponse>({
-		queryKey: ['PopularActorsInfinite'],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+		queryKey: ['actors', 'popular', 'infinite'],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
 			fetcher<PeopleDataResponse>(`/api/actors/popular?page=${pageParam}`),
-		getNextPageParam: ({ page, total_pages }) =>
-			page < total_pages ? page + 1 : undefined,
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	});
 };
 
 export const useMovieCreditsInfinite = (actorId: number) => {
 	return useInfiniteQuery<MovieCreditsResponse>({
-		queryKey: ['MovieCredits', actorId],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+		queryKey: ['actors', 'credits', actorId],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
 			fetcher<MovieCreditsResponse>(
 				`/api/actors/${actorId}/movie_credits?page=${pageParam}`
 			),
-		getNextPageParam: ({ page, total_pages }) =>
-			page < total_pages ? page + 1 : undefined,
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 30 * 60 * 1000, // 30 minutes
 	});
 };
 
@@ -176,49 +209,48 @@ export const useMovieCreditsInfinite = (actorId: number) => {
 
 export const useTvPopularInfinite = () => {
 	return useInfiniteQuery<TvResponseData>({
-		queryKey: ['TvPopularInfinite'],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
+		queryKey: ['tv', 'popular', 'infinite'],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
 			fetcher<TvResponseData>(`/api/tv/popular?page=${pageParam}`),
-		getNextPageParam: ({ page, total_pages }) =>
-			page < total_pages ? page + 1 : undefined,
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 10 * 60 * 1000, // 10 minutes
 	});
 };
 
 export const useTvTopRatedInfinite = () => {
-	return useInfiniteQuery({
-		queryKey: ['TvTopRatedInfinite'],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
-			fetcher(`/api/tv/top_rated?page=${pageParam}`),
-		getNextPageParam: ({ page, total_pages }) => {
-			return page < total_pages ? page + 1 : undefined;
-		},
-		select: data => {
-			return data;
-		},
-	}) as UseInfiniteQueryResult<TvResponseData>;
+	return useInfiniteQuery<TvResponseData>({
+		queryKey: ['tv', 'topRated', 'infinite'],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
+			fetcher<TvResponseData>(`/api/tv/top_rated?page=${pageParam}`),
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 10 * 60 * 1000, // 10 minutes
+	});
 };
 
 export const useTvAiringTodayInfinite = () => {
-	return useInfiniteQuery({
-		queryKey: ['TvAiringTodayInfinite'],
-		queryFn: ({ pageParam = 1 }: { pageParam?: number }) =>
-			fetcher(`/api/tv/airing_today?page=${pageParam}`),
-		getNextPageParam: ({ page, total_pages }) => {
-			return page < total_pages ? page + 1 : undefined;
-		},
-		select: data => {
-			return data;
-		},
-	}) as UseInfiniteQueryResult<TvResponseData>;
+	return useInfiniteQuery<TvResponseData>({
+		queryKey: ['tv', 'airingToday', 'infinite'],
+		queryFn: ({ pageParam }: { pageParam: number }) =>
+			fetcher<TvResponseData>(`/api/tv/airing_today?page=${pageParam}`),
+		initialPageParam: 1,
+		getNextPageParam: (lastPage) =>
+			lastPage.page < lastPage.total_pages ? lastPage.page + 1 : undefined,
+		staleTime: 5 * 60 * 1000, // 5 minutes
+	});
 };
 
 // ------------------ Search Hooks ------------------
 
 export const useSearch = (q: string) => {
 	return useQuery({
-		queryKey: ['Search', q],
-		queryFn: () => fetcher(`/api/search?q=${q}`),
+		queryKey: ['search', q],
+		queryFn: () => fetcher<SearchData>(`/api/search?q=${q}`),
 		enabled: q.length > 0,
+		staleTime: 2 * 60 * 1000, // 2 minutes
 	}) as UseQueryResult<SearchData>;
 };
 

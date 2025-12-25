@@ -4,28 +4,43 @@ import { useSupabaseUser } from '@/hooks/useSupabaseUser';
 import { Heading } from '@/components/ui';
 import { Button } from '@/components/ui/Button';
 import { UserAvatar } from '@/components/ui/Avatar';
-import { Users, UserPlus, Search, Film, Heart, Calendar } from 'lucide-react';
+import { Users, UserPlus, Search, UserCheck, Clock, X, Check, ExternalLink } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
+import type { PublicUser, FriendRequestWithUser } from '@/lib/supabase/db';
 
-interface Friend {
-	id: string;
-	name: string;
-	email: string;
-	avatarUrl: string | null;
-	status: 'pending' | 'accepted';
-	mutualFriends: number;
-	watchlistCount: number;
+interface FriendsData {
+	friends: PublicUser[];
+	pendingIncoming: FriendRequestWithUser[];
+	pendingOutgoing: FriendRequestWithUser[];
 }
 
 export default function FriendsPage() {
 	const { user, loading } = useSupabaseUser();
 	const router = useRouter();
-	const [friends, setFriends] = useState<Friend[]>([]);
+	const [data, setData] = useState<FriendsData | null>(null);
 	const [searchQuery, setSearchQuery] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
-	const [activeTab, setActiveTab] = useState<'all' | 'pending'>('all');
+	const [activeTab, setActiveTab] = useState<'all' | 'incoming' | 'outgoing'>('all');
+	const [actionLoading, setActionLoading] = useState<string | null>(null);
+
+	const fetchFriends = async () => {
+		try {
+			setIsLoading(true);
+			const response = await fetch('/api/friends');
+			if (response.ok) {
+				const friendsData = await response.json() as FriendsData;
+				setData(friendsData);
+			}
+		} catch (error) {
+			console.error('Error fetching friends:', error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	useEffect(() => {
 		if (!loading && !user) {
@@ -35,15 +50,53 @@ export default function FriendsPage() {
 
 	useEffect(() => {
 		if (user) {
-			// TODO: Fetch friends from API
-			// For now, showing empty state
-			setIsLoading(false);
+			fetchFriends();
 		}
 	}, [user]);
 
+	const handleAcceptRequest = async (requestId: string) => {
+		setActionLoading(requestId);
+		try {
+			const response = await fetch(`/api/friends/${requestId}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ status: 'accepted' }),
+			});
+
+			if (!response.ok) throw new Error('Failed to accept request');
+
+			toast.success('Friend request accepted!');
+			fetchFriends();
+		} catch (error) {
+			toast.error('Failed to accept request');
+		} finally {
+			setActionLoading(null);
+		}
+	};
+
+	const handleRejectRequest = async (requestId: string) => {
+		setActionLoading(requestId);
+		try {
+			const response = await fetch(`/api/friends/${requestId}`, {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ status: 'rejected' }),
+			});
+
+			if (!response.ok) throw new Error('Failed to reject request');
+
+			toast.success('Friend request declined');
+			fetchFriends();
+		} catch (error) {
+			toast.error('Failed to decline request');
+		} finally {
+			setActionLoading(null);
+		}
+	};
+
 	if (loading || !user) {
 		return (
-			<div className="container py-20 min-h-screen">
+			<div className="container py-8 px-4">
 				<div className="space-y-6">
 					{[...Array(3)].map((_, i) => (
 						<div key={i} className="h-24 bg-gray-800 rounded-xl animate-pulse" />
@@ -53,16 +106,20 @@ export default function FriendsPage() {
 		);
 	}
 
+	const friends = data?.friends || [];
+	const pendingIncoming = data?.pendingIncoming || [];
+	const pendingOutgoing = data?.pendingOutgoing || [];
+
 	const filteredFriends = friends.filter(
 		(friend) =>
-			(activeTab === 'all' ? friend.status === 'accepted' : friend.status === 'pending') &&
-			(searchQuery === '' ||
-				friend.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				friend.email.toLowerCase().includes(searchQuery.toLowerCase()))
+			searchQuery === '' ||
+			friend.name?.toLowerCase().includes(searchQuery.toLowerCase())
 	);
 
+	const totalPendingCount = pendingIncoming.length + pendingOutgoing.length;
+
 	return (
-		<div className="min-h-screen py-12 md:py-20">
+		<div className="py-8 px-4">
 			<div className="container">
 				<div className="max-w-5xl mx-auto">
 					{/* Header */}
@@ -75,7 +132,7 @@ export default function FriendsPage() {
 						<p className="text-gray-400">Connect with other movie enthusiasts</p>
 					</div>
 
-					{/* Search and Add Friend */}
+					{/* Search */}
 					<div className="flex flex-col md:flex-row gap-4 mb-8">
 						<div className="flex-1 relative">
 							<Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -87,202 +144,262 @@ export default function FriendsPage() {
 								className="w-full pl-12 pr-4 py-3 bg-gray-800/50 border border-gray-700 rounded-xl focus:border-accent-primary focus:outline-none focus:ring-1 focus:ring-accent-primary transition-colors"
 							/>
 						</div>
-						<Button
-							variant="default"
-							size="lg"
-							onClick={() => toast.message('Add friend feature coming soon')}
-							className="gap-2"
-						>
-							<UserPlus className="w-5 h-5" />
-							Add Friend
-						</Button>
 					</div>
 
 					{/* Tabs */}
-					<div className="flex gap-2 mb-6 border-b border-gray-700">
+					<div className="flex gap-2 mb-6 border-b border-gray-700 overflow-x-auto">
 						<button
 							onClick={() => setActiveTab('all')}
-							className={`px-6 py-3 font-medium transition-colors relative ${
+							className={`px-6 py-3 font-medium transition-colors relative whitespace-nowrap ${
 								activeTab === 'all'
 									? 'text-accent-primary'
 									: 'text-gray-400 hover:text-gray-200'
 							}`}
 						>
-							All Friends
+							Friends ({friends.length})
 							{activeTab === 'all' && (
 								<div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-primary" />
 							)}
 						</button>
 						<button
-							onClick={() => setActiveTab('pending')}
-							className={`px-6 py-3 font-medium transition-colors relative ${
-								activeTab === 'pending'
+							onClick={() => setActiveTab('incoming')}
+							className={`px-6 py-3 font-medium transition-colors relative whitespace-nowrap ${
+								activeTab === 'incoming'
 									? 'text-accent-primary'
 									: 'text-gray-400 hover:text-gray-200'
 							}`}
 						>
-							Pending Requests
-							{activeTab === 'pending' && (
+							Incoming Requests
+							{pendingIncoming.length > 0 && (
+								<span className="ml-2 px-2 py-0.5 text-xs bg-accent-primary/20 text-accent-primary rounded-full">
+									{pendingIncoming.length}
+								</span>
+							)}
+							{activeTab === 'incoming' && (
+								<div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-primary" />
+							)}
+						</button>
+						<button
+							onClick={() => setActiveTab('outgoing')}
+							className={`px-6 py-3 font-medium transition-colors relative whitespace-nowrap ${
+								activeTab === 'outgoing'
+									? 'text-accent-primary'
+									: 'text-gray-400 hover:text-gray-200'
+							}`}
+						>
+							Sent Requests ({pendingOutgoing.length})
+							{activeTab === 'outgoing' && (
 								<div className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent-primary" />
 							)}
 						</button>
 					</div>
 
-					{/* Friends List */}
+					{/* Content */}
 					{isLoading ? (
 						<div className="space-y-4">
 							{[...Array(3)].map((_, i) => (
 								<div key={i} className="h-24 bg-gray-800 rounded-xl animate-pulse" />
 							))}
 						</div>
-					) : filteredFriends.length === 0 ? (
-						<div className="text-center py-20">
-							<div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gray-800/50 border border-gray-700 flex items-center justify-center">
-								<Users className="w-12 h-12 text-gray-600" />
+					) : activeTab === 'all' ? (
+						// Friends List
+						filteredFriends.length === 0 ? (
+							<div className="flex flex-col items-center justify-center min-h-[40vh]">
+								<div className="w-24 h-24 mb-6 rounded-full bg-gray-800/50 border border-gray-700 flex items-center justify-center">
+									<Users className="w-12 h-12 text-gray-600" />
+								</div>
+								<Heading
+									element="h3"
+									title={friends.length === 0 ? 'No Friends Yet' : 'No Friends Found'}
+									className="text-2xl font-bold mb-2"
+								/>
+								<p className="text-gray-400 mb-6 text-center max-w-md">
+									{friends.length === 0
+										? 'Connect with other movie lovers by visiting their profiles and sending friend requests'
+										: 'Try a different search term'}
+								</p>
 							</div>
-							<Heading
-								element="h3"
-								title={
-									activeTab === 'pending'
-										? 'No Pending Requests'
-										: friends.length === 0
-										? 'No Friends Yet'
-										: 'No Friends Found'
-								}
-								className="text-2xl font-bold mb-2"
-							/>
-							<p className="text-gray-400 mb-6">
-								{activeTab === 'pending'
-									? "You don't have any pending friend requests"
-									: friends.length === 0
-									? 'Start connecting with other movie lovers'
-									: 'Try a different search term'}
-							</p>
-							{friends.length === 0 && (
-								<Button
-									variant="default"
-									size="lg"
-									onClick={() => toast.message('Friend discovery feature coming soon')}
-									className="gap-2"
-								>
-									<UserPlus className="w-5 h-5" />
-									Discover Friends
-								</Button>
-							)}
-						</div>
-					) : (
-						<div className="space-y-4">
-							{filteredFriends.map((friend) => (
-								<div
-									key={friend.id}
-									className="group bg-gray-800/50 border border-gray-700 rounded-xl p-6 hover:border-accent-primary/50 transition-all duration-300"
-								>
-									<div className="flex flex-col md:flex-row md:items-center gap-4">
-										{/* Avatar and Info */}
-										<div className="flex items-center gap-4 flex-1">
-											<UserAvatar
-												user={{
-													name: friend.name,
-													image: friend.avatarUrl,
-												}}
-												className="w-16 h-16 border-2 border-accent-primary/30"
-											/>
+						) : (
+							<AnimatePresence mode="popLayout">
+								<div className="space-y-4">
+									{filteredFriends.map((friend, index) => (
+										<motion.div
+											key={friend.id}
+											initial={{ opacity: 0, y: 10 }}
+											animate={{ opacity: 1, y: 0 }}
+											transition={{ delay: index * 0.05 }}
+											className="group bg-gray-800/50 border border-gray-700 rounded-xl p-6 hover:border-accent-primary/50 transition-all duration-300"
+										>
+											<div className="flex flex-col md:flex-row md:items-center gap-4">
+												<Link
+													href={`/user/${friend.id}`}
+													className="flex items-center gap-4 flex-1"
+												>
+													<UserAvatar
+														user={{
+															name: friend.name || 'User',
+															image: friend.image,
+														}}
+														className="w-16 h-16 border-2 border-accent-primary/30"
+													/>
+													<div className="flex-1">
+														<h3 className="font-semibold text-lg text-gray-200 group-hover:text-accent-primary transition-colors">
+															{friend.name || 'Anonymous User'}
+														</h3>
+														<div className="flex items-center gap-1 text-sm text-gray-400 mt-1">
+															<UserCheck className="w-4 h-4 text-green-500" />
+															<span>Friend</span>
+														</div>
+													</div>
+												</Link>
 
-											<div className="flex-1">
-												<h3 className="font-semibold text-lg text-gray-200 mb-1">
-													{friend.name}
-												</h3>
-												<p className="text-sm text-gray-400 mb-2">{friend.email}</p>
-												<div className="flex flex-wrap gap-3 text-sm text-gray-400">
-													<div className="flex items-center gap-1">
-														<Users className="w-4 h-4" />
-														<span>{friend.mutualFriends} mutual</span>
-													</div>
-													<div className="flex items-center gap-1">
-														<Film className="w-4 h-4" />
-														<span>{friend.watchlistCount} movies</span>
-													</div>
+												<div className="flex gap-2">
+													<Link href={`/user/${friend.id}`}>
+														<Button variant="outline" size="sm" className="gap-2">
+															<ExternalLink className="w-4 h-4" />
+															View Profile
+														</Button>
+													</Link>
 												</div>
 											</div>
-										</div>
+										</motion.div>
+									))}
+								</div>
+							</AnimatePresence>
+						)
+					) : activeTab === 'incoming' ? (
+						// Incoming Requests
+						pendingIncoming.length === 0 ? (
+							<div className="flex flex-col items-center justify-center min-h-[40vh]">
+								<div className="w-24 h-24 mb-6 rounded-full bg-gray-800/50 border border-gray-700 flex items-center justify-center">
+									<Clock className="w-12 h-12 text-gray-600" />
+								</div>
+								<Heading
+									element="h3"
+									title="No Pending Requests"
+									className="text-2xl font-bold mb-2"
+								/>
+								<p className="text-gray-400">You don't have any incoming friend requests</p>
+							</div>
+						) : (
+							<AnimatePresence mode="popLayout">
+								<div className="space-y-4">
+									{pendingIncoming.map((request, index) => (
+										<motion.div
+											key={request.id}
+											initial={{ opacity: 0, y: 10 }}
+											animate={{ opacity: 1, y: 0 }}
+											transition={{ delay: index * 0.05 }}
+											className="group bg-gray-800/50 border border-gray-700 rounded-xl p-6"
+										>
+											<div className="flex flex-col md:flex-row md:items-center gap-4">
+												<Link
+													href={`/user/${request.requester.id}`}
+													className="flex items-center gap-4 flex-1"
+												>
+													<UserAvatar
+														user={{
+															name: request.requester.name || 'User',
+															image: request.requester.image,
+														}}
+														className="w-16 h-16 border-2 border-yellow-500/30"
+													/>
+													<div className="flex-1">
+														<h3 className="font-semibold text-lg text-gray-200 group-hover:text-accent-primary transition-colors">
+															{request.requester.name || 'Anonymous User'}
+														</h3>
+														<p className="text-sm text-gray-400">wants to be your friend</p>
+													</div>
+												</Link>
 
-										{/* Actions */}
-										<div className="flex gap-2">
-											{friend.status === 'pending' ? (
-												<>
+												<div className="flex gap-2">
 													<Button
 														variant="default"
 														size="sm"
-														onClick={() => toast.success('Friend request accepted')}
+														onClick={() => handleAcceptRequest(request.id)}
+														isLoading={actionLoading === request.id}
+														className="gap-2"
 													>
+														<Check className="w-4 h-4" />
 														Accept
 													</Button>
 													<Button
 														variant="outline"
 														size="sm"
-														onClick={() => toast.message('Friend request declined')}
+														onClick={() => handleRejectRequest(request.id)}
+														disabled={actionLoading === request.id}
+														className="gap-2"
 													>
+														<X className="w-4 h-4" />
 														Decline
 													</Button>
-												</>
-											) : (
-												<>
-													<Button
-														variant="outline"
-														size="sm"
-														onClick={() => toast.message('View profile feature coming soon')}
-													>
+												</div>
+											</div>
+										</motion.div>
+									))}
+								</div>
+							</AnimatePresence>
+						)
+					) : (
+						// Outgoing Requests
+						pendingOutgoing.length === 0 ? (
+							<div className="flex flex-col items-center justify-center min-h-[40vh]">
+								<div className="w-24 h-24 mb-6 rounded-full bg-gray-800/50 border border-gray-700 flex items-center justify-center">
+									<UserPlus className="w-12 h-12 text-gray-600" />
+								</div>
+								<Heading
+									element="h3"
+									title="No Pending Requests"
+									className="text-2xl font-bold mb-2"
+								/>
+								<p className="text-gray-400">You haven't sent any friend requests</p>
+							</div>
+						) : (
+							<AnimatePresence mode="popLayout">
+								<div className="space-y-4">
+									{pendingOutgoing.map((request, index) => (
+										<motion.div
+											key={request.id}
+											initial={{ opacity: 0, y: 10 }}
+											animate={{ opacity: 1, y: 0 }}
+											transition={{ delay: index * 0.05 }}
+											className="group bg-gray-800/50 border border-gray-700 rounded-xl p-6"
+										>
+											<div className="flex flex-col md:flex-row md:items-center gap-4">
+												<Link
+													href={`/user/${request.addressee.id}`}
+													className="flex items-center gap-4 flex-1"
+												>
+													<UserAvatar
+														user={{
+															name: request.addressee.name || 'User',
+															image: request.addressee.image,
+														}}
+														className="w-16 h-16 border-2 border-gray-600"
+													/>
+													<div className="flex-1">
+														<h3 className="font-semibold text-lg text-gray-200 group-hover:text-accent-primary transition-colors">
+															{request.addressee.name || 'Anonymous User'}
+														</h3>
+														<div className="flex items-center gap-1 text-sm text-yellow-500 mt-1">
+															<Clock className="w-4 h-4" />
+															<span>Request pending</span>
+														</div>
+													</div>
+												</Link>
+
+												<Link href={`/user/${request.addressee.id}`}>
+													<Button variant="outline" size="sm" className="gap-2">
+														<ExternalLink className="w-4 h-4" />
 														View Profile
 													</Button>
-													<Button
-														variant="outline"
-														size="sm"
-														onClick={() => toast.message('Remove friend feature coming soon')}
-													>
-														Remove
-													</Button>
-												</>
-											)}
-										</div>
-									</div>
+												</Link>
+											</div>
+										</motion.div>
+									))}
 								</div>
-							))}
-						</div>
-					)}
-
-					{/* Suggested Friends (Future Feature) */}
-					{friends.length === 0 && !isLoading && (
-						<section className="mt-12">
-							<Heading
-								element="h2"
-								title="Suggested Friends"
-								className="text-2xl font-bold mb-6"
-							/>
-							<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-								{[...Array(3)].map((_, i) => (
-									<div
-										key={i}
-										className="group bg-gray-800/50 border border-gray-700 rounded-xl p-6 text-center hover:border-accent-primary/50 transition-all duration-300"
-									>
-										<div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-700 flex items-center justify-center">
-											<Users className="w-8 h-8 text-gray-500" />
-										</div>
-										<h3 className="font-semibold text-gray-200 mb-2">Coming Soon</h3>
-										<p className="text-sm text-gray-400 mb-4">
-											We'll suggest friends based on your movie taste
-										</p>
-										<Button
-											variant="outline"
-											size="sm"
-											disabled
-											className="w-full"
-										>
-											Connect
-										</Button>
-									</div>
-								))}
-							</div>
-						</section>
+							</AnimatePresence>
+						)
 					)}
 				</div>
 			</div>

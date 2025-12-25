@@ -1,21 +1,51 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	// Enable Server Actions (required for Supabase auth actions)
-	experimental: {
-		serverActions: true,
-	},
+	// Performance optimizations
+	poweredByHeader: false,
+	compress: true,
+	reactStrictMode: true,
+
+	// Turbopack configuration (empty object enables it with default settings)
+	turbopack: {},
+
 	images: {
-		domains: ['unsplash.it', 'lh3.googleusercontent.com', 'image.tmdb.org'],
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'unsplash.it',
+			},
+			{
+				protocol: 'https',
+				hostname: 'lh3.googleusercontent.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'image.tmdb.org',
+			},
+		],
 		formats: ['image/avif', 'image/webp'],
-		deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+		deviceSizes: [640, 750, 828, 1080, 1200, 1920],
 		imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+		minimumCacheTTL: 31536000, // 1 year for TMDB images
+		dangerouslyAllowSVG: true,
+		contentDispositionType: 'inline',
 	},
 
-	// Security Headers
+	// Compiler optimizations
+	compiler: {
+		removeConsole:
+			process.env.NODE_ENV === 'production'
+				? {
+						exclude: ['error', 'warn'],
+				  }
+				: false,
+	},
+
+	// Security & Performance Headers
 	async headers() {
 		return [
 			{
-				source: '/(.*)',
+				source: '/:path*',
 				headers: [
 					{
 						key: 'X-DNS-Prefetch-Control',
@@ -43,20 +73,38 @@ const nextConfig = {
 					},
 					{
 						key: 'Permissions-Policy',
-						value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+						value: 'camera=(), microphone=(), geolocation=()',
+					},
+				],
+			},
+			{
+				source: '/api/:path*',
+				headers: [
+					{
+						key: 'Cache-Control',
+						value: 'public, s-maxage=3600, stale-while-revalidate=86400',
+					},
+				],
+			},
+			{
+				source: '/_next/image',
+				headers: [
+					{
+						key: 'Cache-Control',
+						value: 'public, max-age=31536000, immutable',
+					},
+				],
+			},
+			{
+				source: '/_next/static/:path*',
+				headers: [
+					{
+						key: 'Cache-Control',
+						value: 'public, max-age=31536000, immutable',
 					},
 				],
 			},
 		];
-	},
-
-	// Webpack configuration for optimal builds
-	webpack: (config, { isServer }) => {
-		// Fix for Prisma in edge runtime
-		if (isServer) {
-			config.externals.push('@prisma/client');
-		}
-		return config;
 	},
 };
 

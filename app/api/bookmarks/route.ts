@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { prisma } from '@/lib/db';
 import { getUser } from '@/lib/supabase/session';
 import { checkRateLimit, getClientIP } from '@/lib/rate-limit';
 import { syncUser } from '@/lib/sync-user';
+import {
+	getUserBookmarks,
+	createBookmark,
+	isMovieBookmarked,
+} from '@/lib/supabase/db';
 
 // Validation schema for creating a bookmark
 const bookmarkSchema = z.object({
@@ -48,17 +52,7 @@ export async function GET(request: Request) {
 		await syncUser(user);
 
 		// Get user's bookmarks
-		const bookmarks = await prisma.bookmark.findMany({
-			where: {
-				userId: user.id,
-			},
-			include: {
-				genres: true,
-			},
-			orderBy: {
-				createdAt: 'desc',
-			},
-		});
+		const bookmarks = await getUserBookmarks(user.id);
 
 		return NextResponse.json(bookmarks);
 	} catch (error) {
@@ -107,16 +101,9 @@ export async function POST(request: Request) {
 		const data = result.data;
 
 		// Check if bookmark already exists
-		const existing = await prisma.bookmark.findUnique({
-			where: {
-				movieId_userId: {
-					movieId: data.movieId,
-					userId: user.id,
-				},
-			},
-		});
+		const alreadyBookmarked = await isMovieBookmarked(user.id, data.movieId);
 
-		if (existing) {
+		if (alreadyBookmarked) {
 			return NextResponse.json(
 				{ error: 'Movie already bookmarked' },
 				{ status: 409 }
@@ -124,28 +111,17 @@ export async function POST(request: Request) {
 		}
 
 		// Create bookmark with genres
-		const bookmark = await prisma.bookmark.create({
-			data: {
-				userId: user.id,
-				movieId: data.movieId,
-				title: data.title,
-				overview: data.overview,
-				posterPath: data.posterPath,
-				backdropPath: data.backdropPath,
-				originalLang: data.originalLang,
-				releaseDate: data.releaseDate,
-				voteAverage: data.voteAverage,
-				originalTitle: data.originalTitle,
-				genres: {
-					create: data.genres.map((genre) => ({
-						genreId: genre.id,
-						name: genre.name,
-					})),
-				},
-			},
-			include: {
-				genres: true,
-			},
+		const bookmark = await createBookmark(user.id, {
+			movieId: data.movieId,
+			title: data.title,
+			overview: data.overview,
+			posterPath: data.posterPath,
+			backdropPath: data.backdropPath,
+			originalLang: data.originalLang,
+			releaseDate: data.releaseDate,
+			voteAverage: data.voteAverage,
+			originalTitle: data.originalTitle,
+			genres: data.genres,
 		});
 
 		return NextResponse.json(bookmark, { status: 201 });

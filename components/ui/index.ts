@@ -1,5 +1,6 @@
 export { Button } from './Button';
 export { Avatar } from './Avatar';
+export { Biography } from './Biography';
 export { HeroBgSection } from './HeroBg';
 export { default as Heading } from './Heading';
 export { default as HeroBg } from './HeroBg';

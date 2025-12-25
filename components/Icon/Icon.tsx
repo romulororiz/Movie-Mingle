@@ -41,6 +41,9 @@ import {
 	Tv,
 	Sun,
 	Moon,
+	Bookmark,
+	Bell,
+	MessageSquare,
 } from 'lucide-react';
 
 export const lucideIcons: Record<string, LucideIcon> = {
@@ -81,6 +84,9 @@ export const lucideIcons: Record<string, LucideIcon> = {
 	Tv,
 	Sun,
 	Moon,
+	Bookmark,
+	Bell,
+	MessageSquare,
 };
 
 import { FC, SVGProps } from 'react';
@@ -96,13 +102,7 @@ const Icon: FC<IconProps> = ({ name, color = '#FDBB30', size, ...props }) => {
 
 	size =
 		size ||
-		(isMobile(windowSize)
-			? 22
-			: isTablet(windowSize)
-			? 26
-			: isLaptop(windowSize)
-			? 28
-			: 30);
+		(isMobile(windowSize) ? 22 : isTablet(windowSize) ? 26 : isLaptop(windowSize) ? 28 : 30);
 
 	const IconComponent = lucideIcons[name];
 

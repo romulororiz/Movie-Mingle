@@ -4,8 +4,6 @@ import * as React from 'react';
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 
 import { cn } from '@/lib/utils';
-import type { User } from '@supabase/supabase-js';
-import useScrollPosition from '@/hooks/useScrollPosition';
 import { Icon } from '../Icon';
 
 const Avatar = React.forwardRef<
@@ -30,7 +28,7 @@ const AvatarImage = React.forwardRef<
 	<AvatarPrimitive.Image
 		referrerPolicy="no-referrer"
 		ref={ref}
-		className={cn('aspect-square h-full w-full', className)}
+		className={cn('aspect-square h-full w-full object-cover', className)}
 		{...props}
 	/>
 ));
@@ -59,12 +57,10 @@ interface UserAvatarProps extends AvatarPrimitive.AvatarProps {
 }
 
 export const UserAvatar = ({ user, ...props }: UserAvatarProps) => {
-	const { isScrolled } = useScrollPosition();
-
 	return (
 		<Avatar
 			{...props}
-			className={cn('border-2 border-accent-primary', { 'h-12 w-12': isScrolled })}
+			// className={cn('border-2 border-accent-primary', { 'h-12 w-12': isScrolled })}
 		>
 			{user.image ? (
 				<AvatarImage alt={`${user.name || 'User'}'s profile picture`} src={user.image} />

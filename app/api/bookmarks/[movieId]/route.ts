@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/db';
 import { getUser } from '@/lib/supabase/session';
 import { checkRateLimit, getClientIP } from '@/lib/rate-limit';
 import { syncUser } from '@/lib/sync-user';
+import { deleteBookmark, isMovieBookmarked } from '@/lib/supabase/db';
 
 // @route DELETE
 // @desc Remove a bookmark
 // @access Private
 export async function DELETE(
 	request: Request,
-	{ params }: { params: { movieId: string } }
+	{ params }: { params: Promise<{ movieId: string }> | { movieId: string } }
 ) {
 	try {
 		// Rate limiting
@@ -30,34 +30,26 @@ export async function DELETE(
 		// Sync user to database if not exists
 		await syncUser(user);
 
-		const { movieId } = params;
+		// Handle both Promise and direct params (Next.js 13 vs 15)
+		const resolvedParams = params instanceof Promise ? await params : params;
+		const { movieId } = resolvedParams;
 
 		// Check if bookmark exists
-		const bookmark = await prisma.bookmark.findUnique({
-			where: {
-				movieId_userId: {
-					movieId,
-					userId: user.id,
-				},
-			},
-		});
+		const bookmarkExists = await isMovieBookmarked(user.id, movieId.toString());
 
-		if (!bookmark) {
+		if (!bookmarkExists) {
 			return NextResponse.json({ error: 'Bookmark not found' }, { status: 404 });
 		}
 
-		// Delete bookmark (genres will be deleted automatically via cascade)
-		await prisma.bookmark.delete({
-			where: {
-				id: bookmark.id,
-			},
-		});
+		// Delete the bookmark (genres will be deleted automatically via CASCADE)
+		await deleteBookmark(user.id, movieId.toString());
 
-		return NextResponse.json({ message: 'Bookmark removed successfully' });
+		return NextResponse.json({ message: 'Bookmark removed successfully', success: true });
 	} catch (error) {
 		console.error('Delete bookmark error:', error);
+		const errorMessage = error instanceof Error ? error.message : 'Failed to delete bookmark';
 		return NextResponse.json(
-			{ error: 'Failed to delete bookmark' },
+			{ error: errorMessage, details: error instanceof Error ? error.stack : undefined },
 			{ status: 500 }
 		);
 	}
@@ -68,7 +60,7 @@ export async function DELETE(
 // @access Private
 export async function GET(
 	request: Request,
-	{ params }: { params: { movieId: string } }
+	{ params }: { params: Promise<{ movieId: string }> | { movieId: string } }
 ) {
 	try {
 		// Check authentication
@@ -81,19 +73,14 @@ export async function GET(
 		// Sync user to database if not exists
 		await syncUser(user);
 
-		const { movieId } = params;
+		// Handle both Promise and direct params (Next.js 13 vs 15)
+		const resolvedParams = params instanceof Promise ? await params : params;
+		const { movieId } = resolvedParams;
 
 		// Check if bookmark exists
-		const bookmark = await prisma.bookmark.findUnique({
-			where: {
-				movieId_userId: {
-					movieId,
-					userId: user.id,
-				},
-			},
-		});
+		const bookmarked = await isMovieBookmarked(user.id, movieId.toString());
 
-		return NextResponse.json({ isBookmarked: !!bookmark });
+		return NextResponse.json({ isBookmarked: bookmarked });
 	} catch (error) {
 		console.error('Check bookmark error:', error);
 		return NextResponse.json({ isBookmarked: false });

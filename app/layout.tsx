@@ -2,15 +2,12 @@ import '@/styles/globals.css';
 
 import { cn } from '@/lib/utils';
 import { Inter } from 'next/font/google';
-import { Header } from '@/components/Layout';
 import { Providers } from '@/components';
 import { Metadata } from 'next';
-import { getUser } from '@/lib/supabase/session';
 import { TailwindIndicator } from '@/components/ui/tailwind-indicator';
-import Footer from '@/components/Layout/Footer';
 import { siteConfig } from '@/config/site';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
 	title: {
@@ -35,10 +32,6 @@ export const metadata: Metadata = {
 		},
 	],
 	creator: 'romulororiz',
-	themeColor: [
-		{ media: '(prefers-color-scheme: light)', color: 'white' },
-		{ media: '(prefers-color-scheme: dark)', color: 'black' },
-	],
 	openGraph: {
 		type: 'website',
 		locale: 'en_US',
@@ -54,19 +47,16 @@ interface RootLayoutProps {
 }
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-	const user = await getUser();
-
 	return (
-		<html lang='en' className={inter.className}>
+		<html lang="en" suppressHydrationWarning>
 			<body
 				className={cn(
-					'min-h-screen dark:text-slate-200 dark:bg-dark-background antialiased'
+					inter.className,
+					'min-h-screen text-slate-200 bg-dark-background antialiased'
 				)}
 			>
 				<Providers>
-					<Header user={user} />
-					<main className='min-h-screen'>{children}</main>
-					<Footer />
+					{children}
 					<TailwindIndicator />
 				</Providers>
 			</body>

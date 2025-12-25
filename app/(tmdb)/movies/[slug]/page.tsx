@@ -6,6 +6,7 @@ import { Section } from '@/components/Layout';
 import { Heading, HeroBg, Overlay, Paragraph } from '@/components/ui';
 import { BookmarkButton } from '@/components/ui/BookmarkButton';
 import MovieStats, { GenreItem, stats } from '@/components/ui/MovieStats';
+import { ReviewSummary } from '@/components/Reviews';
 import { useMovieDetail } from '@/hooks/useTMDB';
 import useWindowSize from '@/hooks/useWindowSize';
 import { cn, getAbsoluteUrl, getIdFromSlug } from '@/lib/utils';
@@ -13,17 +14,19 @@ import { MovieDetailResponse } from '@/types/tmdb';
 import { isTablet } from '@/utils/breakpoints';
 import { CardPerView } from '@/utils/cardPerView';
 import Image from 'next/image';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound, useRouter, useParams } from 'next/navigation';
 import { Fragment, useState } from 'react';
 import { useSupabaseUser } from '@/hooks/useSupabaseUser';
 
-interface PageProps {
-	params: {
-		slug: string;
-	};
-}
-
-const MovieDetailInfo = ({ item, userId }: { item: MovieDetailResponse; userId?: string }) => {
+const MovieDetailInfo = ({
+	item,
+	userId,
+	movieId,
+}: {
+	item: MovieDetailResponse;
+	userId?: string;
+	movieId: string;
+}) => {
 	return (
 		<div className="w-full flex flex-col gap-5 md:gap-6 mt-4 h-full">
 			<Heading
@@ -46,18 +49,21 @@ const MovieDetailInfo = ({ item, userId }: { item: MovieDetailResponse; userId?:
 			<div className="flex justify-center md:justify-start mt-4">
 				<BookmarkButton movie={item} userId={userId} />
 			</div>
+
+			{/* Reviews Summary - Opens Drawer */}
+			<div className="mt-2">
+				<ReviewSummary movieId={movieId} movieTitle={item.title} moviePoster={item.poster_path} />
+			</div>
 		</div>
 	);
 };
 
-export default function MoviePage({ params }: PageProps) {
+export default function MoviePage() {
 	const [isImgLoading, setIsImgLoading] = useState(true);
 	const { user } = useSupabaseUser();
-
-	const { slug } = params;
-
+	const params = useParams();
+	const slug = params?.slug as string;
 	const windowSize = useWindowSize();
-
 	const movieId = getIdFromSlug(slug);
 
 	const { data, isLoading, error } = useMovieDetail(movieId);
@@ -100,7 +106,7 @@ export default function MoviePage({ params }: PageProps) {
 				/>
 			</section>
 			<section className="flex-col md:flex-row flex md:gap-10 space-y-0 items-center md:items-start relative z-[2] container">
-				<figure className="mb-6 md:mb-0">
+				<figure className="mb-6 md:mb-0 pt-8">
 					<Fragment key={data.id}>
 						<Image
 							src={getAbsoluteUrl('https://image.tmdb.org/t/p/w500', data.poster_path)}
@@ -113,14 +119,14 @@ export default function MoviePage({ params }: PageProps) {
 							)}
 							sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
 							width={isTablet(windowSize) ? 240 : 400}
-							height={isTablet(windowSize) ? 360 : 600}
+							height={isTablet(windowSize) ? 360 : 700}
 							priority
 							onLoadingComplete={() => setIsImgLoading(false)}
 						/>
 					</Fragment>
 				</figure>
 
-				<MovieDetailInfo item={data} userId={user?.id} />
+				<MovieDetailInfo item={data} userId={user?.id} movieId={String(movieId)} />
 			</section>
 
 			{(data?.credits?.cast?.length ?? 0) > 0 && (

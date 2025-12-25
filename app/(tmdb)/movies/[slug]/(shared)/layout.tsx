@@ -6,18 +6,18 @@ interface TmdbLayoutProps {
 
 export default function SharedLayout({ children }: TmdbLayoutProps) {
 	return (
-		<section className='min-h-screen'>
+		<section className="min-h-screen">
 			<HeroBg
-				imageKey='showcase'
+				imageKey="showcase"
 				isLocalAsset={true}
-				src='/assets/showcase.jpg'
+				src="/assets/showcase.jpg"
 				isSlider={false}
-				className='md:bg-center h-auto'
+				className="md:bg-center h-auto"
 			/>
-			<main className='mb-28 max-w-7xl mx-auto'>{children}</main>
+			<main className="mb-28 max-w-7xl mx-auto">{children}</main>
 			<Overlay
-				className='bg-gradient-to-b from-dark-background/40 from-35%
-			via-dark-background via-85% to-dark-background'
+				className="bg-gradient-to-b from-dark-background/40 from-35%
+			via-dark-background via-85% to-dark-background"
 			/>
 		</section>
 	);

@@ -49,7 +49,11 @@ export function BookmarkButton({ movie, userId }: BookmarkButtonProps) {
 					method: 'DELETE',
 				});
 
-				if (!res.ok) throw new Error('Failed to remove bookmark');
+				if (!res.ok) {
+					const errorData = (await res.json()) as { error?: string; details?: unknown };
+					console.error('Delete bookmark error details:', errorData);
+					throw new Error(errorData.error || 'Failed to remove bookmark');
+				}
 
 				setIsBookmarked(false);
 				toast.success('Removed from watchlist');
@@ -63,19 +67,22 @@ export function BookmarkButton({ movie, userId }: BookmarkButtonProps) {
 					body: JSON.stringify({
 						movieId: movie.id.toString(),
 						title: movie.title,
-						overview: movie.overview,
-						posterPath: movie.poster_path,
-						backdropPath: movie.backdrop_path,
-						originalLang: movie.original_language,
-						releaseDate: movie.release_date,
-						voteAverage: movie.vote_average,
-						originalTitle: movie.original_title,
-						genres: movie.genres,
+						overview: movie.overview || '',
+						posterPath: movie.poster_path || null,
+						backdropPath: movie.backdrop_path || null,
+						originalLang: movie.original_language || 'en',
+						releaseDate: movie.release_date || new Date().toISOString(),
+						voteAverage: movie.vote_average || 0,
+						originalTitle: movie.original_title || movie.title,
+						genres: Array.isArray(movie.genres)
+							? movie.genres.map((g) => ({ id: g.id, name: g.name }))
+							: [],
 					}),
 				});
 
 				if (!res.ok) {
-					const errorData = (await res.json()) as { error?: string };
+					const errorData = (await res.json()) as { error?: string; details?: unknown };
+					console.error('Bookmark error details:', errorData);
 					throw new Error(errorData.error || 'Failed to add bookmark');
 				}
 

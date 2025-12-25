@@ -11,10 +11,7 @@ const pageSchema = z.coerce.number().int().min(1).max(500).default(1);
 // @route GET
 // @desc Get movie by id
 // @access Public
-export async function GET(
-	req: Request,
-	{ params }: { params: { movieId: string } }
-) {
+export async function GET(req: Request, { params }: { params: Promise<{ movieId: string }> }) {
 	try {
 		// Rate limiting
 		const ip = getClientIP(req);
@@ -26,22 +23,19 @@ export async function GET(
 
 		const url = new URL(req.url);
 
+		// Await params
+		const resolvedParams = await params;
+
 		// Validate movieId
-		const movieIdResult = movieIdSchema.safeParse(params.movieId);
+		const movieIdResult = movieIdSchema.safeParse(resolvedParams.movieId);
 		if (!movieIdResult.success) {
-			return NextResponse.json(
-				{ error: 'Invalid movie ID' },
-				{ status: 400 }
-			);
+			return NextResponse.json({ error: 'Invalid movie ID' }, { status: 400 });
 		}
 
 		// Validate page parameter
 		const pageResult = pageSchema.safeParse(url.searchParams.get('page') || '1');
 		if (!pageResult.success) {
-			return NextResponse.json(
-				{ error: 'Invalid page parameter' },
-				{ status: 400 }
-			);
+			return NextResponse.json({ error: 'Invalid page parameter' }, { status: 400 });
 		}
 
 		const movieId = movieIdResult.data;
@@ -56,10 +50,7 @@ export async function GET(
 
 		if (!movieRes.ok) {
 			if (movieRes.status === 404) {
-				return NextResponse.json(
-					{ error: 'Movie not found' },
-					{ status: 404 }
-				);
+				return NextResponse.json({ error: 'Movie not found' }, { status: 404 });
 			}
 			throw new Error(`TMDB API error: ${movieRes.status}`);
 		}
@@ -80,9 +71,6 @@ export async function GET(
 		return NextResponse.json(movieResData, { headers });
 	} catch (error) {
 		console.error('Movie detail API error:', error);
-		return NextResponse.json(
-			{ error: 'Failed to fetch movie details' },
-			{ status: 500 }
-		);
+		return NextResponse.json({ error: 'Failed to fetch movie details' }, { status: 500 });
 	}
 }

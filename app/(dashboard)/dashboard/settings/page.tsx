@@ -48,7 +48,7 @@ export default function SettingsPage() {
 
 	if (loading || !user) {
 		return (
-			<div className="container py-20 min-h-screen">
+			<div className="container py-8 px-4">
 				<div className="max-w-4xl mx-auto space-y-6">
 					{[...Array(3)].map((_, i) => (
 						<div key={i} className="h-32 bg-gray-800 rounded-xl animate-pulse" />
@@ -61,7 +61,7 @@ export default function SettingsPage() {
 	const userDisplayName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Movie Fan';
 
 	return (
-		<div className="min-h-screen py-12 md:py-20">
+		<div className="py-8 px-4">
 			<div className="container">
 				<div className="max-w-4xl mx-auto">
 					{/* Header */}
@@ -76,7 +76,7 @@ export default function SettingsPage() {
 
 					{/* Profile Section */}
 					<section className="mb-6">
-						<div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 md:p-8">
+						<div className="bg-dark-background border border-accent-primary border-opacity-30 rounded-xl p-6 md:p-8">
 							<div className="flex items-center gap-3 mb-6">
 								<User className="w-5 h-5 text-accent-primary" />
 								<h2 className="text-xl font-semibold">Profile Information</h2>
@@ -105,16 +105,12 @@ export default function SettingsPage() {
 									</div>
 
 									<div>
-										<label className="block text-sm font-medium text-gray-300 mb-2">
-											Email
-										</label>
+										<label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
 										<div className="flex items-center gap-2 px-4 py-2 bg-gray-900/30 border border-gray-700 rounded-lg text-gray-400">
 											<Mail className="w-4 h-4" />
 											<span>{user.email}</span>
 										</div>
-										<p className="text-sm text-gray-500 mt-1">
-											Email cannot be changed
-										</p>
+										<p className="text-sm text-gray-500 mt-1">Email cannot be changed</p>
 									</div>
 
 									<Button
@@ -132,7 +128,7 @@ export default function SettingsPage() {
 
 					{/* Preferences Section */}
 					<section className="mb-6">
-						<div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 md:p-8">
+						<div className="bg-dark-background border border-accent-primary border-opacity-30 rounded-xl p-6 md:p-8">
 							<div className="flex items-center gap-3 mb-6">
 								<Palette className="w-5 h-5 text-accent-primary" />
 								<h2 className="text-xl font-semibold">Preferences</h2>
@@ -183,7 +179,7 @@ export default function SettingsPage() {
 
 					{/* Privacy & Security */}
 					<section className="mb-6">
-						<div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6 md:p-8">
+						<div className="bg-dark-background border border-accent-primary border-opacity-30 rounded-xl p-6 md:p-8">
 							<div className="flex items-center gap-3 mb-6">
 								<Shield className="w-5 h-5 text-accent-primary" />
 								<h2 className="text-xl font-semibold">Privacy & Security</h2>
@@ -206,9 +202,7 @@ export default function SettingsPage() {
 								<div className="flex items-center justify-between pt-4 border-t border-gray-700">
 									<div>
 										<h3 className="font-medium text-gray-200">Change Password</h3>
-										<p className="text-sm text-gray-400">
-											Update your account password
-										</p>
+										<p className="text-sm text-gray-400">Update your account password</p>
 									</div>
 									<Button
 										variant="outline"

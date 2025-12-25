@@ -43,7 +43,7 @@ export default function Home() {
 			<Section
 				icon='Flame'
 				title='Hottest Right Now' // change upon user preferences
-				className='mt-[7rem] md:-mt-[22rem] z-50 text-center'
+				className='mt-[7rem] md:-mt-[24rem] z-50 text-center'
 				container={false}
 				route='/movies/trending'
 				seeMore={false}

@@ -49,18 +49,18 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 	return (
 		<>
 			<Overlay
-				className='after:hidden after:sm:block after:absolute 
+				className="after:hidden after:sm:block after:absolute 
 					  after:top-0 md:after:top-20 after:bottom-0 after:left-0 after:w-20 
 					  after:bg-gradient-to-r after:from-dark-background 
 					  after:from-0% after:via-dark-background 
-					  after:via-20% after:z-[2]'
+					  after:via-20% after:z-[2]"
 			/>
 			<Overlay
-				className='before:hidden before:sm:block before:absolute 
+				className="before:hidden before:sm:block before:absolute 
 					  before:top-0 md:before:top-20 before:bottom-0 before:right-0 before:w-20 
 					  before:bg-gradient-to-l before:from-dark-background 
 					  before:from-0% before:via-dark-background 
-					  before:via-20% before:z-[2]'
+					  before:via-20% before:z-[2]"
 			/>
 			<Swiper
 				{...getSwiperOptions(windowSize)}
@@ -71,11 +71,20 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 					prevSlideMessage: 'Previous slide',
 					nextSlideMessage: 'Next slide',
 				}}
+				style={{
+					'--swiper-pagination-color': '#FFBA08',
+					'--swiper-pagination-bullet-inactive-color': '#999999',
+					'--swiper-pagination-bullet-inactive-opacity': '1',
+					'--swiper-pagination-bullet-size': '92px',
+					'--swiper-pagination-bullet-horizontal-gap': '6px',
+				}}
+				className="overflow-visible relative"
 			>
 				{movies.map((movie, index) => (
 					<SwiperSlide
 						onClick={() => handleClick(index)}
 						key={`movie-${movie.id}`}
+						className="pb-14"
 					>
 						<Card
 							item={movie}
