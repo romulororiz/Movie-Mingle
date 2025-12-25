@@ -1,59 +1,68 @@
 import { WindowSize } from '@/hooks/useWindowSize';
-import { EffectFade, Navigation, Pagination, Autoplay, FreeMode } from 'swiper';
+import { Autoplay, EffectFade, FreeMode, Navigation, Pagination } from 'swiper/modules';
 
 export const getSwiperOptions = (windowSize?: WindowSize) => {
 	let slidesPerView;
-	const spaceBetween = 15;
-
-	if (!windowSize)
-		return {
-			spaceBetween: 30,
-			effect: 'fade' as const,
-			navigation: true,
-			speed: 400,
-			loop: true,
-			modules: [EffectFade, Navigation],
-		};
 
 	switch (true) {
-		case windowSize.width! < 480:
+		case windowSize?.width! < 640:
 			slidesPerView = 2;
 			break;
-		case windowSize.width! < 640:
-			slidesPerView = 2;
-			break;
-		case windowSize.width! < 768:
+		case windowSize?.width! < 768:
 			slidesPerView = 3;
 			break;
-		case windowSize.width! < 960:
+		case windowSize?.width! < 1024:
 			slidesPerView = 4;
 			break;
-		case windowSize.width! < 1024:
+		case windowSize?.width! < 1280:
 			slidesPerView = 5;
 			break;
-		case windowSize.width! < 1280:
-			slidesPerView = 5;
-			break;
-		case windowSize.width! < 1536:
+		case windowSize?.width! < 1536:
 			slidesPerView = 6;
 			break;
 		default:
-			slidesPerView = 6;
+			slidesPerView = 7;
+			break;
 	}
 
 	return {
-		slidesPerView,
-		spaceBetween,
-		centeredSlides: true,
-		modules: [Autoplay, Pagination, FreeMode],
-		pagination: {
-			dynamicBullets: true,
-		},
 		loop: true,
-		speed: 1800,
+		loopedSlides: 3,
+		spaceBetween: 15,
+		slidesPerView: slidesPerView,
+		slidesPerGroup: 2,
+		speed: 600,
+		pagination: {
+			clickable: true,
+		},
+		navigation: true,
+		modules: [Navigation, Pagination, Autoplay, EffectFade, FreeMode],
 		autoplay: {
-			delay: 3000,
-			disableOnInteraction: true,
+			delay: 5000,
+			disableOnInteraction: false,
+			pauseOnMouseEnter: true,
+		},
+		breakpoints: {
+			300: {
+				slidesPerView: 2,
+				spaceBetween: 10,
+			},
+			640: {
+				slidesPerView: 3,
+				spaceBetween: 15,
+			},
+			768: {
+				slidesPerView: 4,
+				spaceBetween: 20,
+			},
+			1024: {
+				slidesPerView: 5,
+				spaceBetween: 20,
+			},
+			1280: {
+				slidesPerView: 6,
+				spaceBetween: 20,
+			},
 		},
 	};
 };
