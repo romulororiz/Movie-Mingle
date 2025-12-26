@@ -1,12 +1,13 @@
 // @ts-nocheck
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { Overlay, SkeletonHero } from '@/components/ui';
 import { MovieResponse } from '@/types/tmdb';
 import { MovieInfoHero } from '@/components/ui';
 import useBgChange from '@/hooks/useSliderChange';
-import { isMobile } from '@/utils/breakpoints';
 
 interface HeroBgProps {
 	src: string;
@@ -61,9 +62,20 @@ interface HeroBgSectionProps {
 export const HeroBgSection = ({
 	trendingMovies,
 	isLoading = false,
-	isMobile = false,
 }: HeroBgSectionProps) => {
 	const { currentImageIndex, previousImageIndex } = useBgChange();
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		// Only run on client
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
+		
+		checkMobile();
+		window.addEventListener('resize', checkMobile);
+		return () => window.removeEventListener('resize', checkMobile);
+	}, []);
 
 	if (isLoading) return <SkeletonHero />;
 	if (!trendingMovies || trendingMovies.length === 0) return null;

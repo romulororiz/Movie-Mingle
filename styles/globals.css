@@ -122,32 +122,18 @@
 	}
 }
 
-/* Swiper Customization - More Elegant */
-.swiper {
-	@apply w-auto h-auto pb-6 md:pb-16 pt-6 md:pt-16 relative !important;
+/* Embla Carousel - Elegant Styling */
+.embla-carousel {
+	@apply w-full h-auto pb-6 md:pb-16 pt-6 md:pt-16 relative;
 }
 
-.swiper-pagination {
-	@apply top-4 md:top-16 relative !important;
+/* Navigation buttons glow effect */
+.carousel-nav-btn {
+	filter: drop-shadow(0 0 10px rgba(253, 187, 48, 0.2));
 }
 
-.swiper .swiper-pagination-bullet {
-	@apply w-2.5 h-2.5 bg-accent-primary/50 transition-all duration-300 !important;
-}
-
-.swiper .swiper-pagination-bullet-active {
-	@apply bg-accent-primary w-8 rounded-full !important;
-}
-
-.swiper-button-prev,
-.swiper-button-next {
-	@apply text-accent-primary -mt-16 transition-all duration-300 hover:scale-110 !important;
-	filter: drop-shadow(0 0 10px rgba(253, 187, 48, 0.3));
-}
-
-.swiper-button-prev:hover,
-.swiper-button-next:hover {
-	filter: drop-shadow(0 0 20px rgba(253, 187, 48, 0.5));
+.carousel-nav-btn:hover {
+	filter: drop-shadow(0 0 20px rgba(253, 187, 48, 0.4));
 }
 
 /* Movie Card Hover Effects */
@@ -169,9 +155,3 @@
 	@apply transform scale-105;
 	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(253, 187, 48, 0.2);
 }
-
-/* .swiper-pagination-bullets {
-	position: fixed !important;
-	top: 600px !important;
-	z-index: 1000 !important;
-} */

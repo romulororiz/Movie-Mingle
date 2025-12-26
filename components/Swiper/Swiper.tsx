@@ -1,44 +1,90 @@
-// @ts-nocheck
 'use client';
 
-import React, { useRef } from 'react';
-import { Overlay } from '@/components/ui';
+import React, { useCallback, useEffect } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 import useWindowSize, { WindowSize } from '@/hooks/useWindowSize';
-import { getSwiperOptions } from '@/lib/swiper';
 import { MovieResponse } from '@/types/tmdb';
-import { Swiper as SwiperClass } from 'swiper';
-import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
-
 import Card from '@/components/Cards/Card';
 import { useAppState } from '@/context/stateContext';
-import 'swiper/swiper-bundle.css';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Card Slider Desktop
 type SwiperComponentProps = {
 	movies: MovieResponse[];
 	isLoading: boolean;
 };
 
+const getSlidesPerView = (windowSize?: WindowSize): number => {
+	const width = windowSize?.width ?? 1280;
+	if (width < 640) return 2;
+	if (width < 768) return 3;
+	if (width < 1024) return 4;
+	if (width < 1280) return 5;
+	if (width < 1536) return 6;
+	return 7;
+};
+
 const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 	const { activeIndex, setActiveIndex } = useAppState();
-
-	const swiperRef = useRef<SwiperRef>(null);
-
 	const windowSize: WindowSize = useWindowSize();
 
-	const currSlide = (index: number) => {
-		return index === activeIndex;
-	};
+	const slidesPerView = getSlidesPerView(windowSize);
+	const slideWidth = 110 / slidesPerView;
 
-	const handleSlideChange = (swiper: SwiperClass) => {
-		setActiveIndex(swiper.realIndex);
-	};
+	const [emblaRef, emblaApi] = useEmblaCarousel(
+		{
+			loop: true,
+			align: 'center',
+			skipSnaps: false,	
+			dragFree: false,
+			containScroll: false,
+			slidesToScroll: 1,
+			duration: 25,
+		},
+		[
+			Autoplay({
+				delay: 5000,
+				stopOnInteraction: false,
+				stopOnMouseEnter: true,
+			}),
+		]
+	);
 
-	const handleClick = (index: number) => {
-		if (swiperRef.current) {
-			swiperRef.current.swiper.slideToLoop(index, 700);
-		}
-	};
+	const scrollPrev = useCallback(() => {
+		if (emblaApi) emblaApi.scrollPrev();
+	}, [emblaApi]);
+
+	const scrollNext = useCallback(() => {
+		if (emblaApi) emblaApi.scrollNext();
+	}, [emblaApi]);
+
+	const scrollTo = useCallback(
+		(index: number) => {
+			if (emblaApi) emblaApi.scrollTo(index);
+		},
+		[emblaApi]
+	);
+
+	const onSelect = useCallback(() => {
+		if (!emblaApi) return;
+		const selectedIndex = emblaApi.selectedScrollSnap();
+		setActiveIndex(selectedIndex);
+	}, [emblaApi, setActiveIndex]);
+
+	useEffect(() => {
+		if (!emblaApi) return;
+
+		onSelect();
+		emblaApi.on('select', onSelect);
+		emblaApi.on('reInit', onSelect);
+
+		return () => {
+			emblaApi.off('select', onSelect);
+			emblaApi.off('reInit', onSelect);
+		};
+	}, [emblaApi, onSelect]);
+
+	const currSlide = (index: number) => index === activeIndex;
 
 	const getMovieCardClass = (index: number) => {
 		if (currSlide(index))
@@ -47,55 +93,87 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 	};
 
 	return (
-		<>
-			<Overlay
-				className="after:hidden after:sm:block after:absolute 
-					  after:top-0 md:after:top-20 after:bottom-0 after:left-0 after:w-20 
-					  after:bg-gradient-to-r after:from-dark-background 
-					  after:from-0% after:via-dark-background 
-					  after:via-20% after:z-[2]"
-			/>
-			<Overlay
-				className="before:hidden before:sm:block before:absolute 
-					  before:top-0 md:before:top-20 before:bottom-0 before:right-0 before:w-20 
-					  before:bg-gradient-to-l before:from-dark-background 
-					  before:from-0% before:via-dark-background 
-					  before:via-20% before:z-[2]"
-			/>
-			<Swiper
-				{...getSwiperOptions(windowSize)}
-				onSlideChange={handleSlideChange}
-				ref={swiperRef}
-				a11y={{
-					enabled: true,
-					prevSlideMessage: 'Previous slide',
-					nextSlideMessage: 'Next slide',
-				}}
+		<div className="relative group">
+			{/* Carousel container */}
+			<div className="overflow-hidden" ref={emblaRef}>
+				<div className="flex py-8 md:py-12">
+					{movies.map((movie, index) => (
+						<div
+							key={`movie-${movie.id}`}
+							className="flex-shrink-0 pb-14 px-[7px] sm:px-[10px] transition-all duration-500 ease-out cursor-pointer"
+							style={{ flex: `0 0 ${slideWidth}%` }}
+							onClick={() => scrollTo(index)}
+						>
+							<Card
+								item={movie}
+								className={getMovieCardClass(index)}
+								isSlider={true}
+								isCurrSlide={currSlide(index)}
+							/>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Left fade overlay */}
+			<div
+				className="absolute mt-10 inset-y-0 left-0 w-16 sm:w-24 md:w-32 lg:w-40 pointer-events-none z-10"
 				style={{
-					'--swiper-pagination-color': '#FFBA08',
-					'--swiper-pagination-bullet-inactive-color': '#999999',
-					'--swiper-pagination-bullet-inactive-opacity': '1',
-					'--swiper-pagination-bullet-size': '92px',
-					'--swiper-pagination-bullet-horizontal-gap': '6px',
+					background:
+						'linear-gradient(to right, rgba(3, 14, 19) 0%, rgba(3, 14, 19) 30%, rgba(3, 14, 19, 0.8) 50%, rgba(3, 14, 19, 0) 100%)',
 				}}
-				className="overflow-visible relative"
+			/>
+			{/* Right fade overlay */}
+			<div
+				className="absolute mt-10 inset-y-0 right-0 w-16 sm:w-24 md:w-32 lg:w-40 pointer-events-none z-10"
+				style={{
+					background:
+						'linear-gradient(to left, rgba(3, 14, 19) 0%, rgba(3, 14, 19) 30%, rgba(3, 14, 19, 0.8) 50%, rgba(3, 14, 19, 0) 100%)',
+				}}
+			/>
+
+			{/* Navigation buttons */}
+			<button
+				onClick={scrollPrev}
+				className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-20 
+					p-2 rounded-full bg-black/80 hover:bg-accent-primary/30 
+					border border-white/10 hover:border-accent-primary
+					transition-all duration-300
+					opacity-0 group-hover:opacity-100 hover:opacity-100 focus:opacity-100
+					hidden sm:flex items-center justify-center"
+				aria-label="Previous slide"
 			>
-				{movies.map((movie, index) => (
-					<SwiperSlide
-						onClick={() => handleClick(index)}
-						key={`movie-${movie.id}`}
-						className="pb-14"
-					>
-						<Card
-							item={movie}
-							className={getMovieCardClass(index)}
-							isSlider={true}
-							isCurrSlide={currSlide(index)}
-						/>
-					</SwiperSlide>
+				<ChevronLeft className="w-5 h-5 text-white" />
+			</button>
+			<button
+				onClick={scrollNext}
+				className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-20 
+					p-2 rounded-full bg-black/80 hover:bg-accent-primary/30 
+					border border-white/10 hover:border-accent-primary
+					transition-all duration-300
+					opacity-0 group-hover:opacity-100 hover:opacity-100 focus:opacity-100
+					hidden sm:flex items-center justify-center"
+				aria-label="Next slide"
+			>
+				<ChevronRight className="w-5 h-5 text-white" />
+			</button>
+
+			{/* Dot indicators */}
+			<div className="flex justify-center gap-1.5 mt-2 relative z-10">
+				{movies.slice(0, Math.min(movies.length, 10)).map((_, index) => (
+					<button
+						key={index}
+						onClick={() => scrollTo(index)}
+						className={`w-2 h-2 rounded-full transition-all duration-300 ${
+							currSlide(index)
+								? 'bg-accent-primary w-6'
+								: 'bg-dark-border hover:bg-accent-primary/50'
+						}`}
+						aria-label={`Go to slide ${index + 1}`}
+					/>
 				))}
-			</Swiper>
-		</>
+			</div>
+		</div>
 	);
 };
 

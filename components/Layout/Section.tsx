@@ -1,11 +1,6 @@
-'use client';
-
 import { Heading, SeeMore } from '@/components/ui';
 import { cn } from '@/lib/utils';
-import { isTablet } from '@/utils/breakpoints';
 import { FC, HTMLAttributes } from 'react';
-
-import useWindowSize from '@/hooks/useWindowSize';
 
 interface SectionProps extends HTMLAttributes<HTMLDivElement> {
 	children: React.ReactNode;
@@ -27,8 +22,6 @@ const Section: FC<SectionProps> = ({
 	isActor = false,
 	route,
 }) => {
-	const windowSize = useWindowSize();
-
 	return (
 		<section
 			className={cn(
@@ -45,14 +38,14 @@ const Section: FC<SectionProps> = ({
 					}
 				)}
 			>
-				<Heading title={title} element='h1' size='lg' icon={icon} />
+				<Heading title={title} element="h1" size="lg" icon={icon} />
 
-				{/* top see more */}
+				{/* top see more - icon hidden on mobile via CSS */}
 				{seeMore && (
 					<SeeMore
 						route={route}
 						isSection={true}
-						icon={!isTablet(windowSize)}
+						icon={true}
 						className={cn('w-fit md:flex hidden', {
 							hidden: !container,
 						})}
@@ -64,10 +57,8 @@ const Section: FC<SectionProps> = ({
 				className={
 					container
 						? cn('grid gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10', {
-								'grid-cols-2 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4':
-									container && !isActor,
-								'grid-cols-2 xs:grid-cols-3 lg:grid-cols-6':
-									container && isActor,
+								'grid-cols-2 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4': container && !isActor,
+								'grid-cols-2 xs:grid-cols-3 lg:grid-cols-6': container && isActor,
 						  })
 						: ''
 				}
@@ -80,7 +71,7 @@ const Section: FC<SectionProps> = ({
 				<SeeMore
 					route={route}
 					isSection={true}
-					icon={!isTablet(windowSize)}
+					icon={false}
 					className={cn('flex justify-center mt-8 md:hidden')}
 				/>
 			)}
