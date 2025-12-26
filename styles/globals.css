@@ -155,3 +155,11 @@
 	@apply transform scale-105;
 	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(253, 187, 48, 0.2);
 }
+
+.embla__slide {
+	transform: translate3d(0, 0, 0);
+	flex: 0 0 var(--slide-size);
+	min-width: 0;
+	margin-right: 13rem;
+	margin-left: 13rem;
+}

@@ -29,21 +29,20 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 	const windowSize: WindowSize = useWindowSize();
 
 	const slidesPerView = getSlidesPerView(windowSize);
-	const slideWidth = 110 / slidesPerView;
 
 	const [emblaRef, emblaApi] = useEmblaCarousel(
 		{
 			loop: true,
 			align: 'center',
-			skipSnaps: false,	
+			skipSnaps: false,
 			dragFree: false,
-			containScroll: false,
 			slidesToScroll: 1,
-			duration: 25,
+			duration: 20,
+			startIndex: 0,
 		},
 		[
 			Autoplay({
-				delay: 5000,
+				delay: 4000,
 				stopOnInteraction: false,
 				stopOnMouseEnter: true,
 			}),
@@ -88,20 +87,23 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 
 	const getMovieCardClass = (index: number) => {
 		if (currSlide(index))
-			return 'border-2 border-accent-primary after:bg-transparent z-50 scale-[1.10] md:scale-125';
-		return 'border border-dark-background';
+			return 'border-2 border-accent-primary z-50 scale-[1.10] md:scale-125 relative';
+		return 'border border-dark-background relative';
 	};
 
 	return (
 		<div className="relative group">
 			{/* Carousel container */}
 			<div className="overflow-hidden" ref={emblaRef}>
-				<div className="flex py-8 md:py-12">
+				<div className="flex py-8 md:py-12" style={{ touchAction: 'pan-y' }}>
 					{movies.map((movie, index) => (
 						<div
-							key={`movie-${movie.id}`}
-							className="flex-shrink-0 pb-14 px-[7px] sm:px-[10px] transition-all duration-500 ease-out cursor-pointer"
-							style={{ flex: `0 0 ${slideWidth}%` }}
+							key={`movie-${movie.id}-${index}`}
+							className="flex-shrink-0 pb-14 px-[7px] sm:px-[10px] transition-all duration-500 ease-out cursor-pointer relative"
+							style={{
+								flex: `0 0 ${100 / slidesPerView}%`,
+								minWidth: 0,
+							}}
 							onClick={() => scrollTo(index)}
 						>
 							<Card
@@ -117,25 +119,25 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 
 			{/* Left fade overlay */}
 			<div
-				className="absolute mt-10 inset-y-0 left-0 w-16 sm:w-24 md:w-32 lg:w-40 pointer-events-none z-10"
+				className="absolute mt-10 inset-y-0 left-0 w-16 sm:w-24 md:w-32 lg:w-40 pointer-events-none z-20"
 				style={{
 					background:
-						'linear-gradient(to right, rgba(3, 14, 19) 0%, rgba(3, 14, 19) 30%, rgba(3, 14, 19, 0.8) 50%, rgba(3, 14, 19, 0) 100%)',
+						'linear-gradient(to right, rgb(3, 14, 19) 0%, rgb(3, 14, 19) 30%, rgba(3, 14, 19, 0.8) 50%, rgba(3, 14, 19, 0) 100%)',
 				}}
 			/>
 			{/* Right fade overlay */}
 			<div
-				className="absolute mt-10 inset-y-0 right-0 w-16 sm:w-24 md:w-32 lg:w-40 pointer-events-none z-10"
+				className="absolute mt-10 inset-y-0 right-0 w-16 sm:w-24 md:w-32 lg:w-40 pointer-events-none z-20"
 				style={{
 					background:
-						'linear-gradient(to left, rgba(3, 14, 19) 0%, rgba(3, 14, 19) 30%, rgba(3, 14, 19, 0.8) 50%, rgba(3, 14, 19, 0) 100%)',
+						'linear-gradient(to left, rgb(3, 14, 19) 0%, rgb(3, 14, 19) 30%, rgba(3, 14, 19, 0.8) 50%, rgba(3, 14, 19, 0) 100%)',
 				}}
 			/>
 
 			{/* Navigation buttons */}
 			<button
 				onClick={scrollPrev}
-				className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-20 
+				className="absolute left-1 sm:left-4 top-1/2 -translate-y-1/2 z-30 
 					p-2 rounded-full bg-black/80 hover:bg-accent-primary/30 
 					border border-white/10 hover:border-accent-primary
 					transition-all duration-300
@@ -147,7 +149,7 @@ const SwiperComponent = ({ movies }: SwiperComponentProps) => {
 			</button>
 			<button
 				onClick={scrollNext}
-				className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-20 
+				className="absolute right-1 sm:right-4 top-1/2 -translate-y-1/2 z-30 
 					p-2 rounded-full bg-black/80 hover:bg-accent-primary/30 
 					border border-white/10 hover:border-accent-primary
 					transition-all duration-300

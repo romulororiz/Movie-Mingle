@@ -18,11 +18,7 @@ import {
 
 import { CastResponse, MovieOrActor, MovieResponse } from '@/types/tmdb';
 
-import {
-	isCastResponseItem,
-	isMovieResponseItem,
-	isPeopleResponseItem,
-} from '@/utils/typeGuards';
+import { isCastResponseItem, isMovieResponseItem, isPeopleResponseItem } from '@/utils/typeGuards';
 import useWindowSize from '@/hooks/useWindowSize';
 
 interface CardInfoProps {
@@ -40,18 +36,8 @@ const isMovie = (item: MovieOrActor | CastResponse): item is MovieResponse => {
 	return isMovieResponseItem(item);
 };
 
-const CardInfo = ({
-	item,
-	ratings,
-	className,
-	isCurrSlide,
-	isSlider,
-}: CardInfoProps) => {
-	if (
-		!isMovieResponseItem(item) &&
-		!isPeopleResponseItem(item) &&
-		!isCastResponseItem(item)
-	)
+const CardInfo = ({ item, ratings, className, isCurrSlide, isSlider }: CardInfoProps) => {
+	if (!isMovieResponseItem(item) && !isPeopleResponseItem(item) && !isCastResponseItem(item))
 		return null;
 
 	return (
@@ -63,34 +49,30 @@ const CardInfo = ({
 				className
 			)}
 		>
-			<div className='flex flex-col truncate gap-1'>
+			<div className="flex flex-col truncate gap-1">
 				<Link href={createSlug(item) || '/'}>
 					<Heading
-						element='h2'
+						element="h2"
 						truncate={true}
 						title={isMovie(item) ? item.title : item.name}
-						size='sm'
-						id={
-							isMovie(item) ? `movie-title-${item.id}` : `actor-name-${item.id}`
-						}
-						className='hover:text-accent-primary transition'
+						size="sm"
+						id={isMovie(item) ? `movie-title-${item.id}` : `actor-name-${item.id}`}
+						className="hover:text-accent-primary transition"
 					/>
 				</Link>
 
 				{ratings ? (
 					isMovie(item) ? (
-						<span className='max-[380px]:text-xs text-sm flex gap-1 items-center justify-start '>
-							<Icon name='Calendar' size={16} className='shrink-0' />
-							{item.release_date
-								? formatDate(item.release_date.toString())
-								: 'N/A'}
+						<span className="max-[380px]:text-xs text-sm flex gap-1 items-center justify-start ">
+							<Icon name="Calendar" size={16} className="shrink-0" />
+							{item.release_date ? formatDate(item.release_date.toString()) : 'N/A'}
 						</span>
 					) : (
-						<span className='flex gap-1 items-center text-sm '>
-							<Icon name='Star' size={16} fill='#FDBB30' />
-							<span className='text-white'>
+						<span className="flex gap-1 items-center text-sm ">
+							<Icon name="Star" size={16} fill="#FDBB30" />
+							<span className="text-white">
 								{normalizePopularityScore(item.popularity || 0)}{' '}
-								<span className='text-[#9CA3AF] text-xs'>/ 100</span>
+								<span className="text-[#9CA3AF] text-xs">/ 100</span>
 							</span>
 						</span>
 					)
@@ -98,9 +80,7 @@ const CardInfo = ({
 			</div>
 
 			{ratings
-				? isMovie(item) && (
-						<Ratings movie={item} className='flex items-center gap-[2px]' />
-				  )
+				? isMovie(item) && <Ratings movie={item} className="flex items-center gap-[2px]" />
 				: null}
 		</div>
 	);
@@ -128,11 +108,7 @@ const Card: FC<CardProps> = ({
 }) => {
 	const windowSize = useWindowSize();
 
-	if (
-		!isMovieResponseItem(item) &&
-		!isPeopleResponseItem(item) &&
-		!isCastResponseItem(item)
-	)
+	if (!isMovieResponseItem(item) && !isPeopleResponseItem(item) && !isCastResponseItem(item))
 		return null;
 
 	const cardClasses = cva(
@@ -145,7 +121,10 @@ const Card: FC<CardProps> = ({
 			'after:opacity-60 hover:after:opacity-30 after:transition-opacity after:duration-500',
 			'before:absolute before:inset-0 before:rounded-lg before:ring-1 before:ring-white/10',
 			'hover:before:ring-accent-primary/50 before:transition-all before:duration-500',
-			'focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background'
+			'focus:outline-none focus:ring-2 focus:ring-accent-primary focus:ring-offset-2 focus:ring-offset-background',
+			!isCurrSlide
+				? 'after:absolute after:inset-0 after:bg-black/90 after:z-10 after:transition-opacity after:duration-500 after:rounded-lg after:pointer-events-none'
+				: ''
 		)
 	);
 
@@ -160,7 +139,7 @@ const Card: FC<CardProps> = ({
 		>
 			<Link
 				href={createSlug(item) || '/'}
-				onClick={e => {
+				onClick={(e) => {
 					isSlider && e.preventDefault();
 				}}
 				className="relative"
@@ -179,19 +158,14 @@ const Card: FC<CardProps> = ({
 							'group-hover/card:scale-110'
 						)}
 						blurDataURL={blurData}
-						placeholder='blur'
-						sizes='(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 200px, 200px'
+						placeholder="blur"
+						sizes="(min-width: 1024px) 300px, (min-width: 768px) 200px, (min-width: 640px) 200px, 200px"
 					/>
 					{/* Accent glow effect on hover */}
 					<div className="absolute inset-0 bg-accent-primary/0 group-hover/card:bg-accent-primary/5 transition-colors duration-500 rounded-lg" />
 				</figure>
 			</Link>
-			<CardInfo
-				item={item}
-				ratings={ratings}
-				isSlider={isSlider}
-				isCurrSlide={isCurrSlide}
-			/>
+			<CardInfo item={item} ratings={ratings} isSlider={isSlider} isCurrSlide={isCurrSlide} />
 		</div>
 	);
 };
